@@ -54,8 +54,8 @@ class Breadcrumb
 	public static function _init()
 	{
 		/**
-		 * start off with using the current URI with casing from the
-		 * config
+		 * start off with using the current URI and default
+		 * settings
 		 */
 		static::translate();
 
@@ -73,7 +73,7 @@ class Breadcrumb
 
 		if ($pos !== false)
 		{
-			return (explode('/', $input));
+			return explode('/', $input);
 		}
 
 		return array($input);
@@ -85,17 +85,17 @@ class Breadcrumb
 	 * You can also set it so it cuts any number of elements from
 	 * either side of the array.
 	 *
-	 * @param   string  Group id or or name
+	 * @param   string  The format of the output
 	 * @param   int     number of elements to cut from the left
 	 * @param   int     number of elements to cut from the right
 	 * @throws  BreadcrumbException
 	 * @return  array|json array
 	 */
-	public static function dump($format = '', $slice_to_left = 0, $slice_from_right = 0)
+	public static function dump($format = null, $slice_to_left = 0, $slice_from_right = 0)
 	{
 		$result_formatted = null;
 
-		if(strlen($format == 0))
+		if(strlen($format == 0) || is_null($format))
 			$format = Config::get('breadcrumb::breadcrumb.output_format');
 
 		if (!empty(static::$segments_translated))
