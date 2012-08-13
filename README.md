@@ -30,7 +30,7 @@ return array(
 
 ###Code examples
 
-* Generating braedcrumb from current URI:
+* Generating breadcrumbs from current URI:
 
 ```php
 
@@ -38,7 +38,7 @@ return array(
 // no parameters given, so it generated the links, etc.. according to the default settings
 echo Breadcrumb::generate_html();
 ```
-* Generating braedcrumb with custom attributes from custom source:
+* Generating breadcrumbs with custom attributes from custom source:
 
 ```php
 
