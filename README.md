@@ -16,7 +16,7 @@ return array(
   'breadcrumb' => array('auto' => true),
 );
 ```
-* The bundle uses the *APPPATH/application/config/application.php* file to determine which language profile to load from the bundles's language folder
+* The bundle uses the *APPPATH/application/config/application.php* file to determine which language profile to load from the bundle's language folder
 * No migration needed
 
 ###Features
@@ -31,31 +31,41 @@ return array(
 ###Code examples
 
 * Generating html string from current URI:
-	```php
-		<?php
-		echo Breadcrumb::generate_html();
-	```
+
+```php
+
+	<?php
+	echo Breadcrumb::generate_html();
+```
 * Generating customized html string with custom source:
-	```php
-		<?php
-		Breadcrumb::translate(array('users', 'add'));
-		echo Breadcrumb::generate_html(Breadcrumb::dump(), array('class' => 'breadcrumb_link_class'));
-	```
+
+```php
+
+	<?php
+	Breadcrumb::translate(array('users', 'add'));
+	echo Breadcrumb::generate_html(Breadcrumb::dump(), array('class' => 'breadcrumb_link_class'));
+```
 * Dumping a translated array from the URI:
-	```php
-		<?php
-		var_dump(Breadcrumb::dump());
-	```
+
+```php
+
+	<?php
+	var_dump(Breadcrumb::dump());
+```
 * Doing the same, but with JSON array as result:
-	```php
-		<?php
-		var_dump(Breadcrumb::dump('json'));
-	```
+
+```php
+
+	<?php
+	var_dump(Breadcrumb::dump('json'));
+```
 * Generating breadcrumbs from the current URI with a dash as separator:
-	```php
-		<?php
-		echo Breadcrumb::generate_html(null, null, '-');
-	```
+
+```php
+
+	<?php
+	echo Breadcrumb::generate_html(null, null, '-');
+```
 
 Please check the main class for further options :)
 
