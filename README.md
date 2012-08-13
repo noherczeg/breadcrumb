@@ -30,41 +30,46 @@ return array(
 
 ###Code examples
 
-* Generating html string from current URI:
+* Generating braedcrumb from current URI:
 
 ```php
 
-	<?php
-	echo Breadcrumb::generate_html();
+<?php
+// no parameters given, so it generated the links, etc.. according to the default settings
+echo Breadcrumb::generate_html();
 ```
-* Generating customized html string with custom source:
+* Generating braedcrumb with custom attributes from custom source:
 
 ```php
 
-	<?php
-	Breadcrumb::translate(array('users', 'add'));
-	echo Breadcrumb::generate_html(Breadcrumb::dump(), array('class' => 'breadcrumb_link_class'));
+<?php
+// always do a translate first, otherwise generate_html will use the current URI
+Breadcrumb::translate(array('users', 'add'));
+echo Breadcrumb::generate_html(Breadcrumb::dump(), array('class' => 'breadcrumb_link_class'));
 ```
 * Dumping a translated array from the URI:
 
 ```php
 
-	<?php
-	var_dump(Breadcrumb::dump());
+<?php
+// dumps the current URI
+var_dump(Breadcrumb::dump());
 ```
 * Doing the same, but with JSON array as result:
 
 ```php
 
-	<?php
-	var_dump(Breadcrumb::dump('json'));
+<?php
+// dumps the current URI in json array format
+var_dump(Breadcrumb::dump('json'));
 ```
 * Generating breadcrumbs from the current URI with a dash as separator:
 
 ```php
 
-	<?php
-	echo Breadcrumb::generate_html(null, null, '-');
+<?php
+// current URI, no extra attributes, dash as separator
+echo Breadcrumb::generate_html(null, null, '-');
 ```
 
 Please check the main class for further options :)
