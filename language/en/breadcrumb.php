@@ -7,8 +7,8 @@ return array(
 	 * Breadcrumb Language Lines
 	 *--------------------------------------------------------------------------
 	 *
-	 * Language variants which are used for translation for breadcrumbs. Each
-	 * key represents a URI or array segment and replaced if a match is found.
+	 * Language variants which are used for translation. Each key represents a 
+	 * URI or array segment and replaced if a match is found.
 	 *
 	 * Don't bother with lower case or upper case first letters, the Breadcrumb
 	 * class takes care of them (configurable).
