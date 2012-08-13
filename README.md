@@ -32,23 +32,28 @@ return array(
 
 * Generating html string from current URI:
 	```php
+		<?php
 		echo Breadcrumb::generate_html();
 	```
 * Generating customized html string with custom source:
 	```php
+		<?php
 		Breadcrumb::translate(array('users', 'add'));
 		echo Breadcrumb::generate_html(Breadcrumb::dump(), array('class' => 'breadcrumb_link_class'));
 	```
 * Dumping a translated array from the URI:
 	```php
+		<?php
 		var_dump(Breadcrumb::dump());
 	```
 * Doing the same, but with JSON array as result:
 	```php
+		<?php
 		var_dump(Breadcrumb::dump('json'));
 	```
 * Generating breadcrumbs from the current URI with a dash as separator:
 	```php
+		<?php
 		echo Breadcrumb::generate_html(null, null, '-');
 	```
 
