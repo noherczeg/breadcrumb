@@ -241,7 +241,7 @@ class Breadcrumb
 		 */
 		$pretty_result = '';
 		$tmp_uri = '';
-		$working_array = array();
+		$working_array = null;
 
 		/**
 		 * Handling nulled parameters
@@ -256,21 +256,13 @@ class Breadcrumb
 		 * Setting up the working array which we will use to generate
 		 * the breadcrumb as a HTML string with links, etc..
 		 */
-		if(is_array($source))
+		try
 		{
-			$working_array = $source;
+			$working_array = static::prepare_source($source);
 		}
-		elseif(json_decode($source) != null)
+		catch(Exception $e)
 		{
-			$working_array = array_values(json_decode($source));
-		}
-		elseif(is_null($source))
-		{
-			$working_array = static::$segments_translated;
-		}
-		else
-		{
-			throw new BreadcrumbException('Cant\'t make pretty urls, no proper array found to work with');
+			echo $e->getMessage();
 		}
 
 		/**
@@ -322,7 +314,7 @@ class Breadcrumb
 		 */
 		$pretty_result = '';
 		$tmp_uri = '';
-		$working_array = array();
+		$working_array = null;
 		
 		/**
 		 * Handling nulled parameters
@@ -334,21 +326,13 @@ class Breadcrumb
 		 * Setting up the working array which we will use to generate
 		 * the breadcrumb as a HTML string with links, etc..
 		 */
-		if(is_array($source))
+		try
 		{
-			$working_array = $source;
+			$working_array = static::prepare_source($source);
 		}
-		elseif(json_decode($source) != null)
+		catch(Exception $e)
 		{
-			$working_array = array_values(json_decode($source));
-		}
-		elseif(is_null($source))
-		{
-			$working_array = static::$segments_translated;
-		}
-		else
-		{
-			throw new BreadcrumbException('Cant\'t make pretty urls, no proper array found to work with');
+			echo $e->getMessage();
 		}
 
 		/**
@@ -371,6 +355,33 @@ class Breadcrumb
 		}
 
 		return $pretty_result;
+	}
+
+	/**
+	 * Prepares the inserted source for further use
+	 */
+	protected static function prepare_source($source)
+	{
+		$result_array = null;
+
+		if(is_array($source))
+		{
+			$result_array = $source;
+		}
+		elseif(json_decode($source) != null)
+		{
+			$result_array = array_values(json_decode($source));
+		}
+		elseif(is_null($source))
+		{
+			$result_array = static::$segments_translated;
+		}
+		else
+		{
+			throw new BreadcrumbException('Can\'t prepare source, something went wrong!');
+		}
+
+		return $result_array;
 	}
 
 }
