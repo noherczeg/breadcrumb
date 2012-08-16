@@ -305,4 +305,72 @@ class Breadcrumb
 		return $pretty_result;
 	}
 
+	/**
+	 * Generating bootstrap style breadcrumbs
+	 * 
+	 * No special formatting is needed, produces a Twitter Bootstrap breadcrumb.
+	 *
+	 * @param  array     	The source array. Either dumped, or null
+	 * @param  string 		Separator character, or string
+	 * @throws BreadcrumbException
+	 * @return string
+	 */
+	public static function generate_bootstrap_style($source = null, $separator = null)
+	{
+		/**
+		 * Setting up working variables, etc for the job
+		 */
+		$pretty_result = '';
+		$tmp_uri = '';
+		$working_array = array();
+		
+		/**
+		 * Handling nulled parameters
+		 */
+		if(is_null($separator))
+			$separator = Config::get('breadcrumb::breadcrumb.separator');
+
+		/**
+		 * Setting up the working array which we will use to generate
+		 * the breadcrumb as a HTML string with links, etc..
+		 */
+		if(is_array($source))
+		{
+			$working_array = $source;
+		}
+		elseif(json_decode($source) != null)
+		{
+			$working_array = array_values(json_decode($source));
+		}
+		elseif(is_null($source))
+		{
+			$working_array = static::$segments_translated;
+		}
+		else
+		{
+			throw new BreadcrumbException('Cant\'t make pretty urls, no proper array found to work with');
+		}
+
+		/**
+		 * Generating the HTML string using Laravel's link builder.
+		 */
+		end($working_array);
+		$last_key = key($working_array);
+
+		foreach($working_array AS $key => $segment)
+		{
+			if($key == $last_key)
+			{
+				$pretty_result .= '<li class="active">' . $segment . '</li>';
+			}
+			else
+			{
+				$tmp_uri .= static::$segments_raw[$key] . '/';
+				$pretty_result .= '<li>' . HTML::link($tmp_uri, $segment) . ' <span class="divider">' . trim($separator) . '</span> </li>';
+			}
+		}
+
+		return $pretty_result;
+	}
+
 }
