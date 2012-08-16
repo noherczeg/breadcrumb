@@ -297,7 +297,7 @@ class Breadcrumb
 			}
 			else
 			{
-				$tmp_uri .= $segment . '/';
+				$tmp_uri .= static::$segments_raw[$key] . '/';
 				$pretty_result .= HTML::link($tmp_uri, $segment, $extra_attrib);
 			}
 		}
