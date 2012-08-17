@@ -32,34 +32,33 @@ return array(
 * Generating breadcrumbs from current URI:
 
 ```php
-
 <?php
-// URL: http://localhost/laravel-fork/public/admin/cron
-// no parameters given, so it generated the links, etc.. according to the default settings
-echo Breadcrumb::generate_html();
+
+echo Breadcrumb::make();
 
 // generated html code is:
 // <a href="http://localhost/laravel-fork/public/admin/">Administration</a> / Cron jobs
 ```
+Since no parameters where given, it generated the links, etc.. according to the default settings
+
 * Generating breadcrumbs with custom attributes from custom source:
 
 ```php
-
 <?php
-// always do a translate first, otherwise generate_html will use the current URI
+
 Breadcrumb::translate(array('users', 'add'));
-echo Breadcrumb::generate_html(Breadcrumb::dump(), array('class' => 'breadcrumb_link_class'));
+echo Breadcrumb::make('html', Breadcrumb::dump(), array('class' => 'breadcrumb_link_class'));
 
 // generated html code:
 // <a class="breadcrumb_link_class" href="http://localhost/laravel-fork/public/users/">users</a> / add
 ```
+always do a translate first, otherwise generate_html will use the current URI
+
 * Dumping a translated array from the URI:
 
 ```php
-
 <?php
-// URL: http://localhost/laravel-fork/public/browser/firefox
-// dumps the current URI
+
 var_dump(Breadcrumb::dump());
 
 // makes:
@@ -68,25 +67,41 @@ var_dump(Breadcrumb::dump());
 * Doing the same, but with JSON array as result:
 
 ```php
-
 <?php
-// dumps the current URI in json array format
+
 var_dump(Breadcrumb::dump('json'));
 
-// json array is returned
+// returned:
 // ["browser","a great browser"]
 ```
 * Generating breadcrumbs from the current URI with a dash as separator:
 
 ```php
-
 <?php
-// URL: http://localhost/laravel-fork/public/browser/admin/poke
-// current URI, no extra attributes, dash as separator
-echo Breadcrumb::generate_html(null, null, '-');
 
-// produces
+// current URI, no extra attributes, dash as separator
+echo Breadcrumb::make('html', null, null, '-');
+
+// produces:
 // <a href="http://localhost/laravel-fork/public/browser/">browser</a> - <a href="http://localhost/laravel-fork/public/browser/a great browser/">a great browser</a> - poke
+```
+* Generating twitter bootstrap breadcrumbs from the current URI:
+
+```php
+<?php
+echo Breadcrumb::make('bootstrap');
+// produces:
+
+// <li>
+//     <a href="http://localhost/laravel-fork/public/browser/">browser</a> 
+//     <span class="divider">/</span>
+// </li>
+// <li>
+//     <a href="http://localhost/laravel-fork/public/browser/admin/">administration</a> 
+//     <span class="divider">/</span>
+// </li>
+// <li class="active">poke</li>
+
 ```
 
 Please check the main class for further options :)
