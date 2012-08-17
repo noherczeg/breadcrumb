@@ -27,11 +27,18 @@ return array(
 	'default_casing' => 'lower',
 
 	/**
-	 * Default output format.
+	 * Default dump format.
 	 *
 	 * You can choose from: array, json.
 	 */
-	'output_format' => 'array',
+	'dump_format' => 'array',
+	
+	/**
+	 * Default output format used by make().
+	 *
+	 * You can choose from: html, bootstrap.
+	 */
+	'output_format' => 'html',
 
 	/**
 	 * Link separator, ignores whitespaces! A built in white space is
