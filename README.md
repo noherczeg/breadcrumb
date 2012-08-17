@@ -25,6 +25,7 @@ return array(
 * Segments can be URI segments or custom arrays
 * Can dump the results in either PHP arrays, or JSON arrays
 * Can produce full html breadcrumbs which can be formatted, let it be either html attributes or casing options
+* Can make twitter bootstrap breadcrumbs
 * Segments can be ignored in any number from both sides
 
 ###Code examples
