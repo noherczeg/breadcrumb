@@ -90,9 +90,10 @@ echo Breadcrumb::make('html', null, null, '-');
 
 ```php
 <?php
-echo Breadcrumb::make('bootstrap');
-// produces:
 
+echo Breadcrumb::make('bootstrap');
+
+// produces:
 // <li>
 //     <a href="http://localhost/laravel-fork/public/browser/">browser</a> 
 //     <span class="divider">/</span>
