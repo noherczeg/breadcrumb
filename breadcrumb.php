@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Breadcrumb bundle for Laravel.
  *
@@ -23,10 +24,12 @@ use Config;
 use Lang;
 use Str;
 use URI;
-use URL;
 use HTML;
 
-class BreadcrumbException extends \Exception {}
+class BreadcrumbException extends \Exception
+{
+	
+}
 
 /**
  * Breadcrumb class
@@ -38,7 +41,6 @@ class Breadcrumb
 	 * @var  array  raw segments before translation
 	 */
 	protected static $segments_raw = array();
-
 	/**
 	 * @var  array  segments after translation
 	 */
@@ -47,7 +49,10 @@ class Breadcrumb
 	/**
 	 * Prevent instantiation
 	 */
-	final private function __construct() {}
+	final private function __construct()
+	{
+		
+	}
 
 	/**
 	 * Run when class is loaded
@@ -61,7 +66,6 @@ class Breadcrumb
 		 * settings
 		 */
 		static::translate();
-
 	}
 
 	/**
@@ -85,8 +89,8 @@ class Breadcrumb
 	/**
 	 * Dumps the segments in a selectable format.
 	 *
-	 * You can also set it so it cuts any number of elements from
-	 * either side of the array.
+	 * You can also set it so it cuts any number of elements from either side 
+	 * of the array.
 	 *
 	 * @param   string  The format of the output
 	 * @param   int     number of elements to cut from the left
@@ -98,8 +102,8 @@ class Breadcrumb
 	{
 		$result_formatted = null;
 
-		if(strlen($format) == 0 || is_null($format))
-			$format = Config::get('breadcrumb::breadcrumb.output_format');
+		if (strlen($format) == 0 || is_null($format))
+			$format = Config::get('breadcrumb::breadcrumb.dump_format');
 
 		if (!empty(static::$segments_translated))
 		{
@@ -133,7 +137,7 @@ class Breadcrumb
 	}
 
 	/**
-	 * Translates the input segments if it finds a match for them in the
+	 * Translates the input segments if it finds a match for them in the 
 	 * language files, if not, it leaves them as they are.
 	 *
 	 * @param  string|array     	Input element
@@ -210,23 +214,24 @@ class Breadcrumb
 	/**
 	 * Generates HTML string containing links separated as you wish.
 	 *
-	 * The generator can generate breadcrumbs in an instant if you
-	 * just call it by itself. If you coose this, it'll generate
-	 * content for the current URI with the default settings.
+	 * The generator can generate breadcrumbs in an instant if you just call it 
+	 * by itself. If you coose this, it'll generate content for the current URI 
+	 * with the default settings.
 	 *
-	 * - The output format can be either plain html, or bootstrap style
+	 * - The output format can be either plain html, or bootstrap style. If
+	 * bootstrap is selected, then any extra attribute will be ignored!
 	 *
-	 * - The source: should be a translated dump (either a PHP array
-	 * or JSON array) or left null.
+	 * - The source: should be a translated dump (either a PHP array or JSON 
+	 * array) or left null.
 	 *
-	 * - Extra atrribute: can be an array which normaly you'd pass to
-	 * Laravel's HTML::link() method.
+	 * - Extra atrribute: can be an array which normaly you'd pass to Laravel's 
+	 * HTML::link() method.
 	 * 
 	 * - A separator: should be a single caharacter or a string.
 	 *
-	 * - Last not link: is a toggler which makes you able to choose
-	 * if you want the last segment be a link or just a plain string.
-	 * At default it is set to true = plain string.
+	 * - Last not link: is a toggler which makes you able to choose if you want 
+	 * the last segment be a link or just a plain string. At default it is set 
+	 * to true = plain string.
 	 *
 	 * @param  string 		output format
 	 * @param  array     	The source array. Either dumped, or null
@@ -249,80 +254,52 @@ class Breadcrumb
 		 * Setting up working variables, etc for the job
 		 */
 		$pretty_result = '';
-		$working_array = null;
 		$tmp_uri = '';
 
 		/**
 		 * Handling nulled parameters
 		 */
-		if(is_null($separator))
+		if (is_null($separator))
 			$separator = Config::get('breadcrumb::breadcrumb.separator');
 
-		if(is_null($format) || !in_array($format, $formats))
-			$format = 'html';
+		if (is_null($format) || !in_array($format, $formats))
+			$format = Config::get('breadcrumb::breadcrumb.output_format');
 
-		if(!is_array($extra_attrib))
+		if (!is_array($extra_attrib))
 			$extra_attrib = null;
 
 		/**
-		 * Setting up the working array which we will use to generate
-		 * the breadcrumb as a HTML string with links, etc..
+		 * Setting up the working array which we will use to generate the 
+		 * breadcrumb as a HTML string with links, etc..
 		 */
 		try
 		{
 			$working_array = static::prepare_source($source);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			echo $e->getMessage();
 		}
 
 		/**
-		 * Generating the HTML string using Laravel's link builder.
+		 * Generating the HTML/bootstrap string using Laravel's link builder.
 		 *
-		 * Notice that you can even add html attributes, as it was in
-		 * the parameters the last element is a simple string, or a
-		 * link it self too.
+		 * Notice that you can even add html attributes, as it was in the 
+		 * parameters the last element is a simple string, or a link it self.
 		 */
 		end($working_array);
 		$last_key = key($working_array);
 
-		foreach($working_array AS $key => $segment)
+		// html output
+		if ($format == 'html')
 		{
+			$pretty_result .= static::genereate_html($working_array, $separator, $last_key, $last_not_link, $tmp_uri, $extra_attrib);
+		}
 
-			// html output
-			if($format == 'html')
-			{
-				if($key > 0)
-				{
-					$pretty_result .= ' ' . trim($separator) . ' ';
-				}
-
-				if($key == $last_key && $last_not_link == true)
-				{
-					$pretty_result .= $segment;
-				}
-				else
-				{
-					$tmp_uri .= static::$segments_raw[$key] . '/';
-					$pretty_result .= HTML::link($tmp_uri, $segment, $extra_attrib);
-				}
-			}
-
-			// twitter bootstrap output
-			else
-			{
-				if($key == $last_key)
-				{
-					$pretty_result .= '<li class="active">' . $segment . '</li>';
-				}
-				else
-				{
-					$tmp_uri .= static::$segments_raw[$key] . '/';
-					$pretty_result .= '<li>' . HTML::link($tmp_uri, $segment) . ' <span class="divider">' . trim($separator) . '</span></li>';
-				}
-			}
-			
+		// twitter bootstrap output
+		else
+		{
+			$pretty_result .= static::genereate_bootstrap($working_array, $separator, $last_key, $tmp_uri);
 		}
 
 		return $pretty_result;
@@ -335,15 +312,15 @@ class Breadcrumb
 	{
 		$result_array = null;
 
-		if(is_array($source))
+		if (is_array($source))
 		{
 			$result_array = $source;
 		}
-		elseif(json_decode($source) != null)
+		elseif (json_decode($source) != null)
 		{
 			$result_array = array_values(json_decode($source));
 		}
-		elseif(is_null($source))
+		elseif (is_null($source))
 		{
 			$result_array = static::$segments_translated;
 		}
@@ -353,6 +330,51 @@ class Breadcrumb
 		}
 
 		return $result_array;
+	}
+	
+	protected static function genereate_html($working_array, $separator, $last_key, $last_not_link, &$tmp_uri, $extra_attrib)
+	{
+		$result = null;
+		
+		foreach ($working_array AS $key => $segment)
+		{
+			if ($key > 0)
+			{
+				$result .= ' ' . trim($separator) . ' ';
+			}
+
+			if ($key == $last_key && $last_not_link == true)
+			{
+				$result .= $segment;
+			}
+			else
+			{
+				$tmp_uri .= static::$segments_raw[$key] . '/';
+				$result .= HTML::link($tmp_uri, $segment, $extra_attrib);
+			}
+		}
+		
+		return $result;
+	}
+	
+	protected static function genereate_bootstrap($working_array, $separator, $last_key, &$tmp_uri)
+	{
+		$result = null;
+		
+		foreach ($working_array AS $key => $segment)
+		{
+			if ($key == $last_key)
+			{
+				$result .= '<li class="active">' . $segment . '</li>';
+			}
+			else
+			{
+				$tmp_uri .= static::$segments_raw[$key] . '/';
+				$result .= '<li>' . HTML::link($tmp_uri, $segment) . ' <span class="divider">' . trim($separator) . '</span></li>';
+			}
+		}
+		
+		return $result;
 	}
 
 }
