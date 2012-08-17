@@ -214,6 +214,8 @@ class Breadcrumb
 	 * just call it by itself. If you coose this, it'll generate
 	 * content for the current URI with the default settings.
 	 *
+	 * - The output format can be either plain html, or bootstrap style
+	 *
 	 * - The source: should be a translated dump (either a PHP array
 	 * or JSON array) or left null.
 	 *
@@ -226,6 +228,7 @@ class Breadcrumb
 	 * if you want the last segment be a link or just a plain string.
 	 * At default it is set to true = plain string.
 	 *
+	 * @param  string 		output format
 	 * @param  array     	The source array. Either dumped, or null
 	 * @param  array 		Array of attributes for the link's tag
 	 * @param  string 		Separator character, or string
@@ -234,20 +237,29 @@ class Breadcrumb
 	 * @throws BreadcrumbException
 	 * @return string
 	 */
-	public static function generate_html($source = null, $extra_attrib = null, $separator = null, $last_not_link = true)
+	public static function make($format = null, $source = null, $extra_attrib = null, $separator = null, $last_not_link = true)
 	{
+
+		/**
+		 * Possible output formats
+		 */
+		$formats = array('html', 'bootstrap');
+
 		/**
 		 * Setting up working variables, etc for the job
 		 */
 		$pretty_result = '';
-		$tmp_uri = '';
 		$working_array = null;
+		$tmp_uri = '';
 
 		/**
 		 * Handling nulled parameters
 		 */
 		if(is_null($separator))
 			$separator = Config::get('breadcrumb::breadcrumb.separator');
+
+		if(is_null($format) || !in_array($format, $formats))
+			$format = 'html';
 
 		if(!is_array($extra_attrib))
 			$extra_attrib = null;
@@ -277,81 +289,40 @@ class Breadcrumb
 
 		foreach($working_array AS $key => $segment)
 		{
-			// only place separator after first segment :)
-			if($key > 0)
+
+			// html output
+			if($format == 'html')
 			{
-				$pretty_result .= ' ' . trim($separator) . ' ';
+				if($key > 0)
+				{
+					$pretty_result .= ' ' . trim($separator) . ' ';
+				}
+
+				if($key == $last_key && $last_not_link == true)
+				{
+					$pretty_result .= $segment;
+				}
+				else
+				{
+					$tmp_uri .= static::$segments_raw[$key] . '/';
+					$pretty_result .= HTML::link($tmp_uri, $segment, $extra_attrib);
+				}
 			}
 
-			if($key == $last_key && $last_not_link == true)
-			{
-				$pretty_result .= $segment;
-			}
+			// twitter bootstrap output
 			else
 			{
-				$tmp_uri .= static::$segments_raw[$key] . '/';
-				$pretty_result .= HTML::link($tmp_uri, $segment, $extra_attrib);
+				if($key == $last_key)
+				{
+					$pretty_result .= '<li class="active">' . $segment . '</li>';
+				}
+				else
+				{
+					$tmp_uri .= static::$segments_raw[$key] . '/';
+					$pretty_result .= '<li>' . HTML::link($tmp_uri, $segment) . ' <span class="divider">' . trim($separator) . '</span></li>';
+				}
 			}
-		}
-
-		return $pretty_result;
-	}
-
-	/**
-	 * Generating bootstrap style breadcrumbs
-	 * 
-	 * No special formatting is needed, produces a Twitter Bootstrap breadcrumb.
-	 *
-	 * @param  array     	The source array. Either dumped, or null
-	 * @param  string 		Separator character, or string
-	 * @throws BreadcrumbException
-	 * @return string
-	 */
-	public static function generate_bootstrap_style($source = null, $separator = null)
-	{
-		/**
-		 * Setting up working variables, etc for the job
-		 */
-		$pretty_result = '';
-		$tmp_uri = '';
-		$working_array = null;
-		
-		/**
-		 * Handling nulled parameters
-		 */
-		if(is_null($separator))
-			$separator = Config::get('breadcrumb::breadcrumb.separator');
-
-		/**
-		 * Setting up the working array which we will use to generate
-		 * the breadcrumb as a HTML string with links, etc..
-		 */
-		try
-		{
-			$working_array = static::prepare_source($source);
-		}
-		catch(Exception $e)
-		{
-			echo $e->getMessage();
-		}
-
-		/**
-		 * Generating the HTML string using Laravel's link builder.
-		 */
-		end($working_array);
-		$last_key = key($working_array);
-
-		foreach($working_array AS $key => $segment)
-		{
-			if($key == $last_key)
-			{
-				$pretty_result .= '<li class="active">' . $segment . '</li>';
-			}
-			else
-			{
-				$tmp_uri .= static::$segments_raw[$key] . '/';
-				$pretty_result .= '<li>' . HTML::link($tmp_uri, $segment) . ' <span class="divider">' . trim($separator) . '</span> </li>';
-			}
+			
 		}
 
 		return $pretty_result;
