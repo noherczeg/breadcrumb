@@ -44,5 +44,17 @@ return array(
 	 * Link separator, ignores whitespaces! A built in white space is
 	 * inserted on both sides of the separator automatically.
 	 */
-	'separator'		=> '/'
+	'separator'		=> '/',
+
+	/**
+	 * Sets if the the bundle should scan other bundles folders too
+	 * for the language file breadcrumb.php.
+	 *
+	 * This does not ignore this bundle's language
+	 * settings!
+	 * 
+	 * If set to true and other bundle languages match the segments, 
+	 * then those will override this bundle's segments.
+	 */
+	'scan_bundles'	=> false
 );
