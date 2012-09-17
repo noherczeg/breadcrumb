@@ -145,8 +145,13 @@ class Breadcrumb
 	 * @throws BreadcrumbException
 	 * @return void
 	 */
-	public static function translate($input = null, $casing = null)
+	public static function translate($input = null, $casing = null, $scan_bundles = false)
 	{
+
+		// Defaults
+		if (strlen($scan_bundles) == 0 || $scan_bundles === false)
+			$scan_bundles = Config::get('breadcrumb::breadcrumb.scan_bundles');
+
 		if (strlen($casing) == 0 || is_null($casing))
 			$casing = Config::get('breadcrumb::breadcrumb.default_casing');
 
@@ -173,18 +178,41 @@ class Breadcrumb
 			foreach (static::$segments_raw AS $value)
 			{
 				$key = 'breadcrumb::breadcrumb.' . $value;
-				$tmp = '';
+				$tmp = null;
 
-				// If the segment is in the language file it loads it, otherwise
-				// keeps it unchanged
-				if (Lang::has($key))
+				// If the scanning is turned on, and if we find a match
+				// for the current controller's name in the bundles list
+				// then we use it's language settings instead of this
+				// bundle's translations.
+				$controller_name = strtolower(URI::segment(1));
+
+				// Case insensitive search, just in case... o.O
+				foreach(\Bundle::names() AS $bundle_name)
 				{
-					$tmp = Lang::line($key)->get();
+
+					// This isn't the greates way of executing a search,
+					// but couldn't find a better way to do it at the 
+					// time this was made....
+					if(strtolower($controller_name == strtolower($bundle_name)) && $scan_bundles === true && Lang::has($bundle_name . '::breadcrumb.' . $value))
+					{
+						$tmp = Lang::line($bundle_name . '::breadcrumb.' . $value)->get();
+					}
 				}
-				else
+
+				// If it doesn't find a match, then it basically continues
+				// with the translation search in this bundle or falls back.
+				if(is_null($tmp))
 				{
-					$tmp = $value;
+					if (Lang::has($key))
+					{
+						$tmp = Lang::line($key)->get();
+					}
+					else
+					{
+						$tmp = $value;
+					}
 				}
+
 
 				// Formats
 				switch ($casing)
@@ -335,6 +363,12 @@ class Breadcrumb
 	protected static function genereate_html($working_array, $separator, $last_key, $last_not_link, &$tmp_uri, $extra_attrib)
 	{
 		$result = null;
+
+		/**
+		 * Handling nulled parameters
+		 */
+		if (is_null($separator))
+			$separator = Config::get('breadcrumb::breadcrumb.separator');
 		
 		foreach ($working_array AS $key => $segment)
 		{
