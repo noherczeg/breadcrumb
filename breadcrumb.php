@@ -193,7 +193,7 @@ class Breadcrumb
 					// This isn't the greates way of executing a search,
 					// but couldn't find a better way to do it at the 
 					// time this was made....
-					if(strtolower($controller_name == strtolower($bundle_name)) && $scan_bundles === true && Lang::has($bundle_name . '::breadcrumb.' . $value))
+					if(strtolower($controller_name) == strtolower($bundle_name) && $scan_bundles === true && Lang::has($bundle_name . '::breadcrumb.' . $value))
 					{
 						$tmp = Lang::line($bundle_name . '::breadcrumb.' . $value)->get();
 					}
