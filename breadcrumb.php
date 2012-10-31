@@ -12,7 +12,7 @@
  * http://www.opensource.org/licenses/BSD-3-Clause
  *
  * @package    Breadcrumb
- * @version    1.0
+ * @version    1.2
  * @author     Norbert Csaba Herczeg
  * @license    BSD License (3-clause)
  * @copyright  (c) 2012, Norbert Csaba Herczeg
@@ -65,7 +65,8 @@ class Breadcrumb
 		 * start off with using the current URI and default
 		 * settings
 		 */
-		static::translate();
+		static::$segments_raw = static::split_uri(URI::current());
+		//static::translate();
 	}
 
 	/**
@@ -138,7 +139,7 @@ class Breadcrumb
 
 	/**
 	 * Translates the input segments if it finds a match for them in the 
-	 * language files, if not, it leaves them as they are.
+	 * language files. If not, it leaves them as they are.
 	 *
 	 * @param  string|array     	Input element
 	 * @param  string 				The casing of the breadcrumb segments
@@ -160,13 +161,9 @@ class Breadcrumb
 		{
 			static::$segments_raw = $input;
 		}
-		elseif ($input != null)
+		elseif (is_string($input))
 		{
 			static::$segments_raw = static::split_uri($input);
-		}
-		else
-		{
-			static::$segments_raw = static::split_uri(URI::current());
 		}
 
 		// Translation
@@ -177,6 +174,10 @@ class Breadcrumb
 
 			foreach (static::$segments_raw AS $value)
 			{
+
+				// Conversion with slug settings
+				$value = static::reverse_slug($value, Config::get('breadcrumb::breadcrumb.slug_separator'), Config::get('breadcrumb::breadcrumb.word_separator'));
+
 				$key = 'breadcrumb::breadcrumb.' . $value;
 				$tmp = null;
 
@@ -209,7 +210,7 @@ class Breadcrumb
 					}
 					else
 					{
-						$tmp = $value;
+						$tmp = static::reverse_slug($value, Config::get('breadcrumb::breadcrumb.word_separator'), ' ');
 					}
 				}
 
@@ -261,11 +262,14 @@ class Breadcrumb
 	 * the last segment be a link or just a plain string. At default it is set 
 	 * to true = plain string.
 	 *
+	 * - Slugs: possible separation of words in the URI is allowed, the slug
+	 * separator and key separator for the language files can be set up in the
+	 * config file, please check it out!
+	 *
 	 * @param  string 		output format
 	 * @param  array     	The source array. Either dumped, or null
 	 * @param  array 		Array of attributes for the link's tag
 	 * @param  string 		Separator character, or string
-	 * @param  string 		Base url of the links
 	 * @param  bool 		Is the last element a link or plain string
 	 * @throws BreadcrumbException
 	 * @return string
@@ -282,6 +286,9 @@ class Breadcrumb
 		 * Setting up working variables, etc for the job
 		 */
 		$pretty_result = '';
+
+		// this wil be passed by reference, so will be updated each time 
+		// the breadcrumbs list is being expanded!
 		$tmp_uri = '';
 
 		/**
@@ -313,7 +320,7 @@ class Breadcrumb
 		 * Generating the HTML/bootstrap string using Laravel's link builder.
 		 *
 		 * Notice that you can even add html attributes, as it was in the 
-		 * parameters the last element is a simple string, or a link it self.
+		 * parameters (the last element can be a simple string, not link).s
 		 */
 		end($working_array);
 		$last_key = key($working_array);
@@ -334,7 +341,80 @@ class Breadcrumb
 	}
 
 	/**
-	 * Prepares the inserted source for further use
+	 * Appends a custom URI element to the working array from the side
+	 * specified.
+	 *
+	 * @param  string 		input "URI" element
+	 * @param  string 		side where to append it
+	 * @throws BreadcrumbException
+	 * @return void
+	 */
+	public static function append($input = null, $side = 'left')
+	{
+		if(filter_var($input, FILTER_VALIDATE_INT) || is_string($input))
+		{
+			// Append to the left
+			if($side == 'left')
+			{
+				array_unshift(static::$segments_raw, $input);
+			}
+
+			// Append right :)
+			else
+			{
+				static::$segments_raw[] = $input;
+			}
+			
+		}
+		else
+		{
+			throw new BreadcrumbException('Illegal value added for append!'); 
+		}
+	}
+
+	/**
+	 * Removes a custom URI element from the working array.
+	 *
+	 * Keep in mind that the second parameter is there so
+	 * you are able to address proper values two ways! It's
+	 * useful when you use different logics to remove parts
+	 * from the working array, but also can cause issues.
+	 *
+	 * The reindexing question mainly occures when you
+	 * remove multiple elements in the sample loop one
+	 * after another. This parameter is meant ot be there
+	 * to help you out.
+	 *
+	 * @param  int 			position
+	 * @param  bool 		reindex after remove
+	 * @throws BreadcrumbException
+	 * @return void
+	 */
+	public static function remove($pos = null, $reindex_after_remove = false)
+	{
+
+		if(in_array($pos, array_keys(static::$segments_raw)))
+		{
+			unset(static::$segments_raw[$pos]);
+
+			if($reindex_after_remove)
+			{
+				static::$segments_raw = array_values(static::$segments_raw);
+			}
+			
+		}
+		else
+		{
+			throw new BreadcrumbException('Refering to non existent key in working array!'); 
+		}
+	}
+
+	/**
+	 * Prepares the inserted source for further use (forces input conversion to simple PHP array)
+	 *
+	 * @param  mixed	either JSON array, or PHP array
+	 * @throws BreadcrumbException
+	 * @return array
 	 */
 	protected static function prepare_source($source)
 	{
@@ -359,7 +439,19 @@ class Breadcrumb
 
 		return $result_array;
 	}
-	
+
+	/**
+	 * Generates an HTML output from the provided source.
+	 *
+	 * @param  array 		input array
+	 * @param  string 		breadcrumb separator
+	 * @param  string 		the input's last key (documentation fail, can't remember its purpose, will be updated asap :S)
+	 * @param  bool 		you can set the last element to be displayed as a link, or a simple string
+	 * @param  array 		actual uri of the "build" process, is expanded each time the breadcrumbs are generated (links expanded)
+	 * @param  array 		array of properties for the link tags (refer to Laravel's link generator at http://laravel.com/docs/views/html#links)
+	 * @return string
+	 *
+	 */
 	protected static function genereate_html($working_array, $separator, $last_key, $last_not_link, &$tmp_uri, $extra_attrib)
 	{
 		$result = null;
@@ -391,6 +483,16 @@ class Breadcrumb
 		return $result;
 	}
 	
+	/**
+	 * Generates a Twitter Bootstrap output from the provided source.
+	 *
+	 * @param  array 		input array
+	 * @param  string 		breadcrumb separator
+	 * @param  string 		the input's last key (documentation fail, can't remember its purpose, will be updated asap :S)
+	 * @param  array 		actual uri of the "build" process, is expanded each time the breadcrumbs are generated (links expanded)
+	 * @return string
+	 *
+	 */
 	protected static function genereate_bootstrap($working_array, $separator, $last_key, &$tmp_uri)
 	{
 		$result = null;
@@ -409,6 +511,34 @@ class Breadcrumb
 		}
 		
 		return $result;
+	}
+
+	/**
+	 *  Reverse slug conversion, very basic...
+	 *
+	 * @param  string 		input slug/uri element
+	 * @param  string 		usually the slug separator
+	 * @param  string 		separator of words in translation arrays keys
+	 * @return string
+	 */
+	private static function reverse_slug($input_slug, $separator_in = '-', $separator_out = '_')
+	{
+		if(strlen($separator_in) > 0 && $separator_in !== $separator_out)
+		{
+			return preg_replace('/' . $separator_in . '/', $separator_out, $input_slug);
+		}
+
+		return $input_slug;
+	}
+
+	/**
+	 * Returns the elements of the current working array
+	 *
+	 * @return array
+	 */
+	public static function get_raw_segments()
+	{
+		return static::$segments_raw;
 	}
 
 }
