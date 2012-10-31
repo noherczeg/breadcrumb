@@ -495,7 +495,7 @@ class Breadcrumb
 	 */
 	protected static function genereate_bootstrap($working_array, $separator, $last_key, &$tmp_uri)
 	{
-		$result = null;
+		$result = '<ul class="breadcrumb">';
 		
 		foreach ($working_array AS $key => $segment)
 		{
@@ -510,7 +510,39 @@ class Breadcrumb
 			}
 		}
 		
-		return $result;
+		return $result . '</ul>';
+	}
+
+	/**
+	 * Generates a Zurb Foundation output from the provided source.
+	 *
+	 * Notice: you can't use "unavailable" types yet!
+	 *
+	 * @param  array 		input array
+	 * @param  string 		breadcrumb separator
+	 * @param  string 		the input's last key (documentation fail, can't remember its purpose, will be updated asap :S)
+	 * @param  array 		actual uri of the "build" process, is expanded each time the breadcrumbs are generated (links expanded)
+	 * @return string
+	 *
+	 */
+	protected static function genereate_foundation($working_array, $separator, $last_key, &$tmp_uri)
+	{
+		$result = '<ul class="breadcrumbs">';
+		
+		foreach ($working_array AS $key => $segment)
+		{
+			if ($key == $last_key)
+			{
+				$result .= '<li class="current"><span>' . $segment . '</span></li>';
+			}
+			else
+			{
+				$tmp_uri .= static::$segments_raw[$key] . '/';
+				$result .= '<li>' . HTML::link($tmp_uri, $segment) . '</li>';
+			}
+		}
+		
+		return $result . '</ul>';
 	}
 
 	/**
