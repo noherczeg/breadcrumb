@@ -266,7 +266,7 @@ class Breadcrumb
 	 * separator and key separator for the language files can be set up in the
 	 * config file, please check it out!
 	 *
-	 * @param  string 		output format
+	 * @param  string 		output format (html, bootstrap, foundation)
 	 * @param  array     	The source array. Either dumped, or null
 	 * @param  array 		Array of attributes for the link's tag
 	 * @param  string 		Separator character, or string
@@ -329,6 +329,12 @@ class Breadcrumb
 		if ($format == 'html')
 		{
 			$pretty_result .= static::genereate_html($working_array, $separator, $last_key, $last_not_link, $tmp_uri, $extra_attrib);
+		}
+
+		// zurb foundation output
+		elseif($format == 'foundation')
+		{
+			$pretty_result .= static::genereate_foundation($working_array, $separator, $last_key, $tmp_uri);
 		}
 
 		// twitter bootstrap output
