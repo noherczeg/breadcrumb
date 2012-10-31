@@ -20,6 +20,7 @@ Breadcrumb is a simple bundle made for the [Laravel framework](http://laravel.co
 - Refactored the comments in the code.
 - Fixed bundle initialization bug where the bundle started with an auto translation.
 - Added support for proper slug handling.
+- Added Zurb Foundation output generator.
 - Added `get_raw_segments()` for better debugging.
 - Added `append()`, so now any number of segments can be added to either side of the working array.
 - Added `remove()`, which can remove any number of segments from the working array, index handling provided.
