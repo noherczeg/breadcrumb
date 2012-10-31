@@ -9,7 +9,7 @@ Breadcrumb is a simple bundle made for the [Laravel framework](http://laravel.co
 * Segments can be URI segments or custom arrays
 * Can dump the results in either PHP arrays, or JSON arrays
 * Can produce full html breadcrumbs which can be formatted, let it be either html attributes or casing options
-* Can create Twitter Bootstrap breadcrumbs
+* Can create Twitter Bootstrap / Zurb Foundation breadcrumbs as well
 * Segments can be ignored/removed/appended in any number from both sides
 
 \* 2 layered because (if configured so) it can get the translations from: language folders in bundles named as controllers, or this bundle it self. 
