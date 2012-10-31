@@ -56,5 +56,33 @@ return array(
 	 * If set to true and other bundle languages match the segments, 
 	 * then those will override this bundle's segments.
 	 */
-	'scan_bundles'	=> false
+	'scan_bundles'	=> false,
+
+	/**
+	 * Slug settings:
+	 *
+	 * 'use_slug_with': Separator character in slugs, If it is set to:
+	 *
+	 * - anything except false (for example: "-")
+	 *
+	 * The bundle will automatically handle uri parts as if they
+	 * are potential slugs with the given separator, also converts
+	 * the separating characters into spaces on output.
+	 * 
+	 * - false
+	 *  
+	 * Slug handling will be ignored.
+	 */
+	'slug_separator' => '-',
+
+	/**
+	 * Separator for words in language file keys. Can be any character
+	 * or false.
+	 * 
+	 * For example in language files:
+	 * - 'words_converted_from_slug' => 'Lorem ipsum dolor sit amet'
+	 * - the word_separator will be "_".
+	 */
+	'word_separator' => '_'
+
 );
