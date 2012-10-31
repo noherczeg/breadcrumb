@@ -89,17 +89,22 @@ Doing the same, but with JSON array as result: `var_dump(Breadcrumb::dump('json'
 #### Generating twitter bootstrap breadcrumbs from the current URI:
 Calling `echo Breadcrumb::make('bootstrap');` on: `http://localhost/laravel-fork/public/browser/admin/whatever`,  will produce:
 ```php
-<li>
-    <a href="http://localhost/laravel-fork/public/browser/">browser</a> 
-    <span class="divider">/</span>
-</li>
-<li>
-    <a href="http://localhost/laravel-fork/public/browser/admin/">administration</a> 
-    <span class="divider">/</span>
-</li>
-<li class="active">no whatever please :P</li>
+<ul class="breadcrumb">
+    <li>
+        <a href="http://localhost/laravel-fork/public/browser/">browser</a> 
+        <span class="divider">/</span>
+    </li>
+    <li>
+        <a href="http://localhost/laravel-fork/public/browser/admin/">administration</a> 
+        <span class="divider">/</span>
+    </li>
+    <li class="active">no whatever please :P</li>
+</ul>
 
 ```
+
+#### Generating Zurb Foundation breadcrumbs from the current URI:
+Done exactly the same way, but with different parameter: `echo Breadcrumb::make('foundation');`
 
 ### B) Diving in a bit more:
 
