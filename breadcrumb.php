@@ -267,7 +267,7 @@ class Breadcrumb
 	 * config file, please check it out!
 	 *
 	 * @param  string 		output format (html, bootstrap, foundation)
-	 * @param  array     	The source array. Either dumped, or null
+	 * @param  array     		The source array. Either dumped, or null
 	 * @param  array 		Array of attributes for the link's tag
 	 * @param  string 		Separator character, or string
 	 * @param  bool 		Is the last element a link or plain string
@@ -280,7 +280,7 @@ class Breadcrumb
 		/**
 		 * Possible output formats
 		 */
-		$formats = array('html', 'bootstrap');
+		$formats = array('html', 'bootstrap', 'foundation');
 
 		/**
 		 * Setting up working variables, etc for the job
