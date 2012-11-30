@@ -28,7 +28,7 @@ use HTML;
 
 class BreadcrumbException extends \Exception
 {
-	
+
 }
 
 /**
@@ -51,7 +51,7 @@ class Breadcrumb
 	 */
 	final private function __construct()
 	{
-		
+
 	}
 
 	/**
@@ -90,7 +90,7 @@ class Breadcrumb
 	/**
 	 * Dumps the segments in a selectable format.
 	 *
-	 * You can also set it so it cuts any number of elements from either side 
+	 * You can also set it so it cuts any number of elements from either side
 	 * of the array.
 	 *
 	 * @param   string  The format of the output
@@ -138,7 +138,7 @@ class Breadcrumb
 	}
 
 	/**
-	 * Translates the input segments if it finds a match for them in the 
+	 * Translates the input segments if it finds a match for them in the
 	 * language files. If not, it leaves them as they are.
 	 *
 	 * @param  string|array     	Input element
@@ -192,7 +192,7 @@ class Breadcrumb
 				{
 
 					// This isn't the greates way of executing a search,
-					// but couldn't find a better way to do it at the 
+					// but couldn't find a better way to do it at the
 					// time this was made....
 					if(strtolower($controller_name) == strtolower($bundle_name) && $scan_bundles === true && Lang::has($bundle_name . '::breadcrumb.' . $value))
 					{
@@ -243,23 +243,23 @@ class Breadcrumb
 	/**
 	 * Generates HTML string containing links separated as you wish.
 	 *
-	 * The generator can generate breadcrumbs in an instant if you just call it 
-	 * by itself. If you coose this, it'll generate content for the current URI 
+	 * The generator can generate breadcrumbs in an instant if you just call it
+	 * by itself. If you coose this, it'll generate content for the current URI
 	 * with the default settings.
 	 *
 	 * - The output format can be either plain html, or bootstrap style. If
 	 * bootstrap is selected, then any extra attribute will be ignored!
 	 *
-	 * - The source: should be a translated dump (either a PHP array or JSON 
+	 * - The source: should be a translated dump (either a PHP array or JSON
 	 * array) or left null.
 	 *
-	 * - Extra atrribute: can be an array which normaly you'd pass to Laravel's 
+	 * - Extra atrribute: can be an array which normaly you'd pass to Laravel's
 	 * HTML::link() method.
-	 * 
+	 *
 	 * - A separator: should be a single caharacter or a string.
 	 *
-	 * - Last not link: is a toggler which makes you able to choose if you want 
-	 * the last segment be a link or just a plain string. At default it is set 
+	 * - Last not link: is a toggler which makes you able to choose if you want
+	 * the last segment be a link or just a plain string. At default it is set
 	 * to true = plain string.
 	 *
 	 * - Slugs: possible separation of words in the URI is allowed, the slug
@@ -287,7 +287,7 @@ class Breadcrumb
 		 */
 		$pretty_result = '';
 
-		// this wil be passed by reference, so will be updated each time 
+		// this wil be passed by reference, so will be updated each time
 		// the breadcrumbs list is being expanded!
 		$tmp_uri = '';
 
@@ -304,7 +304,7 @@ class Breadcrumb
 			$extra_attrib = null;
 
 		/**
-		 * Setting up the working array which we will use to generate the 
+		 * Setting up the working array which we will use to generate the
 		 * breadcrumb as a HTML string with links, etc..
 		 */
 		try
@@ -319,7 +319,7 @@ class Breadcrumb
 		/**
 		 * Generating the HTML/bootstrap string using Laravel's link builder.
 		 *
-		 * Notice that you can even add html attributes, as it was in the 
+		 * Notice that you can even add html attributes, as it was in the
 		 * parameters (the last element can be a simple string, not link).s
 		 */
 		end($working_array);
@@ -370,11 +370,11 @@ class Breadcrumb
 			{
 				static::$segments_raw[] = $input;
 			}
-			
+
 		}
 		else
 		{
-			throw new BreadcrumbException('Illegal value added for append!'); 
+			throw new BreadcrumbException('Illegal value added for append!');
 		}
 	}
 
@@ -407,11 +407,11 @@ class Breadcrumb
 			{
 				static::$segments_raw = array_values(static::$segments_raw);
 			}
-			
+
 		}
 		else
 		{
-			throw new BreadcrumbException('Refering to non existent key in working array!'); 
+			throw new BreadcrumbException('Refering to non existent key in working array!');
 		}
 	}
 
@@ -436,6 +436,12 @@ class Breadcrumb
 		}
 		elseif (is_null($source))
 		{
+			// if there was no initial translate, we run it once
+			if(empty(static::$segments_translated))
+			{
+				static::translate();
+			}
+
 			$result_array = static::$segments_translated;
 		}
 		else
@@ -467,7 +473,7 @@ class Breadcrumb
 		 */
 		if (is_null($separator))
 			$separator = Config::get('breadcrumb::breadcrumb.separator');
-		
+
 		foreach ($working_array AS $key => $segment)
 		{
 			if ($key > 0)
@@ -485,10 +491,10 @@ class Breadcrumb
 				$result .= HTML::link($tmp_uri, $segment, $extra_attrib);
 			}
 		}
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * Generates a Twitter Bootstrap output from the provided source.
 	 *
@@ -502,7 +508,7 @@ class Breadcrumb
 	protected static function genereate_bootstrap($working_array, $separator, $last_key, &$tmp_uri)
 	{
 		$result = '<ul class="breadcrumb">';
-		
+
 		foreach ($working_array AS $key => $segment)
 		{
 			if ($key == $last_key)
@@ -515,7 +521,7 @@ class Breadcrumb
 				$result .= '<li>' . HTML::link($tmp_uri, $segment) . ' <span class="divider">' . trim($separator) . '</span></li>';
 			}
 		}
-		
+
 		return $result . '</ul>';
 	}
 
@@ -534,7 +540,7 @@ class Breadcrumb
 	protected static function genereate_foundation($working_array, $separator, $last_key, &$tmp_uri)
 	{
 		$result = '<ul class="breadcrumbs">';
-		
+
 		foreach ($working_array AS $key => $segment)
 		{
 			if ($key == $last_key)
@@ -547,7 +553,7 @@ class Breadcrumb
 				$result .= '<li>' . HTML::link($tmp_uri, $segment) . '</li>';
 			}
 		}
-		
+
 		return $result . '</ul>';
 	}
 
