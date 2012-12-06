@@ -3,4 +3,4 @@ breadcrumb
 
 A package for breadcrumb management.
 
-<img src="https://api.travis-ci.org/noherczeg/breadcrumb.png">
+[![Build Status](https://secure.travis-ci.org/noherczeg/breadcrumb.png)](https://travis-ci.org/noherczeg/breadcrumb)
