@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Breadcrumb : A bundle for Laravel" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Breadcrumb</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/noherczeg/breadcrumb">View on GitHub</a>
+
+          <h1 id="project_title">Breadcrumb</h1>
+          <h2 id="project_tagline">A bundle for Laravel</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/noherczeg/breadcrumb/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/noherczeg/breadcrumb/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>Breadcrumb</h1>
+
+<p>Breadcrumb is a simple bundle made for the <a href="http://laravel.com/">Laravel framework</a></p>
+
+<h3>Quickstart</h3>
+
+<ul>
+<li>Clone Breadcrumb into <em>APPPATH/bundles/</em>
+
+<ul>
+<li><code>git clone https://github.com/noherczeg/breadcrumb.git breadcrumb</code></li>
+</ul>
+</li>
+<li>Edit <em>APPPATH/application/bundles.php</em>
+</li>
+</ul><div class="highlight"><pre>
+<span class="o">&lt;?</span><span class="nx">php</span>
+<span class="c1">// APPPATH/application/bundles.php</span>
+<span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s1">'breadcrumb'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">'auto'</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">),</span>
+<span class="p">);</span>
+</pre></div>
+
+<ul>
+<li>The bundle uses the <em>APPPATH/application/config/application.php</em> file to determine which language profile to load from the bundle's language folder</li>
+<li>No migration needed</li>
+</ul><h3>Features</h3>
+
+<ul>
+<li>Uses language files to translate breadcrumb segments</li>
+<li>Segments can be URI segments or custom arrays</li>
+<li>Can dump the results in either PHP arrays, or JSON arrays</li>
+<li>Can produce full html breadcrumbs which can be formatted, let it be either html attributes or casing options</li>
+<li>Segments can be ignored in any number from both sides</li>
+</ul><h3>Code examples</h3>
+
+<ul>
+<li>Generating breadcrumbs from current URI:</li>
+</ul><div class="highlight"><pre>
+<span class="o">&lt;?</span><span class="nx">php</span>
+<span class="c1">// URL: http://localhost/laravel-fork/public/admin/cron</span>
+<span class="c1">// no parameters given, so it generated the links, etc.. according to the default settings</span>
+<span class="k">echo</span> <span class="nx">Breadcrumb</span><span class="o">::</span><span class="na">generate_html</span><span class="p">();</span>
+
+<span class="c1">// generated html code is:</span>
+<span class="c1">// &lt;a href="http://localhost/laravel-fork/public/admin/"&gt;Administration&lt;/a&gt; / Cron jobs</span>
+</pre></div>
+
+<ul>
+<li>Generating breadcrumbs with custom attributes from custom source:</li>
+</ul><div class="highlight"><pre>
+<span class="o">&lt;?</span><span class="nx">php</span>
+<span class="c1">// always do a translate first, otherwise generate_html will use the current URI</span>
+<span class="nx">Breadcrumb</span><span class="o">::</span><span class="na">translate</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="s1">'add'</span><span class="p">));</span>
+<span class="k">echo</span> <span class="nx">Breadcrumb</span><span class="o">::</span><span class="na">generate_html</span><span class="p">(</span><span class="nx">Breadcrumb</span><span class="o">::</span><span class="na">dump</span><span class="p">(),</span> <span class="k">array</span><span class="p">(</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'breadcrumb_link_class'</span><span class="p">));</span>
+
+<span class="c1">// generated html code:</span>
+<span class="c1">// &lt;a class="breadcrumb_link_class" href="http://localhost/laravel-fork/public/users/"&gt;users&lt;/a&gt; / add</span>
+</pre></div>
+
+<ul>
+<li>Dumping a translated array from the URI:</li>
+</ul><div class="highlight"><pre>
+<span class="o">&lt;?</span><span class="nx">php</span>
+<span class="c1">// URL: http://localhost/laravel-fork/public/browser/firefox</span>
+<span class="c1">// dumps the current URI</span>
+<span class="nb">var_dump</span><span class="p">(</span><span class="nx">Breadcrumb</span><span class="o">::</span><span class="na">dump</span><span class="p">());</span>
+
+<span class="c1">// makes:</span>
+<span class="c1">// Array ( [0] =&gt; browser [1] =&gt; a great browser )</span>
+</pre></div>
+
+<ul>
+<li>Doing the same, but with JSON array as result:</li>
+</ul><div class="highlight"><pre>
+<span class="o">&lt;?</span><span class="nx">php</span>
+<span class="c1">// dumps the current URI in json array format</span>
+<span class="nb">var_dump</span><span class="p">(</span><span class="nx">Breadcrumb</span><span class="o">::</span><span class="na">dump</span><span class="p">(</span><span class="s1">'json'</span><span class="p">));</span>
+
+<span class="c1">// json array is returned</span>
+<span class="c1">// ["browser","a great browser"]</span>
+</pre></div>
+
+<ul>
+<li>Generating breadcrumbs from the current URI with a dash as separator:</li>
+</ul><div class="highlight"><pre>
+<span class="o">&lt;?</span><span class="nx">php</span>
+<span class="c1">// URL: http://localhost/laravel-fork/public/browser/admin/poke</span>
+<span class="c1">// current URI, no extra attributes, dash as separator</span>
+<span class="k">echo</span> <span class="nx">Breadcrumb</span><span class="o">::</span><span class="na">generate_html</span><span class="p">(</span><span class="k">null</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">);</span>
+
+<span class="c1">// produces</span>
+<span class="c1">// &lt;a href="http://localhost/laravel-fork/public/browser/"&gt;browser&lt;/a&gt; - &lt;a href="http://localhost/laravel-fork/public/browser/a great browser/"&gt;a great browser&lt;/a&gt; - poke</span>
+</pre></div>
+
+<p>Please check the main class for further options :)</p>
+
+<p>Enjoy!</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Breadcrumb maintained by <a href="https://github.com/noherczeg">noherczeg</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
