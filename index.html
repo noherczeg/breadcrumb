@@ -33,9 +33,47 @@
       <section id="main_content" class="inner">
         <h1>Breadcrumb</h1>
 
-<p>Breadcrumb is a simple bundle made for the <a href="http://laravel.com/">Laravel framework</a></p>
+<p>Breadcrumb is a simple bundle made for the <a href="http://laravel.com/">Laravel framework</a>. It's goal is to lend a helping hand with the creation and management of breadcrumbs. If you have any issues with it, or have suggestions/questions, just contact me on github, or post an issue/feature request.</p>
 
-<h3>Quickstart</h3>
+<h2>Features</h2>
+
+<ul>
+<li>Uses primarily language files to translate breadcrumb segments</li>
+<li>Can provide a 2 layered translation method*</li>
+<li>Segments can be URI segments or custom arrays</li>
+<li>Can dump the results in either PHP arrays, or JSON arrays</li>
+<li>Can produce full html breadcrumbs which can be formatted, let it be either html attributes or casing options</li>
+<li>Can create Twitter Bootstrap / Zurb Foundation breadcrumbs as well</li>
+<li>Segments can be ignored/removed/appended in any number from both sides</li>
+</ul><p>* 2 layered because (if configured so) it can get the translations from: language folders in bundles named as controllers, or this bundle it self. </p>
+
+<h2>Changelog</h2>
+
+<h3>Breadcrumb 1.2</h3>
+
+<ul>
+<li>Refactored the comments in the code.</li>
+<li>Fixed bundle initialization bug where the bundle started with an auto translation.</li>
+<li>Added support for proper slug handling.</li>
+<li>Added Zurb Foundation output generator.</li>
+<li>Added <code>get_raw_segments()</code> for better debugging.</li>
+<li>Added <code>append()</code>, so now any number of segments can be added to either side of the working array.</li>
+<li>Added <code>remove()</code>, which can remove any number of segments from the working array, index handling provided.</li>
+<li>Added <code>slug_separator</code> and <code>word_separator</code> options to config file.</li>
+<li>Replaced inferior documentation with a new, better, more detailed one.</li>
+</ul><h3>Breadcrumb 1.1</h3>
+
+<ul>
+<li>Renamed methods for better reading.</li>
+<li>Added Bootstrap output support.</li>
+<li>Added external bundle translation file handling option.</li>
+<li>Provided usage examples in the docs.</li>
+<li>Added <code>scan_bundles</code>, <code>output_format</code> option to the config file.</li>
+</ul><h3>Breadcrumb 1.0</h3>
+
+<ul>
+<li>Bundle start.</li>
+</ul><h2>Quickstart</h2>
 
 <ul>
 <li>Clone Breadcrumb into <em>APPPATH/bundles/</em>
@@ -55,80 +93,113 @@
 </pre></div>
 
 <ul>
-<li>The bundle uses the <em>APPPATH/application/config/application.php</em> file to determine which language profile to load from the bundle's language folder</li>
+<li>The bundle uses the <em>APPPATH/application/config/application.php</em> file to determine which language profile to load from the bundle's (external bundles) language folder</li>
 <li>No migration needed</li>
-</ul><h3>Features</h3>
+</ul><h2>Usage examples:</h2>
 
-<ul>
-<li>Uses language files to translate breadcrumb segments</li>
-<li>Segments can be URI segments or custom arrays</li>
-<li>Can dump the results in either PHP arrays, or JSON arrays</li>
-<li>Can produce full html breadcrumbs which can be formatted, let it be either html attributes or casing options</li>
-<li>Segments can be ignored in any number from both sides</li>
-</ul><h3>Code examples</h3>
+<h3>A) Basic functions:</h3>
 
-<ul>
-<li>Generating breadcrumbs from current URI:</li>
-</ul><div class="highlight"><pre>
-<span class="o">&lt;?</span><span class="nx">php</span>
-<span class="c1">// URL: http://localhost/laravel-fork/public/admin/cron</span>
-<span class="c1">// no parameters given, so it generated the links, etc.. according to the default settings</span>
-<span class="k">echo</span> <span class="nx">Breadcrumb</span><span class="o">::</span><span class="na">generate_html</span><span class="p">();</span>
+<h4>Generating breadcrumbs from current URI:</h4>
 
-<span class="c1">// generated html code is:</span>
-<span class="c1">// &lt;a href="http://localhost/laravel-fork/public/admin/"&gt;Administration&lt;/a&gt; / Cron jobs</span>
+<p>With an URL like: <code>http://localhost/laravel-fork/public/admin/cron-jobs</code>, calling <code>echo Breadcrumb::make();</code> will produce this:</p>
+
+<div class="highlight"><pre><span class="o">&lt;</span><span class="nx">a</span> <span class="nx">href</span><span class="o">=</span><span class="s2">"http://localhost/laravel-fork/admin/"</span><span class="o">&gt;</span><span class="nx">administration</span><span class="o">&lt;/</span><span class="nx">a</span><span class="o">&gt;</span> <span class="o">/</span> <span class="nx">cron</span> <span class="nx">jobs</span>
 </pre></div>
 
-<ul>
-<li>Generating breadcrumbs with custom attributes from custom source:</li>
-</ul><div class="highlight"><pre>
-<span class="o">&lt;?</span><span class="nx">php</span>
-<span class="c1">// always do a translate first, otherwise generate_html will use the current URI</span>
-<span class="nx">Breadcrumb</span><span class="o">::</span><span class="na">translate</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">'users'</span><span class="p">,</span> <span class="s1">'add'</span><span class="p">));</span>
-<span class="k">echo</span> <span class="nx">Breadcrumb</span><span class="o">::</span><span class="na">generate_html</span><span class="p">(</span><span class="nx">Breadcrumb</span><span class="o">::</span><span class="na">dump</span><span class="p">(),</span> <span class="k">array</span><span class="p">(</span><span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'breadcrumb_link_class'</span><span class="p">));</span>
+<p>Since no parameters where given, it generated the links, etc.. according to the default settings</p>
 
-<span class="c1">// generated html code:</span>
-<span class="c1">// &lt;a class="breadcrumb_link_class" href="http://localhost/laravel-fork/public/users/"&gt;users&lt;/a&gt; / add</span>
+<h4>Dumping current working array:</h4>
+
+<p>Using an URL like: <code>http://localhost/laravel-fork/public/test-case/12</code>, calling <code>var_dump(get_raw_segments());</code> returns:</p>
+
+<div class="highlight"><pre><span class="k">array</span>
+  <span class="mi">0</span> <span class="o">=&gt;</span> <span class="nx">string</span> <span class="s1">'test-case'</span> <span class="p">(</span><span class="nx">length</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+  <span class="mi">1</span> <span class="o">=&gt;</span> <span class="nx">string</span> <span class="s1">'12'</span> <span class="p">(</span><span class="nx">length</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
-<ul>
-<li>Dumping a translated array from the URI:</li>
-</ul><div class="highlight"><pre>
-<span class="o">&lt;?</span><span class="nx">php</span>
-<span class="c1">// URL: http://localhost/laravel-fork/public/browser/firefox</span>
-<span class="c1">// dumps the current URI</span>
-<span class="nb">var_dump</span><span class="p">(</span><span class="nx">Breadcrumb</span><span class="o">::</span><span class="na">dump</span><span class="p">());</span>
+<h4>Dumping a translated array from the URI:</h4>
 
-<span class="c1">// makes:</span>
-<span class="c1">// Array ( [0] =&gt; browser [1] =&gt; a great browser )</span>
+<p>With an URL like: <code>http://localhost/laravel-fork/public/browser/firefox</code>, calling <code>var_dump(Breadcrumb::dump());</code> will return something like this:</p>
+
+<div class="highlight"><pre><span class="k">array</span>
+  <span class="mi">0</span> <span class="o">=&gt;</span> <span class="nx">string</span> <span class="s1">'browser'</span> <span class="p">(</span><span class="nx">length</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+  <span class="mi">1</span> <span class="o">=&gt;</span> <span class="nx">string</span> <span class="s1">'a great browser'</span> <span class="p">(</span><span class="nx">length</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
 
-<ul>
-<li>Doing the same, but with JSON array as result:</li>
-</ul><div class="highlight"><pre>
-<span class="o">&lt;?</span><span class="nx">php</span>
-<span class="c1">// dumps the current URI in json array format</span>
-<span class="nb">var_dump</span><span class="p">(</span><span class="nx">Breadcrumb</span><span class="o">::</span><span class="na">dump</span><span class="p">(</span><span class="s1">'json'</span><span class="p">));</span>
+<p>Doing the same, but with JSON array as result: <code>var_dump(Breadcrumb::dump('json'));</code> returns:</p>
 
-<span class="c1">// json array is returned</span>
-<span class="c1">// ["browser","a great browser"]</span>
+<div class="highlight"><pre><span class="p">[</span><span class="s2">"browser"</span><span class="p">,</span><span class="s2">"a great browser"</span><span class="p">]</span>
 </pre></div>
 
-<ul>
-<li>Generating breadcrumbs from the current URI with a dash as separator:</li>
-</ul><div class="highlight"><pre>
-<span class="o">&lt;?</span><span class="nx">php</span>
-<span class="c1">// URL: http://localhost/laravel-fork/public/browser/admin/poke</span>
-<span class="c1">// current URI, no extra attributes, dash as separator</span>
-<span class="k">echo</span> <span class="nx">Breadcrumb</span><span class="o">::</span><span class="na">generate_html</span><span class="p">(</span><span class="k">null</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">);</span>
+<h4>Generating twitter bootstrap breadcrumbs from the current URI:</h4>
 
-<span class="c1">// produces</span>
-<span class="c1">// &lt;a href="http://localhost/laravel-fork/public/browser/"&gt;browser&lt;/a&gt; - &lt;a href="http://localhost/laravel-fork/public/browser/a great browser/"&gt;a great browser&lt;/a&gt; - poke</span>
+<p>Calling <code>echo Breadcrumb::make('bootstrap');</code> on: <code>http://localhost/laravel-fork/public/browser/admin/whatever</code>,  will produce:</p>
+
+<div class="highlight"><pre><span class="o">&lt;</span><span class="nx">ul</span> <span class="nx">class</span><span class="o">=</span><span class="s2">"breadcrumb"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">a</span> <span class="nx">href</span><span class="o">=</span><span class="s2">"http://localhost/laravel-fork/public/browser/"</span><span class="o">&gt;</span><span class="nx">browser</span><span class="o">&lt;/</span><span class="nx">a</span><span class="o">&gt;</span> 
+        <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">class</span><span class="o">=</span><span class="s2">"divider"</span><span class="o">&gt;/&lt;/</span><span class="nx">span</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">a</span> <span class="nx">href</span><span class="o">=</span><span class="s2">"http://localhost/laravel-fork/public/browser/admin/"</span><span class="o">&gt;</span><span class="nx">administration</span><span class="o">&lt;/</span><span class="nx">a</span><span class="o">&gt;</span> 
+        <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">class</span><span class="o">=</span><span class="s2">"divider"</span><span class="o">&gt;/&lt;/</span><span class="nx">span</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">li</span> <span class="nx">class</span><span class="o">=</span><span class="s2">"active"</span><span class="o">&gt;</span><span class="nx">no</span> <span class="nx">whatever</span> <span class="nx">please</span> <span class="o">:</span><span class="nx">P</span><span class="o">&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="nx">ul</span><span class="o">&gt;</span>
+
 </pre></div>
 
-<p>Please check the main class for further options :)</p>
+<h4>Generating Zurb Foundation breadcrumbs from the current URI:</h4>
 
-<p>Enjoy!</p>
+<p>Done exactly the same way, but with different parameter: <code>echo Breadcrumb::make('foundation');</code></p>
+
+<h3>B) Diving in a bit more:</h3>
+
+<h4>Generating breadcrumbs from the current URI with a dash as separator:</h4>
+
+<p>You can do this with <code>echo Breadcrumb::make('html', null, null, '-');</code> on the current URL</p>
+
+<div class="highlight"><pre><span class="o">&lt;</span><span class="nx">a</span> <span class="nx">href</span><span class="o">=</span><span class="s2">"http://localhost/laravel-fork/public/browser/"</span><span class="o">&gt;</span><span class="nx">browser</span><span class="o">&lt;/</span><span class="nx">a</span><span class="o">&gt;</span> <span class="o">-</span> <span class="o">&lt;</span><span class="nx">a</span> <span class="nx">href</span><span class="o">=</span><span class="s2">"http://localhost/laravel-fork/public/browser/firefox-is-pro/"</span><span class="o">&gt;</span><span class="nx">a</span> <span class="nx">great</span> <span class="nx">browser</span><span class="o">&lt;/</span><span class="nx">a</span><span class="o">&gt;</span> <span class="o">-</span> <span class="nx">poke</span>
+</pre></div>
+
+<h4>Generating breadcrumbs with custom attributes from custom source:</h4>
+
+<p>To achieve this you will need to call two methods in the process:</p>
+
+<ul>
+<li>First translate a custom array**:</li>
+</ul><p><code>Breadcrumb::translate(array('users', 'add'));</code>.</p>
+
+<ul>
+<li>Then write the results to the output while providing an array with the formatting parameters*** into the <code>make()</code> method</li>
+</ul><p><code>echo Breadcrumb::make('html', Breadcrumb::dump(), array('class' =&gt; 'breadcrumb_link_class'));</code></p>
+
+<div class="highlight"><pre><span class="c1">// generated html code:</span>
+<span class="o">&lt;</span><span class="nx">a</span> <span class="nx">class</span><span class="o">=</span><span class="s2">"breadcrumb_link_class"</span> <span class="nx">href</span><span class="o">=</span><span class="s2">"http://localhost/laravel-fork/public/users/"</span><span class="o">&gt;</span><span class="nx">users</span><span class="o">&lt;/</span><span class="nx">a</span><span class="o">&gt;</span> <span class="o">/</span> <span class="nx">add</span>
+</pre></div>
+
+<p>** Always do a translate first, otherwise generate_html will use the current URI</p>
+
+<p>*** Formatting links is achieved the exact same way as it is done with normal code in a Laravel project. Please check <a href="http://laravel.com/docs/views/html#links">http://laravel.com/docs/views/html#links</a> for other examples.</p>
+
+<h4>Replacing first element of the current URI with a custom one:</h4>
+
+<p>This is done by two steps as well:</p>
+
+<ul>
+<li><p>First remove the unwanted element with <code>Breadcrumb::remove(0);</code></p></li>
+<li><p>Then add you own element, like <code>Breadcrumb::append('Home');</code></p></li>
+</ul><div class="highlight"><pre><span class="c1">// The URL before replacement: http://localhost/laravel-fork/public/users/list</span>
+<span class="c1">// </span>
+<span class="c1">// generated html code after replacement:</span>
+<span class="o">&lt;</span><span class="nx">a</span> <span class="nx">class</span><span class="o">=</span><span class="s2">"breadcrumb_link_class"</span> <span class="nx">href</span><span class="o">=</span><span class="s2">"http://localhost/laravel-fork/public/home/"</span><span class="o">&gt;</span><span class="nx">Main</span> <span class="nx">page</span><span class="o">&lt;/</span><span class="nx">a</span><span class="o">&gt;</span> <span class="o">/</span> <span class="nx">Same</span> <span class="k">List</span>
+</pre></div>
+
+<blockquote>
+<p>Please note that trying to remove not existing elements will produce an exception. Also if you are removing elements in a loop, you may want to check out the method it self in the bundle, since handling indexes may differ in each task you are working with and you have a second parameter which could be used in these cases!</p>
+
+<p>You can append as many elements as you want of course.</p>
+</blockquote>
       </section>
     </div>
 
