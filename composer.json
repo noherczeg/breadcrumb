@@ -1,0 +1,11 @@
+{
+	"required" : {
+		"php": ">=5.3.2"
+	},
+	"required-dev" : {
+		"phpunit/phpunit" : "3.7.x-dev"
+	},
+	"autoload" : {
+		"psr-0": { "Noherczeg\\Breadcrumb" : "src/" }
+	}
+}
