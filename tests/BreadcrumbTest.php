@@ -31,13 +31,47 @@ class BreadcrumbTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test provide invalid argument thrown as exception
-	 *
-	 * @expectedException InvalidArgumentException
+	 * Test append function
 	 */
-	public function testSetParamMethod()
+	public function testAppendAndRemove()
 	{
-		$this->bread->setParam(2);
+		// basic append
+		$this->bread->append('asdasd');
+		$this->assertEquals(1, $this->bread->registered_segments());
+
+		// append right side
+		$this->bread->append('123232', 'right');
+		$this->assertEquals(2, $this->bread->registered_segments());
+
+		// remove with following reindex
+		$this->bread->remove(0, true);
+		$this->assertEquals(1, $this->bread->registered_segments());
+
+		// basic remove
+		$this->bread->remove(0);
+		$this->assertEquals(0, $this->bread->registered_segments());
+
+	}
+
+	/**
+     * Test provide invalid argument thrown as exception
+     *
+     * @expectedException InvalidArgumentException
+     */
+    public function testInvalidArg()
+    {
+        $this->bread->segment(0);
+    }
+
+    /**
+	 * Test instance of a Segment
+	 *
+	 * @test
+	 */
+	public function testInstanceOfSegment()
+	{
+		$this->bread->append('asd_asd');
+		$this->assertInstanceOf('Noherczeg\Breadcrumb\Segment', $this->bread->segment(0));
 	}
 
 }

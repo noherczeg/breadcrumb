@@ -28,11 +28,16 @@ class Translator
         } else {
             $file_to_load = $this->language_folder . $lang . '.php';
 
-            if (!file_exists($file_to_load)) {
-                throw new FileNotFoundException("Can not load the requested language file: $lang!");
-            } else {
-                return require $file_to_load;
-            }
+            return $this->loadFile($file_to_load);
+        }
+    }
+
+    public function loadFile ($file_to_load = null)
+    {
+        if (!file_exists($file_to_load)) {
+            throw new FileNotFoundException("Can not load the requested language file: $file_to_load!");
+        } else {
+            return require $file_to_load;
         }
     }
 

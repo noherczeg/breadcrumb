@@ -46,7 +46,7 @@ class Breadcrumb
 
     public function append ($raw_name = null, $side = 'left')
     {
-        if (!is_string($raw_name) || !is_int($raw_name) || !in_array($side, array('left', 'right'))) {
+        if (!is_string($raw_name) && !is_int($raw_name) && !in_array($side, array('left', 'right'))) {
             throw new InvalidArgumentException("Malformed arguments provided!");
         } else {
             if ($side === 'left') {
@@ -58,6 +58,8 @@ class Breadcrumb
                 // Append to the right side
                 $this->segments[] = new Segment($raw_name);
             }
+
+            return $this;
         }
     }
 
@@ -69,8 +71,10 @@ class Breadcrumb
             if ($reindex_after_remove) {
                 $this->segments = array_values($this->segments);
             }
+
+            return $this;
         } else {
-            throw new InvalidArgumentException('Refering to non existent Segment id!');
+            throw new InvalidArgumentException('Refering to non existent Segment position!');
         }
     }
 
@@ -82,28 +86,56 @@ class Breadcrumb
         } else {
 
             // if we provide a string as a base name for the base URl, or leave it alone
-            if (is_string($base_segment) || is_null($base_segment)) {
+            if (is_string($base_segment)) {
+                $this->append($base_segment);
+            } elseif ($base_segment === null) {
                 $this->append('wellcome');
             }
 
             // Container of raw strings
             $guaranteed_array = array();
 
+            // PHP array
             if (is_array($input)) {
                 $guaranteed_array = $input;
             }
 
+            // URI string
             if (is_string($input)) {
                 $guaranteed_array = preg_split('/\//', $input, -1, PREG_SPLIT_NO_EMPTY);
             }
 
+            // JSON array
             if (json_decode($input) != null) {
                 $guaranteed_array = array_values(json_decode($input));
             }
 
+            // append all
             foreach ($guaranteed_array as $segment_raw_name) {
                 $this->append($segment_raw_name);
             }
+
+            // chaining support :)
+            return $this;
+        }
+    }
+
+    public function dump ()
+    {
+        return $this;
+    }
+
+    public function registered_segments()
+    {
+        return count($this->segments);
+    }
+
+    public function segment ($id)
+    {
+        if (in_array($id, array_keys($this->segments))) {
+            return $this->segments[$id];
+        } else {
+            throw new InvalidArgumentException("Invalid argument provided, no segment is present with id: $id!");
         }
     }
 }

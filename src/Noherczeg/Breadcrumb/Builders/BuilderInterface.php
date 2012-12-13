@@ -2,5 +2,5 @@
 
 interface BuilderInterface
 {
-
+    public function build ($segments);
 }

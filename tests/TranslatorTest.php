@@ -32,14 +32,14 @@ class TranslatorTest extends PHPUnit_Framework_TestCase
     /**
      * Test provide file not found thrown as exception
      *
-     * @expectedException FileNotFoundException
+     * @expectedException \Noherczeg\Breadcrumb\FileNotFoundException
      */
     public function testFileNotFoundException()
     {
-        $this->tran->loadDictionary(2);
-        $this->tran->loadDictionary();
-        $this->tran->loadDictionary(true);
-        $this->tran->loadDictionary('asd');
+        $this->tran->loadFile(2);
+        $this->tran->loadFile();
+        $this->tran->loadFile(true);
+        $this->tran->loadFile('asd');
     }
 
     /**
