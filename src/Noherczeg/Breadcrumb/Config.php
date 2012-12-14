@@ -4,11 +4,12 @@ use InvalidArgumentException;
 
 class Config
 {
+
     private $configs = null;
 
-    public function __construct ()
+    public function __construct()
     {
-        $config_file    = __DIR__ . DIRECTORY_SEPARATOR . 'Config' . DIRECTORY_SEPARATOR . 'config.php';
+        $config_file = __DIR__ . DIRECTORY_SEPARATOR . 'Config' . DIRECTORY_SEPARATOR . 'config.php';
 
         // Load configuration
         if (!file_exists($config_file)) {
@@ -18,7 +19,7 @@ class Config
         }
     }
 
-    public function value ($key)
+    public function value($key)
     {
         if (!is_string($key)) {
             throw new InvalidArgumentException("Invalid argument provided, string required!");
@@ -29,8 +30,9 @@ class Config
         }
     }
 
-    public function dump ()
+    public function dump()
     {
         return $this->configs;
     }
+
 }

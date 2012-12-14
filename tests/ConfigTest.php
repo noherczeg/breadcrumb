@@ -7,7 +7,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * Setup the test enviroment
      */
-     public function setUp()
+     public function setUp ()
      {
         $this->config = new Noherczeg\Breadcrumb\Config;
      }
@@ -15,7 +15,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
      /**
       * Teardown the test enviroment
       */
-    public function tearDown()
+    public function tearDown ()
     {
         $this->config = null;
     }
@@ -24,7 +24,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
      * Test instance of $this->segment
      * @test
      */
-    public function testInstanceOf()
+    public function testInstanceOf ()
     {
         $this->assertInstanceOf('Noherczeg\Breadcrumb\Config', $this->config);
     }
@@ -34,7 +34,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function testConfigLoaded()
+    public function testConfigLoaded ()
     {
         $this->assertTrue(is_array($this->config->dump()));
     }
@@ -44,7 +44,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
      *
      * @expectedException InvalidArgumentException
      */
-    public function testInvalidArg()
+    public function testInvalidArg ()
     {
         $this->config->value(1.23);
         $this->config->value(array('yo' => 'for shure'));

@@ -15,11 +15,11 @@ return array (
 	'default_casing' => 'lower',
 
 	/**
-	 * Default dump format.
+	 * Default array dump format.
 	 *
-	 * Possible values: array, json.
+	 * Possible values: php, json.
 	 */
-	'dump_format' => 'array',
+	'dump_format' => 'php',
 
 	/**
 	 * Default output format used by build().

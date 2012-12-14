@@ -7,7 +7,7 @@ class TranslatorTest extends PHPUnit_Framework_TestCase
     /**
      * Setup the test enviroment
      */
-     public function setUp()
+     public function setUp ()
      {
         $this->tran = new Noherczeg\Breadcrumb\Translator;
      }
@@ -15,7 +15,7 @@ class TranslatorTest extends PHPUnit_Framework_TestCase
      /**
       * Teardown the test enviroment
       */
-    public function tearDown()
+    public function tearDown ()
     {
         $this->tran = null;
     }
@@ -24,7 +24,7 @@ class TranslatorTest extends PHPUnit_Framework_TestCase
      * Test instance of $this->segment
      * @test
      */
-    public function testInstanceOf()
+    public function testInstanceOf ()
     {
         $this->assertInstanceOf('Noherczeg\Breadcrumb\Translator', $this->tran);
     }
@@ -34,7 +34,7 @@ class TranslatorTest extends PHPUnit_Framework_TestCase
      *
      * @expectedException \Noherczeg\Breadcrumb\FileNotFoundException
      */
-    public function testFileNotFoundException()
+    public function testFileNotFoundException ()
     {
         $this->tran->loadFile(2);
         $this->tran->loadFile();
@@ -47,7 +47,7 @@ class TranslatorTest extends PHPUnit_Framework_TestCase
      *
      * @expectedException InvalidArgumentException
      */
-    public function testInvalidArg()
+    public function testInvalidArg ()
     {
         $this->tran->loadDictionary(1.23);
         $this->tran->loadDictionary(array('yo' => 'for shure'));
@@ -63,7 +63,7 @@ class TranslatorTest extends PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function testCreation()
+    public function testCreation ()
     {
         $newInstance = new Noherczeg\Breadcrumb\Translator('en');
         $this->assertTrue(is_array($newInstance->dump()));
