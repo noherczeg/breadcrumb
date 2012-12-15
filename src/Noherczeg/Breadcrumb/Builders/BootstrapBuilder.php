@@ -5,8 +5,7 @@ class BootstrapBuilder extends Builder
 
     public function __construct ($segments, $base_url)
     {
-        $this->segments = $segments;
-        $this->base_url = $base_url;
+        parent::__construct($segments, $base_url);
     }
 
     /**
@@ -15,20 +14,25 @@ class BootstrapBuilder extends Builder
      * @param String|null $separator
      * @param String|null $casing
      * @param array $customizations
+     * @param boolean $last_not_link
      * @return type
      */
-    public function build ($separator = null, $casing = null, $customizations = array())
+    public function build ($separator = null, $casing = null, $last_not_link = true)
     {
+        // always create link on build stage!
+        $this->link($last_not_link);
+        
+        // handle defaults
         (is_null($separator))   ? $ts = $this->config->value('separator')      : $ts = $separator;
         (is_null($casing))      ? $tc = $this->config->value('default_casing') : $tc = $casing;
 
         $result = '<ul class="breadcrumb">';
-
+        
         foreach ($this->segments as $key => $segment) {
-            if ($key == $last_key) {
-                $result .= '<li class="active">' . $segment->get('raw') . '</li>';
+            if (is_null($segment->get('link'))) {
+                $result .= '<li class="active">' . $this->casing($segment->get('translated'), $tc) . '</li>';
             } else {
-                $result .= '<li><a href="' . $segment->get('link') . '" ' . $this->customize($customizations) . '>' . $this->casing($casing, $segment->get('translated')) . '</a> <span class="divider">' . $ts . '</span></li>';
+                $result .= '<li><a href="' . $segment->get('link') . '">' . $this->casing($segment->get('translated'), $tc) . '</a> <span class="divider">' . $ts . '</span></li>';
             }
         }
 

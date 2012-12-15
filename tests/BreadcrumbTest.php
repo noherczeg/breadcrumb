@@ -37,11 +37,11 @@ class BreadcrumbTest extends PHPUnit_Framework_TestCase
 	{
 		// basic append
 		$this->bread->append('asdasd');
-		$this->assertEquals(1, $this->bread->registered_segments());
+		$this->assertEquals(1, $this->bread->num_of_segments());
 
 		// append right side
 		$this->bread->append('123232', 'right');
-		$this->assertEquals(2, $this->bread->registered_segments());
+		$this->assertEquals(2, $this->bread->num_of_segments());
 
 	}
 
@@ -54,11 +54,11 @@ class BreadcrumbTest extends PHPUnit_Framework_TestCase
 	{
 		// remove with following reindex
 		$this->bread->remove(0, true);
-		$this->assertEquals(1, $this->bread->registered_segments());
+		$this->assertEquals(1, $this->bread->num_of_segments());
 
 		// basic remove
 		$this->bread->remove(0);
-		$this->assertEquals(0, $this->bread->registered_segments());
+		$this->assertEquals(0, $this->bread->num_of_segments());
 
 		// refer to non existent element
 		$this->bread->segment(10);

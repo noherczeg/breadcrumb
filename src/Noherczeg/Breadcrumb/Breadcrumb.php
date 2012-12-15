@@ -23,7 +23,7 @@ class Breadcrumb
     private $segments = array();
     private $translator = null;
     private $config = null;
-    private $build_formats = array('bootstrap', 'foundation', 'php');
+    private $build_formats = array('bootstrap', 'foundation', 'html');
 
     public function __construct($base_url = null, $use_language = 'en')
     {
@@ -150,13 +150,12 @@ class Breadcrumb
             }
 
             // URI string
-            if (is_string($input)) {
-                $guaranteed_array = preg_split('/\//', $input, -1, PREG_SPLIT_NO_EMPTY);
-            }
-
-            // JSON array
-            if (json_decode($input) != null) {
+            if (is_string($input) && json_decode($input) != null) {
                 $guaranteed_array = array_values(json_decode($input));
+                
+            // JSON array
+            } elseif (is_string($input)) {
+                $guaranteed_array = preg_split('/\//', $input, -1, PREG_SPLIT_NO_EMPTY);
             }
             
             $counter = 0;
@@ -169,6 +168,7 @@ class Breadcrumb
                     $this->append($segment_raw_name);
                 }
                 
+                $counter++;
             }
 
             // chaining support :)
@@ -197,14 +197,19 @@ class Breadcrumb
     }
 
     /**
-     * registered_segments: returns the number of segments which are registered
+     * num_of_segments: returns the number of segments which are registered
      * in the system.
      * 
      * @return int
      */
-    public function registered_segments()
+    public function num_of_segments()
     {
         return count($this->segments);
+    }
+    
+    public function registered()
+    {
+        return $this->segments;
     }
 
     /**
@@ -235,9 +240,11 @@ class Breadcrumb
      * @return String
      * @throws OutOfRangeException
      */
-    public function build ($format = 'bootstrap', $separator = null, $casing = null, $customizations = array())
+    public function build ($format = null, $separator = null, $casing = null, $last_not_link = true, $customizations = array())
     {
-        if (in_array($format, array_keys($this->build_formats))) {
+        (is_null($format)) ? $format = $this->config->value('output_format') : $format = $format;
+        
+        if (in_array($format, $this->build_formats)) {
             
             // compose the namespaced name of the builder which we wanted to use
             $builder_name = '\\Noherczeg\\Breadcrumb\\Builders\\' . ucfirst($format) . 'Builder';
@@ -246,9 +253,9 @@ class Breadcrumb
             $builder_instance = new $builder_name($this->segments, $this->base_url);
             
             // return with the results :)
-            return $builder_instance->build($separator, $casing, $customizations);
+            return $builder_instance->build($separator, $casing, $last_not_link, $customizations);
         } else {
-            throw new OutOfRangeException("Invalid argument($format) provided!");
+            throw new OutOfRangeException("Invalid argument provided!");
         }
     }
 

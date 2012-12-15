@@ -10,9 +10,9 @@ return array (
 	/**
 	 * Default casing to use on the output's segments.
 	 *
-	 * Possible values: lower, upper, title.
+	 * Possible values: lower, upper, title, null (to leave slugs as they are).
 	 */
-	'default_casing' => 'lower',
+	'default_casing' => null,
 
 	/**
 	 * Default array dump format.
@@ -23,8 +23,6 @@ return array (
 
 	/**
 	 * Default output format used by build().
-	 *
-	 * Possible values: html, bootstrap, foundation.
 	 */
 	'output_format' => 'html',
 
@@ -39,15 +37,5 @@ return array (
 	 * 'slug_separator': Separator character in slugs.
 	 */
 	'slug_separator' => '-',
-
-	/**
-	 * Separator for words in language file keys. Can be any character
-	 * or false. Doesn't have to be the same as the slug separator!
-	 *
-	 * For example in language files:
-	 * - 'words_converted_from_slug' => 'Lorem ipsum dolor sit amet'
-	 * - the key_separator has to be be "_".
-	 */
-	'key_separator' => '_'
 
 );

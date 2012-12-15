@@ -63,7 +63,7 @@ class Segment
     {
         if (!is_string($property_name)) {
             throw new InvalidArgumentException('Invalid attempt!');
-        } elseif (in_array($property_name, get_object_vars($this))) {
+        } elseif (array_key_exists($property_name, get_object_vars($this))) {
             return $this->$property_name;
         } else {
             throw new OutOfRangeException("Invalid property requested!");

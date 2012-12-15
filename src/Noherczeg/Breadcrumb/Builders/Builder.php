@@ -3,13 +3,13 @@
 abstract class Builder
 {
 
-    public $segments = null;
-    public $base_url = null;
-    public $config = null;
+    protected $segments = null;
+    protected $base_url = null;
+    protected $config = null;
 
     public function __construct($segments, $base_url)
     {
-        $this->config = new Noherczeg\Breadcrumb\Config();
+        $this->config = new \Noherczeg\Breadcrumb\Config();
         $this->segments = $segments;
         $this->base_url = $base_url;
     }
@@ -17,10 +17,11 @@ abstract class Builder
     /**
      * link: Inserts proper URLs to each Segment which is IN THE BUILDER's scope.
      * 
+     * @param boolean $skip_last    to create a link for the last element or not
      * @return array
      * @throws InvalidArgumentException
      */
-    public function link()
+    public function link($skip_last = true)
     {
         $current_url = $this->base_url;
 
@@ -28,6 +29,10 @@ abstract class Builder
         if (substr($current_url, -1) === '/') {
             $current_url = substr($current_url, 0, -1);
         }
+        
+        // get last id
+        $keys = array_keys($this->segments);
+        $last_key = end($keys);
 
         if (!is_array($this->segments) || empty($this->segments)) {
             throw new InvalidArgumentException('Link expects a not empty array!');
@@ -43,9 +48,12 @@ abstract class Builder
                     continue;
                 }
 
-                // appends the current uri segment
-                $current_url = $current_url . '/' . $segment->get('raw');
-                $this->segments[$key]->setLink($current_url);
+                // if we allow it then
+                if ($key !== $last_key || !$skip_last) {
+                    // appends the current uri segment
+                    $current_url = $current_url . '/' . $segment->get('raw');
+                    $this->segments[$key]->setLink($current_url);
+                }
 
                 $position++;
             }
@@ -57,11 +65,11 @@ abstract class Builder
     /**
      * casing: Provides casing operation to the class.
      * 
-     * @param String $to        Name of casing
      * @param String $string    String to format
-     * @return type
+     * @param String $to        Name of casing
+     * @return String
      */
-    public function casing ($to, $string)
+    public function casing ($string, $to = '')
     {
         $res = null;
         
@@ -76,7 +84,7 @@ abstract class Builder
                 $res = ucwords($string);
                 break;
             default:
-                $res = mb_strtolower($string);
+                $res = $string;
                 break;
         }
         
@@ -99,7 +107,7 @@ abstract class Builder
         } elseif (empty($properties)) {
             return $res;
         } else {
-            foreach ($properties as $key => $value) {
+            foreach ($properties as $key => $property) {
                 $res .= ' ' . $key . '="' . $property . '"';
             }
         }

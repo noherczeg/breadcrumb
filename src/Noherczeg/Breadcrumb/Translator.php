@@ -7,10 +7,12 @@ class Translator
 
     private $dictionary = null;
     private $language_folder = null;
+    private $config = null;
 
     public function __construct($use_language = 'en')
     {
         $this->language_folder = __DIR__ . DIRECTORY_SEPARATOR . 'Language' . DIRECTORY_SEPARATOR;
+        $this->config = new \Noherczeg\Breadcrumb\Config();
 
         try {
             $this->dictionary = $this->loadDictionary($use_language);
@@ -64,10 +66,12 @@ class Translator
      */
     public function translate($key)
     {
+        
+        
         if (!is_string($key)) {
             throw new InvalidArgumentException("Invalid argument provided, string required!");
         } elseif (!array_key_exists($key, $this->dictionary)) {
-            return $key;
+            return preg_replace('/\\' . $this->config->value('slug_separator') . '/', ' ', $key);
         } else {
 
             // return with the translated value

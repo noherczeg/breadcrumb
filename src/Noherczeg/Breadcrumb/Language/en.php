@@ -16,5 +16,6 @@ return array (
      * set in the config file.
      *
      */
-    'test_segment'  => 'dummy_replacement'
+    'test-segment'  => 'dummy replacement',
+    'masodik' => 'cserelve a masodik!'
 );
