@@ -66,8 +66,6 @@ class Translator
      */
     public function translate($key)
     {
-        
-        
         if (!is_string($key)) {
             throw new InvalidArgumentException("Invalid argument provided, string required!");
         } elseif (!array_key_exists($key, $this->dictionary)) {
