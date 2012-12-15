@@ -1,3 +1,4 @@
 index.php
 composer.bat
+phpunit.bat
 vendor/
