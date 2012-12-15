@@ -1,5 +1,6 @@
 {
     "name": "noherczeg/breadcrumb",
+    "version": "v2.0.0-alpha",
     "type": "library",
     "description": "A simple breadcrumb generator library.",
     "keywords": ["breadcrumb"],
