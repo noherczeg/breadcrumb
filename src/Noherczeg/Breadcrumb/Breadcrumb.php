@@ -9,7 +9,7 @@ use OutOfRangeException;
  * Breadcrumb handler package.
  *
  * @package     Breadcrumb
- * @version     2.0
+ * @version     2.0.0
  * @author      Norbert Csaba Herczeg
  * @license     BSD License (3-clause)
  * @copyright   (c) 2012, Norbert Csaba Herczeg
@@ -23,6 +23,8 @@ class Breadcrumb
     private $segments = array();
     private $translator = null;
     private $config = null;
+    
+    // you have to edit this if you create other then built in builders!
     private $build_formats = array('bootstrap', 'foundation', 'html');
 
     public function __construct($base_url = null, $use_language = 'en')
@@ -37,13 +39,14 @@ class Breadcrumb
         // Load Util Classes
         $this->translator = new Translator($use_language);
 
+        // Load configurations
         $this->config = new Config();
     }
 
     /**
      * setParam: basic system method, don't bother.
      * 
-     * @param mixed $to_this
+     * @param mixed $to_this    String or null
      * @return String
      * @throws InvalidArgumentException
      */
@@ -75,13 +78,13 @@ class Breadcrumb
     public function append($raw_name = null, $side = 'right', $base = false)
     {
         if (!is_string($raw_name) && !is_int($raw_name) && !in_array($side, array('left', 'right'))) {
-            throw new InvalidArgumentException("Malformed arguments provided!");
+            throw new InvalidArgumentException("Wrong type of arguments provided!");
         } else {
 
             // create segment
             $segment = new Segment($raw_name, $base);
 
-            // create translated value
+            // set translated value
             $segment->setTranslated($this->translator->translate($raw_name));
 
             if ($side === 'left') {
@@ -146,7 +149,12 @@ class Breadcrumb
 
             // PHP array
             if (is_array($input)) {
-                $guaranteed_array = $input;
+                if (!empty($input)) {
+                    $guaranteed_array = $input;
+                } else {
+                    throw new InvalidArgumentException("Not empty array required!");
+                }
+                
             }
 
             // URI string
@@ -255,7 +263,7 @@ class Breadcrumb
             // return with the results :)
             return $builder_instance->build($separator, $casing, $last_not_link, $customizations);
         } else {
-            throw new OutOfRangeException("Invalid argument provided!");
+            throw new OutOfRangeException("Provided output format($format) is not supported!");
         }
     }
 
