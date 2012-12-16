@@ -11,14 +11,15 @@ class FoundationBuilder extends Builder
     /**
      * build: The builder method which creates Foundation style breadcrumbs
      * 
-     * WARNING! Foundation doesn't have any separator, so first param differs
-     * from the other builders!
+     * WARNING! Foundation won't accept any separator, or properties submitted
+     * to it, since it's not in the model by default! Parameter is only there as
+     * placeholder!
      * 
      * @param String|null $casing       Casing option
      * @param boolean $last_not_link    True if last shouldn't be a link
      * @return String
      */
-    public function build ($casing = null, $last_not_link = true)
+    public function build ($casing = null, $last_not_link = true,  $separator = null, $properties = null)
     {
         // always create link on build stage!
         $this->link($last_not_link);
