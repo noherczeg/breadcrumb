@@ -8,14 +8,14 @@ class SegmentTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Setup the test enviroment
 	 */
-	 public function setUp ()
-	 {
+	public function setUp ()
+	{
 	 	$this->segment = new Noherczeg\Breadcrumb\Segment('test');
-	 }
+	}
 
-	 /**
-	  * Teardown the test enviroment
-	  */
+	/**
+	 * Teardown the test enviroment
+	 */
 	public function tearDown ()
 	{
 		$this->segment = null;
@@ -47,6 +47,12 @@ class SegmentTest extends PHPUnit_Framework_TestCase
 
         $this->segment->get(true);
         $this->segment->get(1);
+        
+        $const_test1 = new Noherczeg\Breadcrumb\Segment(true);
+        $this->assertInstanceOf('Noherczeg\Breadcrumb\Segment', $const_test1);
+        
+        $const_test2 = new Noherczeg\Breadcrumb\Segment('Whatever', 324);
+        $this->assertInstanceOf('Noherczeg\Breadcrumb\Segment', $const_test2);
     }
 
     /**
@@ -57,5 +63,6 @@ class SegmentTest extends PHPUnit_Framework_TestCase
     public function testOutOfRangeException ()
     {
     	$this->segment->get('id');
+        $this->segment->get(true);
     }
 }

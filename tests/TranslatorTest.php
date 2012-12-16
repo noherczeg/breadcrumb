@@ -7,14 +7,14 @@ class TranslatorTest extends PHPUnit_Framework_TestCase
     /**
      * Setup the test enviroment
      */
-     public function setUp ()
-     {
+    public function setUp ()
+    {
         $this->tran = new Noherczeg\Breadcrumb\Translator;
-     }
+    }
 
-     /**
-      * Teardown the test enviroment
-      */
+    /**
+     * Teardown the test enviroment
+     */
     public function tearDown ()
     {
         $this->tran = null;
@@ -71,5 +71,10 @@ class TranslatorTest extends PHPUnit_Framework_TestCase
         $newInstance2 = new Noherczeg\Breadcrumb\Translator();
         $this->assertTrue(is_array($newInstance2->dump()));
 
+    }
+    
+    public function testGeneric ()
+    {
+        $this->tran->loadDictionary();
     }
 }

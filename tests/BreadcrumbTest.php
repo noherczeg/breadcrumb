@@ -7,14 +7,14 @@ class BreadcrumbTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Setup the test enviroment
 	 */
-	 public function setUp ()
-	 {
+	public function setUp ()
+	{
 	 	$this->bread = new Noherczeg\Breadcrumb\Breadcrumb;
-	 }
+	}
 
-	 /**
-	  * Teardown the test enviroment
-	  */
+	/**
+	 * Teardown the test enviroment
+	 */
 	public function tearDown ()
 	{
 		$this->bread = null;
@@ -40,8 +40,18 @@ class BreadcrumbTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(1, $this->bread->num_of_segments());
 
 		// append right side
-		$this->bread->append('123232', 'right');
+		$this->bread->append('12rtztrz2', 'right');
 		$this->assertEquals(2, $this->bread->num_of_segments());
+        
+        // append left base
+		$this->bread->append('123232', 'left', true);
+		$this->assertEquals(3, $this->bread->num_of_segments());
+        
+        $this->bread->remove(0);
+        $this->assertEquals(2, $this->bread->num_of_segments());
+        
+        $this->bread->remove(1, true);
+        $this->assertEquals(1, $this->bread->num_of_segments());
 
 	}
 
@@ -63,6 +73,21 @@ class BreadcrumbTest extends PHPUnit_Framework_TestCase
 		// refer to non existent element
 		$this->bread->segment(10);
 	}
+    
+    /**
+     * Test provide InvalidArgumentException thrown as exception
+     *
+     * @expectedException InvalidArgumentException
+     */
+	public function testIAException ()
+	{
+        $this->bread->append(false, 'left', true);
+        $this->bread->append(null);
+        $this->bread->append('nasdal', true, 'asds');
+        $this->bread->from(2323);
+        $this->bread->from(array());
+        
+    }
 
     /**
 	 * Test instance of a Segment

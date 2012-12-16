@@ -7,14 +7,14 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * Setup the test enviroment
      */
-     public function setUp ()
-     {
+    public function setUp ()
+    {
         $this->config = new Noherczeg\Breadcrumb\Config;
-     }
+    }
 
-     /**
-      * Teardown the test enviroment
-      */
+    /**
+     * Teardown the test enviroment
+     */
     public function tearDown ()
     {
         $this->config = null;
@@ -49,5 +49,21 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $this->config->value(1.23);
         $this->config->value(array('yo' => 'for shure'));
         $this->config->value(true);
+    }
+    
+    /**
+     * Test provide OutOfRangeException thrown as exception
+     *
+     * @expectedException OutOfRangeException
+     */
+    public function testOutOfRangeException ()
+    {
+        $this->config->value('asdfsfds');
+        $this->config->value('3444543');
+    }
+    
+    public function testBasics ()
+    {
+        $this->config->value('default_language');
     }
 }
