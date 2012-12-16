@@ -231,13 +231,13 @@ class Breadcrumb
      * insertion from an array (only if output is set to html!).
      * 
      * @param String $format            Format of the output
-     * @param String|null $separator    Separator String
      * @param String|null $casing       Casing of Segments
-     * @param array $customizations     Array of properties
+     * @param String|null $separator    Separator String (not there in Foundation!)
+     * @param array $customizations     Array of properties (only in HTML!)
      * @return String
      * @throws OutOfRangeException
      */
-    public function build ($format = null, $separator = null, $casing = null, $last_not_link = true, $customizations = array())
+    public function build ($format = null, $casing = null, $last_not_link = true, $separator = null, $customizations = array())
     {
         (is_null($format)) ? $format = $this->config->value('output_format') : $format = $format;
         
@@ -250,7 +250,7 @@ class Breadcrumb
             $builder_instance = new $builder_name($this->segments, $this->base_url);
             
             // return with the results :)
-            return $builder_instance->build($separator, $casing, $last_not_link, $customizations);
+            return $builder_instance->build($casing, $last_not_link, $separator, $customizations);
         } else {
             throw new OutOfRangeException("Provided output format($format) is not supported!");
         }
