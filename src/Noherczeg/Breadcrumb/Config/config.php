@@ -25,6 +25,11 @@ return array (
 	 * Default output format used by build().
 	 */
 	'output_format' => 'html',
+    
+    /**
+	 * Default language (from the Language folder).
+	 */
+	'default_language' => 'en',
 
 	/**
 	 * Link separator, DOESN'T ignore whitespaces!
