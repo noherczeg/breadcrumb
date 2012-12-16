@@ -11,12 +11,15 @@ class BootstrapBuilder extends Builder
     /**
      * build: The builder method which creates Bootsrap style breadcrumbs
      * 
-     * @param String|null $separator    Separator String
+     * WARNING! Bootsrap won't accept any properties submitted to it, since it's
+     * not in the model by default! Parameter is only there as placeholder!
+     * 
      * @param String|null $casing       Casing option
      * @param boolean $last_not_link    True if last shouldn't be a link
+     * @param String|null $separator    Separator String
      * @return String
      */
-    public function build ($separator = null, $casing = null, $last_not_link = true)
+    public function build ($casing = null, $last_not_link = true, $separator = null, $properties = array())
     {
         // always create link on build stage!
         $this->link($last_not_link);
