@@ -188,26 +188,6 @@ class Breadcrumb
     }
 
     /**
-     * dump: Dumps the list of Segments in the system.
-     * 
-     * @param String $format    Type of result
-     * @return array|json
-     * @throws OutOfRangeException
-     */
-    public function dump($format = 'php')
-    {
-        if (in_array($format, array('json', 'php'))) {
-            if ($format === 'json') {
-                return json_encode($this->segments);
-            } else {
-                return $this->segments;
-            }
-        } else {
-            throw new OutOfRangeException("Invalid argument provided, expected 'php', or 'json'");
-        }
-    }
-
-    /**
      * num_of_segments: Returns the number of segments which are registered
      * in the system.
      * 
