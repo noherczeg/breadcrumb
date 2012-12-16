@@ -1,6 +1,7 @@
 {
     "name": "noherczeg/breadcrumb",
     "version": "v2.0.0-alpha",
+    "license": "BSD-3-Clause",
     "type": "library",
     "description": "A simple breadcrumb generator library.",
     "keywords": ["breadcrumb"],
