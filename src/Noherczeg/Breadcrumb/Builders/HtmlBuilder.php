@@ -13,10 +13,10 @@ class HtmlBuilder extends Builder
      * 
      * @param String|null $separator
      * @param String|null $casing
-     * @param array $customizations
+     * @param array $properties
      * @return type
      */
-    public function build ($separator = null, $casing = null, $last_not_link = true, $customizations = array())
+    public function build ($separator = null, $casing = null, $last_not_link = true, $properties = array())
     {
         // always create link on build stage!
         $this->link($last_not_link);
@@ -29,14 +29,16 @@ class HtmlBuilder extends Builder
         
         foreach ($this->segments AS $key => $segment)
 		{
-			if ($key > 0) {
-				$result .= $ts;
-			}
-
+            
+            // ignore separator after the last element
+            if ($key > 0) {
+                $result .= $ts;
+            }
+            
 			if (is_null($segment->get('link'))) {
 				$result .= $this->casing($segment->get('translated'), $tc);
 			} else {
-				$result .= '<a href="' . $segment->get('link') . '" ' . $this->customize($customizations) . '>' . $this->casing($segment->get('translated'), $tc) . '</a>';
+				$result .= '<a href="' . $segment->get('link') . '" ' . $this->properties($properties) . '>' . $this->casing($segment->get('translated'), $tc) . '</a>';
 			}
 		}
 

@@ -9,11 +9,14 @@ class Translator
     private $language_folder = null;
     private $config = null;
 
-    public function __construct($use_language = 'en')
+    public function __construct($use_language = null)
     {
-        $this->language_folder = __DIR__ . DIRECTORY_SEPARATOR . 'Language' . DIRECTORY_SEPARATOR;
         $this->config = new \Noherczeg\Breadcrumb\Config();
 
+        // set up folder path
+        $this->language_folder = __DIR__ . DIRECTORY_SEPARATOR . 'Languages' . DIRECTORY_SEPARATOR;
+
+        // try to load the dictionary
         try {
             $this->dictionary = $this->loadDictionary($use_language);
         } catch (InvalidArgumentException $a) {
@@ -30,11 +33,17 @@ class Translator
      * @return array
      * @throws InvalidArgumentException
      */
-    public function loadDictionary($lang = 'en')
+    public function loadDictionary($lang = null)
     {
-        if (!is_string($lang)) {
+        if (!is_string($lang) && !is_null($lang)) {
             throw new InvalidArgumentException("Please provide a string as parameter!");
         } else {
+            
+            // if nothing is set, get it from the config file
+            if (is_null($lang)) {
+                $lang = $this->config->value('default_language');
+            }
+            
             $file_to_load = $this->language_folder . $lang . '.php';
 
             return $this->loadFile($file_to_load);

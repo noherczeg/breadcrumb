@@ -9,9 +9,15 @@ abstract class Builder
 
     public function __construct($segments, $base_url)
     {
-        $this->config = new \Noherczeg\Breadcrumb\Config();
-        $this->segments = $segments;
-        $this->base_url = $base_url;
+        if (!is_array($segments) || empty($segments)) {
+            throw new \InvalidArgumentException('A not empty array of Segments is required!');
+        } elseif (!is_string($base_url)) {
+            throw new \InvalidArgumentException('Base URL should be a string!');
+        } else {
+            $this->config = new \Noherczeg\Breadcrumb\Config();
+            $this->segments = $segments;
+            $this->base_url = $base_url;
+        }
     }
 
     /**
@@ -23,6 +29,10 @@ abstract class Builder
      */
     public function link($skip_last = true)
     {
+        if (!is_bool($skip_last)) {
+            throw new \InvalidArgumentException('Link method expects a boolean variable!');
+        }
+        
         $current_url = $this->base_url;
 
         // cut off a possible trailing slash just in case...
@@ -34,29 +44,25 @@ abstract class Builder
         $keys = array_keys($this->segments);
         $last_key = end($keys);
 
-        if (!is_array($this->segments) || empty($this->segments)) {
-            throw new InvalidArgumentException('Link expects a not empty array!');
-        } elseif (!is_string($this->base_url)) {
-            throw new InvalidArgumentException('Base URL should be a string!');
-        } else {
-            $position = 1;
+        $position = 1;
 
-            foreach ($this->segments as $key => $segment) {
-                if ($segment->is_base() && $position === 1) {
-                    $this->segments[$key]->setLink($current_url);
-                    $position++;
-                    continue;
-                }
-
-                // if we allow it then
-                if ($key !== $last_key || !$skip_last) {
-                    // appends the current uri segment
-                    $current_url = $current_url . '/' . $segment->get('raw');
-                    $this->segments[$key]->setLink($current_url);
-                }
-
+        foreach ($this->segments as $key => $segment) {
+            
+            // built in fail safe for multiple base elements issue
+            if ($segment->is_base() && $position === 1) {
+                $this->segments[$key]->setLink($current_url);
                 $position++;
+                continue;
             }
+
+            // if we allow it then
+            if ($key !== $last_key || !$skip_last) {
+                // appends the current uri segment
+                $current_url = $current_url . '/' . $segment->get('raw');
+                $this->segments[$key]->setLink($current_url);
+            }
+
+            $position++;
         }
 
         return $this->segments;
@@ -67,10 +73,15 @@ abstract class Builder
      * 
      * @param String $string    String to format
      * @param String $to        Name of casing
+     * @throws InvalidArgumentException
      * @return String
      */
     public function casing ($string, $to = '')
     {
+        if (!is_string($string)) {
+            throw new \InvalidArgumentException('For case function to work you need to provide a string as first parameter!');
+        }
+        
         $res = null;
         
         switch ($to) {
@@ -92,13 +103,13 @@ abstract class Builder
     }
     
     /**
-     * customize: Transforms an array of properties to a chain of html properties.
+     * properties: Transforms an array of properties to a chain of html property key + value pairs.
      * 
      * @param array $properties     Array of properties
      * @return string               Chained properties
      * @throws \InvalidArgumentException
      */
-    public function customize ($properties = array())
+    public function properties ($properties = array())
     {
         $res = '';
         

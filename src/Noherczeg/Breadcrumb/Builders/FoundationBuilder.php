@@ -28,6 +28,7 @@ class FoundationBuilder extends Builder
         $result = '<ul class="breadcrumb">';
         
         foreach ($this->segments as $key => $segment) {
+            
             if (is_null($segment->get('link'))) {
                 $result .= '<li class="current"><span>' . $this->casing($segment->get('translated'), $tc) . '</span></li>';
             } else {

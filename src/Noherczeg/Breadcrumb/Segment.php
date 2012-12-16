@@ -13,7 +13,7 @@ class Segment
 
     public function __construct($raw_insert, $base = false)
     {
-        if (!is_string($raw_insert)) {
+        if ((!is_string($raw_insert) && !is_int($raw_insert)) || !is_bool($base)) {
             throw new InvalidArgumentException("Can't create segment with name provided: $raw_insert!");
         } else {
             $this->raw = $raw_insert;

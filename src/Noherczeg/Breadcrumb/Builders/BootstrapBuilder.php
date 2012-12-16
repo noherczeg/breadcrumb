@@ -29,10 +29,16 @@ class BootstrapBuilder extends Builder
         $result = '<ul class="breadcrumb">';
         
         foreach ($this->segments as $key => $segment) {
+            
+            // ignore separator after the last element
+            if ($key > 0) {
+                $result .= ' <span class="divider">' . $ts . '</span></li>';
+            }
+            
             if (is_null($segment->get('link'))) {
-                $result .= '<li class="active">' . $this->casing($segment->get('translated'), $tc) . '</li>';
+                $result .= '<li class="active">' . $this->casing($segment->get('translated'), $tc);
             } else {
-                $result .= '<li><a href="' . $segment->get('link') . '">' . $this->casing($segment->get('translated'), $tc) . '</a> <span class="divider">' . $ts . '</span></li>';
+                $result .= '<li><a href="' . $segment->get('link') . '">' . $this->casing($segment->get('translated'), $tc) . '</a>';
             }
         }
 
