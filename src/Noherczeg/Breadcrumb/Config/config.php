@@ -1,9 +1,4 @@
 <?php namespace Noherczeg\Breadcrumb\Config;
-/**
- * Package configuration
- *
- * Please use possible values if they are listed!
- */
 
 return array (
 
@@ -27,7 +22,7 @@ return array (
 	'output_format' => 'html',
     
     /**
-	 * Default language (from the Language folder).
+	 * Default language (from the Languages folder).
 	 */
 	'default_language' => 'en',
 
@@ -37,9 +32,10 @@ return array (
 	'separator'	=> ' / ',
 
 	/**
-	 * Slug settings:
+	 * Slug separator:
 	 *
-	 * 'slug_separator': Separator character in slugs.
+	 * Separator character in slugs. Keys in language files must be separated
+     * by this as well!
 	 */
 	'slug_separator' => '-',
 

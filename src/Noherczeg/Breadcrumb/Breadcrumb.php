@@ -7,6 +7,8 @@ use OutOfRangeException;
  * Breadcrumb
  *
  * Breadcrumb handler package.
+ * 
+ * Check https://github.com/noherczeg/breadcrumb for usage examples!
  *
  * @package     Breadcrumb
  * @version     2.0.0
@@ -24,7 +26,7 @@ class Breadcrumb
     private $translator = null;
     private $config = null;
     
-    // you have to edit this if you create other then built in builders!
+    // you have to expand this if you create your own builders!
     private $build_formats = array('bootstrap', 'foundation', 'html');
 
     public function __construct($base_url = null, $use_language = 'en')
@@ -69,9 +71,9 @@ class Breadcrumb
      * Warning! It doesn't fix multiple "base element" issues, so it's up to the
      * programmer to append base elements wisely!
      * 
-     * @param String $raw_name
-     * @param String $side
-     * @param boolean $base
+     * @param String $raw_name      Name of the appendable Segment
+     * @param String $side          Which side to place the segment in the array
+     * @param boolean $base         true if it is refering to the base url
      * @return \Noherczeg\Breadcrumb\Breadcrumb
      * @throws InvalidArgumentException
      */
@@ -84,9 +86,10 @@ class Breadcrumb
             // create segment
             $segment = new Segment($raw_name, $base);
 
-            // set translated value
+            // set translat it
             $segment->setTranslated($this->translator->translate($raw_name));
 
+            // place it in the list
             if ($side === 'left') {
 
                 // Append to the left side
@@ -102,13 +105,13 @@ class Breadcrumb
     }
 
     /**
-     * remove: Removes and element from the Segments registered, optionaly can
-     * reindex the list after removal.
+     * remove: Removes an element from the list, optionaly can reindex the list
+     * after removal.
      * 
      * Supports method chaining.
      * 
-     * @param int $pos
-     * @param boolean $reindex_after_remove
+     * @param int $pos                          Position of the element
+     * @param boolean $reindex_after_remove     To do the reindex or not
      * @return \Noherczeg\Breadcrumb\Breadcrumb
      * @throws OutOfRangeException
      */
@@ -128,12 +131,12 @@ class Breadcrumb
     }
 
     /**
-     * from: reads the first parameter which can be a String, PHP array,
-     * JSON array and creates + appends Segments from it in one step.
+     * from: Reads the first parameter which can be a String, PHP array, JSON
+     * array and creates + appends Segments from it in one step.
      * 
      * Supports method caining.
      * 
-     * @param mixed $input
+     * @param mixed $input      Either: PHP array, JSON array, URI string
      * @return \Noherczeg\Breadcrumb\Breadcrumb
      * @throws InvalidArgumentException
      */
@@ -185,9 +188,9 @@ class Breadcrumb
     }
 
     /**
-     * dump: dumps the list of Segments in the system.
+     * dump: Dumps the list of Segments in the system.
      * 
-     * @param String $format
+     * @param String $format    Type of result
      * @return array|json
      * @throws OutOfRangeException
      */
@@ -205,7 +208,7 @@ class Breadcrumb
     }
 
     /**
-     * num_of_segments: returns the number of segments which are registered
+     * num_of_segments: Returns the number of segments which are registered
      * in the system.
      * 
      * @return int
@@ -215,15 +218,21 @@ class Breadcrumb
         return count($this->segments);
     }
     
+    /**
+     * registered: Returns all the registered Segments.
+     * 
+     * @return array
+     */
     public function registered()
     {
         return $this->segments;
     }
 
     /**
-     * segment: a getter whic hreturn the segment which has the given ID.
+     * segment: A getter which returns the Segment which is at the given
+     * position.
      * 
-     * @param String $id The ID of the required Segment.
+     * @param String $id        The ID of the required Segment.
      * @return Segment 
      * @throws OutOfRangeException
      */
@@ -238,13 +247,13 @@ class Breadcrumb
     
     /**
      * build: Builder method which returns with a result type as required.
-     * Supports separator switching, casing switching, and custom tag property
-     * insertion from an array.
+     * Supports separator switching, casing switching, and custom property
+     * insertion from an array (only if output is set to html!).
      * 
-     * @param String $format
-     * @param String|null $separator
-     * @param String|null $casing
-     * @param array $customizations
+     * @param String $format            Format of the output
+     * @param String|null $separator    Separator String
+     * @param String|null $casing       Casing of Segments
+     * @param array $customizations     Array of properties
      * @return String
      * @throws OutOfRangeException
      */
@@ -266,5 +275,4 @@ class Breadcrumb
             throw new OutOfRangeException("Provided output format($format) is not supported!");
         }
     }
-
 }

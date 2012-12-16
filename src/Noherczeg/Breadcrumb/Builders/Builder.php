@@ -21,9 +21,9 @@ abstract class Builder
     }
 
     /**
-     * link: Inserts proper URLs to each Segment which is IN THE BUILDER's scope.
+     * link: Inserts proper URLs to each Segment which is IN THE BUILDER's list.
      * 
-     * @param boolean $skip_last    to create a link for the last element or not
+     * @param boolean $skip_last    To create a link for the last element or not
      * @return array
      * @throws InvalidArgumentException
      */
@@ -32,14 +32,15 @@ abstract class Builder
         if (!is_bool($skip_last)) {
             throw new \InvalidArgumentException('Link method expects a boolean variable!');
         }
-        
+
+        // this will change eah time we step from one segment to the next
         $current_url = $this->base_url;
 
         // cut off a possible trailing slash just in case...
         if (substr($current_url, -1) === '/') {
             $current_url = substr($current_url, 0, -1);
         }
-        
+
         // get last id
         $keys = array_keys($this->segments);
         $last_key = end($keys);
@@ -57,6 +58,7 @@ abstract class Builder
 
             // if we allow it then
             if ($key !== $last_key || !$skip_last) {
+                
                 // appends the current uri segment
                 $current_url = $current_url . '/' . $segment->get('raw');
                 $this->segments[$key]->setLink($current_url);
@@ -84,6 +86,7 @@ abstract class Builder
         
         $res = null;
         
+        // Pick one! :)
         switch ($to) {
             case 'lower':
                 $res = mb_strtolower($string);

@@ -1,8 +1,5 @@
 <?php namespace Noherczeg\Breadcrumb;
 
-use InvalidArgumentException;
-use OutOfRangeException;
-
 class Segment
 {
 
@@ -14,7 +11,7 @@ class Segment
     public function __construct($raw_insert, $base = false)
     {
         if ((!is_string($raw_insert) && !is_int($raw_insert)) || !is_bool($base)) {
-            throw new InvalidArgumentException("Can't create segment with name provided: $raw_insert!");
+            throw new \InvalidArgumentException("Invalid arguments given, name has to be: String, optional second parameter: bool");
         } else {
             $this->raw = $raw_insert;
             $this->base = $base;
@@ -25,12 +22,12 @@ class Segment
      * setTranslated: Basic setter method.
      * 
      * @param String $value
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function setTranslated($value)
     {
         if (!is_string($value)) {
-            throw new InvalidArgumentException('Translations have to be strings!');
+            throw new \InvalidArgumentException('We can only translate Strings!');
         } else {
             $this->translated = $value;
         }
@@ -40,12 +37,12 @@ class Segment
      * setLink: Basic setter method.
      * 
      * @param String $link
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function setLink($link)
     {
         if (!is_string($link)) {
-            throw new InvalidArgumentException('Links have to be strings!');
+            throw new \InvalidArgumentException('Links have to be strings!');
         } else {
             $this->link = $link;
         }
@@ -56,17 +53,17 @@ class Segment
      * 
      * @param String $property_name
      * @return String
-     * @throws InvalidArgumentException
-     * @throws OutOfRangeException
+     * @throws \InvalidArgumentException
+     * @throws \OutOfRangeException
      */
     public function get($property_name)
     {
         if (!is_string($property_name)) {
-            throw new InvalidArgumentException('Invalid attempt!');
+            throw new \InvalidArgumentException('Invalid parameter given!');
         } elseif (array_key_exists($property_name, get_object_vars($this))) {
             return $this->$property_name;
         } else {
-            throw new OutOfRangeException("Invalid property requested!");
+            throw new \OutOfRangeException("Requested property does not exist!");
         }
     }
 

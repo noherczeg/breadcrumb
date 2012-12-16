@@ -8,14 +8,9 @@
 
 return array (
     /**
-     * Always use the same separator in the translated
-     * values and keys which is set in the config file!
-     *
-     * Separators don't need to be the same as slug separators,
-     * they'll be converted implicitly into a slug separator
-     * set in the config file.
-     *
+     * Always use the same separator in the translated keys which is set in the
+     * config file => slug_separator setting!
      */
     'test-segment'  => 'dummy replacement',
-    'masodik' => 'cserelve a masodik!'
+    'second' => 'cya!'
 );

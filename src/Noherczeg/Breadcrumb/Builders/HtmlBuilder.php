@@ -9,12 +9,13 @@ class HtmlBuilder extends Builder
     }
 
     /**
-     * build: The builder method which creates HTML breadcrumbs
+     * build: The builder method which creates HTML style breadcrumbs
      * 
-     * @param String|null $separator
-     * @param String|null $casing
-     * @param array $properties
-     * @return type
+     * @param String|null $separator    Separator String
+     * @param String|null $casing       Casing option
+     * @param boolean $last_not_link    True if last shouldn't be a link
+     * @param array $customizations     Array of properties + values
+     * @return String
      */
     public function build ($separator = null, $casing = null, $last_not_link = true, $properties = array())
     {
