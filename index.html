@@ -1,72 +1,80 @@
 <!doctype html>
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Breadcrumb by noherczeg</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  </head>
-  <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/noherczeg/breadcrumb">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/noherczeg/breadcrumb/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/noherczeg/breadcrumb/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen"/>
+  <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
 
-    <div class="wrapper">
+  <title>Breadcrumb</title>
+  <meta name="description" content="A Composer package for breadcrumb generation and management">
 
-      <section>
-        <div id="title">
-          <h1>Breadcrumb</h1>
-          <p>A bundle for Laravel</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/noherczeg">noherczeg</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="title">Breadcrumb</h1>
+    </header>
+    <div id="container">
+      <p class="tagline">A Composer package for breadcrumb generation and management</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/noherczeg/breadcrumb/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/noherczeg/breadcrumb/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/noherczeg/breadcrumb" class="code">View Breadcrumb on GitHub</a>
         </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <h1>Breadcrumb</h1>
 
-        <h1>Breadcrumb</h1>
+<p>A package for breadcrumb management.</p>
 
-<p>Breadcrumb is a simple bundle made for the <a href="http://laravel.com/">Laravel framework</a>. It's goal is to lend a helping hand with the creation and management of breadcrumbs. If you have any issues with it, or have suggestions/questions, just contact me on github, or post an issue/feature request.</p>
-
-<h2>Features</h2>
+<h2>Features:</h2>
 
 <ul>
 <li>Uses primarily language files to translate breadcrumb segments</li>
-<li>Can provide a 2 layered translation method*</li>
-<li>Segments can be URI segments or custom arrays</li>
-<li>Can dump the results in either PHP arrays, or JSON arrays</li>
-<li>Can produce full html breadcrumbs which can be formatted, let it be either html attributes or casing options</li>
-<li>Can create Twitter Bootstrap / Zurb Foundation breadcrumbs as well</li>
+<li>Segments can be made by using a URI string, JSON array, or PHP array</li>
+<li>Can create HTML, Twitter Bootstrap , Zurb Foundation breadcrumbs</li>
 <li>Segments can be ignored/removed/appended in any number from both sides</li>
-</ul><p>* 2 layered because (if configured so) it can get the translations from: language folders in bundles named as controllers, or this bundle it self. </p>
+<li>User made builders are supported</li>
+<li>Custom separators</li>
+<li>4 different casing options: null <em>(keeps source intact)</em>, lower, upper, title</li>
+<li>supports attribute injection when building HTML breadcrumbs</li>
+<li>can skip linking to last element</li>
+<li>method chaining for almost everything</li>
+</ul><h2>Changelog:</h2>
 
-<h2>Changelog</h2>
+<h3>Breadcrumb 2.0.0-alpha1</h3>
 
-<h3>Breadcrumb 1.2</h3>
+<ul>
+<li>The bundle has been rewritten from scratch, now available as a composer package</li>
+<li>Corrected application logic flaws <em>(e.g. base segment)</em>
+</li>
+<li>Methods are now chainable</li>
+<li>Added support for user made builders</li>
+<li>Added support for URI string input</li>
+<li>Now written with tests along</li>
+</ul><h3>Breadcrumb 1.2</h3>
 
 <ul>
 <li>Refactored the comments in the code.</li>
 <li>Fixed bundle initialization bug where the bundle started with an auto translation.</li>
 <li>Added support for proper slug handling.</li>
-<li>Added Zurb Foundation output generator.</li>
-<li>Added <code>get_raw_segments()</code> for better debugging.</li>
-<li>Added <code>append()</code>, so now any number of segments can be added to either side of the working array.</li>
-<li>Added <code>remove()</code>, which can remove any number of segments from the working array, index handling provided.</li>
-<li>Added <code>slug_separator</code> and <code>word_separator</code> options to config file.</li>
+<li>Added get_raw_segments() for better debugging.</li>
+<li>Added append(), so now any number of segments can be added to either side of the working array.</li>
+<li>Added remove(), which can remove any number of segments from the working array, index handling provided.</li>
+<li>Added slug_separator and word_separator options to config file.</li>
 <li>Replaced inferior documentation with a new, better, more detailed one.</li>
 </ul><h3>Breadcrumb 1.1</h3>
 
@@ -75,142 +83,189 @@
 <li>Added Bootstrap output support.</li>
 <li>Added external bundle translation file handling option.</li>
 <li>Provided usage examples in the docs.</li>
-<li>Added <code>scan_bundles</code>, <code>output_format</code> option to the config file.</li>
+<li>Added scan_bundles, output_format option to the config file.</li>
 </ul><h3>Breadcrumb 1.0</h3>
 
 <ul>
 <li>Bundle start.</li>
-</ul><h2>Quickstart</h2>
-
-<ul>
-<li>Clone Breadcrumb into <em>APPPATH/bundles/</em>
-
-<ul>
-<li><code>git clone https://github.com/noherczeg/breadcrumb.git breadcrumb</code></li>
-</ul>
-</li>
-<li>Edit <em>APPPATH/application/bundles.php</em>
-</li>
-</ul><div class="highlight"><pre>
-<span class="o">&lt;?</span><span class="nx">php</span>
-<span class="c1">// APPPATH/application/bundles.php</span>
-<span class="k">return</span> <span class="k">array</span><span class="p">(</span>
-  <span class="s1">'breadcrumb'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">'auto'</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">),</span>
-<span class="p">);</span>
-</pre></div>
-
-<ul>
-<li>The bundle uses the <em>APPPATH/application/config/application.php</em> file to determine which language profile to load from the bundle's (external bundles) language folder</li>
-<li>No migration needed</li>
 </ul><h2>Usage examples:</h2>
 
-<h3>A) Basic functions:</h3>
+<h3>1) Instantiation of the class:</h3>
 
-<h4>Generating breadcrumbs from current URI:</h4>
+<p>First parameter should be for example passed from an external framework's base_url() or equivalent method, but can be written manually too:</p>
 
-<p>With an URL like: <code>http://localhost/laravel-fork/public/admin/cron-jobs</code>, calling <code>echo Breadcrumb::make();</code> will produce this:</p>
+<pre><code>// URL::base() = 'http://localhost/breadcrumb/'
+$bc = new \Noherczeg\Breadcrumb\Breadcrumb(URL::base());
+</code></pre>
 
-<div class="highlight"><pre><span class="o">&lt;</span><span class="nx">a</span> <span class="nx">href</span><span class="o">=</span><span class="s2">"http://localhost/laravel-fork/admin/"</span><span class="o">&gt;</span><span class="nx">administration</span><span class="o">&lt;/</span><span class="nx">a</span><span class="o">&gt;</span> <span class="o">/</span> <span class="nx">cron</span> <span class="nx">jobs</span>
-</pre></div>
+<p>Using non default(en) language file:</p>
 
-<p>Since no parameters where given, it generated the links, etc.. according to the default settings</p>
+<pre><code>$bc = new \Noherczeg\Breadcrumb\Breadcrumb('http://localhost/breadcrumb/', 'de');
+</code></pre>
 
-<h4>Dumping current working array:</h4>
+<h3>2) Registering segments via variable input types:</h3>
 
-<p>Using an URL like: <code>http://localhost/laravel-fork/public/test-case/12</code>, calling <code>var_dump(get_raw_segments());</code> returns:</p>
+<p>Using <code>from($input)</code>, where <code>$input</code> can be either: a <code>JSON array</code>, a <code>PHP array</code>, or an <code>URI String</code>.</p>
 
-<div class="highlight"><pre><span class="k">array</span>
-  <span class="mi">0</span> <span class="o">=&gt;</span> <span class="nx">string</span> <span class="s1">'test-case'</span> <span class="p">(</span><span class="nx">length</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
-  <span class="mi">1</span> <span class="o">=&gt;</span> <span class="nx">string</span> <span class="s1">'12'</span> <span class="p">(</span><span class="nx">length</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
+<pre><code>// PHP array
+$bc-&gt;from(array('test-segment', 'second', '3rd', 'Fourth-Thingy'));
 
-<h4>Dumping a translated array from the URI:</h4>
+// or JSON array
+$bc-&gt;from('["asds", "12323", "Qw-Er-Ty"]');
 
-<p>With an URL like: <code>http://localhost/laravel-fork/public/browser/firefox</code>, calling <code>var_dump(Breadcrumb::dump());</code> will return something like this:</p>
+// or URI String
+$bc-&gt;from('First-Segment/Second/3rdWhatever');
+</code></pre>
 
-<div class="highlight"><pre><span class="k">array</span>
-  <span class="mi">0</span> <span class="o">=&gt;</span> <span class="nx">string</span> <span class="s1">'browser'</span> <span class="p">(</span><span class="nx">length</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
-  <span class="mi">1</span> <span class="o">=&gt;</span> <span class="nx">string</span> <span class="s1">'a great browser'</span> <span class="p">(</span><span class="nx">length</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-</pre></div>
+<h3>3) Registering Segments piece by piece:</h3>
 
-<p>Doing the same, but with JSON array as result: <code>var_dump(Breadcrumb::dump('json'));</code> returns:</p>
+<p>This example represents the thing that placing Segments can be done in separate order, the only thing that matters is positioning!</p>
 
-<div class="highlight"><pre><span class="p">[</span><span class="s2">"browser"</span><span class="p">,</span><span class="s2">"a great browser"</span><span class="p">]</span>
-</pre></div>
-
-<h4>Generating twitter bootstrap breadcrumbs from the current URI:</h4>
-
-<p>Calling <code>echo Breadcrumb::make('bootstrap');</code> on: <code>http://localhost/laravel-fork/public/browser/admin/whatever</code>,  will produce:</p>
-
-<div class="highlight"><pre><span class="o">&lt;</span><span class="nx">ul</span> <span class="nx">class</span><span class="o">=</span><span class="s2">"breadcrumb"</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">a</span> <span class="nx">href</span><span class="o">=</span><span class="s2">"http://localhost/laravel-fork/public/browser/"</span><span class="o">&gt;</span><span class="nx">browser</span><span class="o">&lt;/</span><span class="nx">a</span><span class="o">&gt;</span> 
-        <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">class</span><span class="o">=</span><span class="s2">"divider"</span><span class="o">&gt;/&lt;/</span><span class="nx">span</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">a</span> <span class="nx">href</span><span class="o">=</span><span class="s2">"http://localhost/laravel-fork/public/browser/admin/"</span><span class="o">&gt;</span><span class="nx">administration</span><span class="o">&lt;/</span><span class="nx">a</span><span class="o">&gt;</span> 
-        <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">class</span><span class="o">=</span><span class="s2">"divider"</span><span class="o">&gt;/&lt;/</span><span class="nx">span</span><span class="o">&gt;</span>
-    <span class="o">&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="nx">li</span> <span class="nx">class</span><span class="o">=</span><span class="s2">"active"</span><span class="o">&gt;</span><span class="nx">no</span> <span class="nx">whatever</span> <span class="nx">please</span> <span class="o">:</span><span class="nx">P</span><span class="o">&lt;/</span><span class="nx">li</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="nx">ul</span><span class="o">&gt;</span>
-
-</pre></div>
-
-<h4>Generating Zurb Foundation breadcrumbs from the current URI:</h4>
-
-<p>Done exactly the same way, but with different parameter: <code>echo Breadcrumb::make('foundation');</code></p>
-
-<h3>B) Diving in a bit more:</h3>
-
-<h4>Generating breadcrumbs from the current URI with a dash as separator:</h4>
-
-<p>You can do this with <code>echo Breadcrumb::make('html', null, null, '-');</code> on the current URL</p>
-
-<div class="highlight"><pre><span class="o">&lt;</span><span class="nx">a</span> <span class="nx">href</span><span class="o">=</span><span class="s2">"http://localhost/laravel-fork/public/browser/"</span><span class="o">&gt;</span><span class="nx">browser</span><span class="o">&lt;/</span><span class="nx">a</span><span class="o">&gt;</span> <span class="o">-</span> <span class="o">&lt;</span><span class="nx">a</span> <span class="nx">href</span><span class="o">=</span><span class="s2">"http://localhost/laravel-fork/public/browser/firefox-is-pro/"</span><span class="o">&gt;</span><span class="nx">a</span> <span class="nx">great</span> <span class="nx">browser</span><span class="o">&lt;/</span><span class="nx">a</span><span class="o">&gt;</span> <span class="o">-</span> <span class="nx">poke</span>
-</pre></div>
-
-<h4>Generating breadcrumbs with custom attributes from custom source:</h4>
-
-<p>To achieve this you will need to call two methods in the process:</p>
+<p>Using <code>append($name, $side, $base)</code>, where:</p>
 
 <ul>
-<li>First translate a custom array**:</li>
-</ul><p><code>Breadcrumb::translate(array('users', 'add'));</code>.</p>
+<li>
+<code>$name</code> is the name of the Segment</li>
+<li>
+<code>$side</code> is the side where to place the Segment (<code>left</code>/<code>right</code>)</li>
+<li>
+<code>$base</code> is this element an element which points to the base URL of the site (<code>true</code>/<code>false</code>)</li>
+</ul><p><em>We now use method chaining as well, but it's just an option :)</em></p>
+
+<pre><code>/**
+ * The order in which the Segments will be stored in the list is: first, second, third, fourth.
+ */
+$bc-&gt;append('third');
+$bc-&gt;append('fourth', 'right');
+$bc-&gt;append('second', 'left')-&gt;append('first', 'left', true);
+
+</code></pre>
+
+<h3>4) Removing Segments from the list:</h3>
+
+<p>Using <code>remove($pos, $reindex)</code>, where:</p>
 
 <ul>
-<li>Then write the results to the output while providing an array with the formatting parameters*** into the <code>make()</code> method</li>
-</ul><p><code>echo Breadcrumb::make('html', Breadcrumb::dump(), array('class' =&gt; 'breadcrumb_link_class'));</code></p>
+<li>
+<code>$pos</code> is the position of the element which we want to remove, <code>int</code>
+</li>
+<li>
+<code>$reindex</code> is a boolean value which may trigger a re-index after removing the desired element, <code>true</code>/<code>false</code>
+</li>
+</ul><pre><code>// we provide a base list of Segments before removal
+$bc-&gt;from(array('test-segment', 'second', '3rd', 'Fourth-Thingy'));
 
-<div class="highlight"><pre><span class="c1">// generated html code:</span>
-<span class="o">&lt;</span><span class="nx">a</span> <span class="nx">class</span><span class="o">=</span><span class="s2">"breadcrumb_link_class"</span> <span class="nx">href</span><span class="o">=</span><span class="s2">"http://localhost/laravel-fork/public/users/"</span><span class="o">&gt;</span><span class="nx">users</span><span class="o">&lt;/</span><span class="nx">a</span><span class="o">&gt;</span> <span class="o">/</span> <span class="nx">add</span>
-</pre></div>
+// remove the Segment on index: 2
+$bc-&gt;remove(2);
 
-<p>** Always do a translate first, otherwise generate_html will use the current URI</p>
+// remove the Segment on index: 1, and re-index the list after
+$bc-&gt;remove(1, true);
 
-<p>*** Formatting links is achieved the exact same way as it is done with normal code in a Laravel project. Please check <a href="http://laravel.com/docs/views/html#links">http://laravel.com/docs/views/html#links</a> for other examples.</p>
+/**
+ * Result will be (filtered list, not actual var_dump!)
+ * 0 =&gt; 'test_segment'
+ * 1 =&gt; 'Fourth-Thingy'
+ */
+</code></pre>
 
-<h4>Replacing first element of the current URI with a custom one:</h4>
+<h3>5) Building breadcrumbs:</h3>
 
-<p>This is done by two steps as well:</p>
+<p>via <code>build($format, $casing, $last_not_link, $separator, $customizations)</code> where:</p>
 
 <ul>
-<li><p>First remove the unwanted element with <code>Breadcrumb::remove(0);</code></p></li>
-<li><p>Then add you own element, like <code>Breadcrumb::append('Home');</code></p></li>
-</ul><div class="highlight"><pre><span class="c1">// The URL before replacement: http://localhost/laravel-fork/public/users/list</span>
-<span class="c1">// </span>
-<span class="c1">// generated html code after replacement:</span>
-<span class="o">&lt;</span><span class="nx">a</span> <span class="nx">class</span><span class="o">=</span><span class="s2">"breadcrumb_link_class"</span> <span class="nx">href</span><span class="o">=</span><span class="s2">"http://localhost/laravel-fork/public/home/"</span><span class="o">&gt;</span><span class="nx">Main</span> <span class="nx">page</span><span class="o">&lt;/</span><span class="nx">a</span><span class="o">&gt;</span> <span class="o">/</span> <span class="nx">Same</span> <span class="k">List</span>
-</pre></div>
+<li>
+<code>$format</code> is the desired format of the output, can be: <code>html</code>/<code>bootstrap</code>/<code>foundation</code> by default</li>
+<li>
+<code>$casing</code> is the casing of the translated breadcrumb elements, can be: <code>null</code>/<code>upper</code>/<code>lower</code>/<code>title</code>
+</li>
+<li>
+<code>$last_not_link</code> is a boolean value, enables/disables the link on a segment, <code>true</code>/<code>false</code>
+</li>
+<li>
+<code>$separator</code> will be a custom <code>String</code> which will be the separator between the breadcrumbs, won't be trimmed! <strong>(Bootstrap AND HTML ONLY!)</strong>
+</li>
+<li>
+<code>$customizations</code> will be an array of optional properties <strong>(HTML ONLY)</strong>
+</li>
+</ul><h4>First I'll start out with adding some elements to work with</h4>
 
-<blockquote>
-<p>Please note that trying to remove not existing elements will produce an exception. Also if you are removing elements in a loop, you may want to check out the method it self in the bundle, since handling indexes may differ in each task you are working with and you have a second parameter which could be used in these cases!</p>
+<pre><code>// Sample list initialization
+$bc-&gt;from(array('test-segment', 'second', '3rd', 'Fourth-Thingy'));
+</code></pre>
 
-<p>You can append as many elements as you want of course.</p>
-</blockquote>
-      </section>
+<h4>a) Creating breadcrumbs with <em>default</em> settings:</h4>
 
+<pre><code>/**
+ * This will build default format(html) breadcrumbs with the default separator( / )
+ * without any casing modification or property injection, and the last element
+ * won't be a link
+ */
+$bc-&gt;build();
+</code></pre>
+
+<h4>b) Creating <em>Zurb Foundation</em> style breadcrumbs:</h4>
+
+<pre><code>/**
+ * This will build Zurb Foundation styled breadcrumbs with all links upper cased, and
+ * the last element will be a link too
+ */
+$bc-&gt;build('foundation', 'upper', false);
+</code></pre>
+
+<h4>c) Creating <em>Bootstrap</em> style breadcrumbs:</h4>
+
+<pre><code>/**
+ * This way you'll get Bootstrap styled breadcrumbs with unmodified casing, the last
+ * element as link, and a "+" as separator
+ */
+$bc-&gt;build('bootstrap', null, false, '+');
+</code></pre>
+
+<h4>d) Creating complex HTML breadcrumbs:</h4>
+
+<pre><code>/**
+ * This will be HTML styled breadcrumb which will have lower cased links, last 
+ * element won't be a link, default separator ( / ), and will inject properties 
+ * which are in the array.
+ */
+$bc-&gt;build('html', 'lower', true, null, array('style' =&gt; 'font-family: Arial; font-size: 11px;', 'class' =&gt; 'some_class'));
+
+</code></pre>
+
+<h3>6) Utility functions:</h3>
+
+<ul>
+<li>List of registered Segments: <code>var_dump($bc-&gt;registered());</code>
+</li>
+<li>Picking one element from the list: <code>var_dump($bc-&gt;segment(1));</code>
+</li>
+<li>Total number of Segments in the list: <code>var_dump($bc-&gt;num_of_segments());</code>
+</li>
+</ul><h2>Dev's note:</h2>
+
+<p>If you notice an error / logic failure, or know something that is missing, please let me know via pull requests or issues. I'm tracking this repo, and will do it forever, so you can reach me :)</p>
+
+<p><a href="https://travis-ci.org/noherczeg/breadcrumb"><img src="https://secure.travis-ci.org/noherczeg/breadcrumb.png?branch=develop" alt="Build Status"></a></p>
+        </article>
+      </div>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
-  </body>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/noherczeg" class="avatar"><img src="https://secure.gravatar.com/avatar/65aa9e9f66b25d8fe38cbb3af6cf1497?s=30&amp;d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png" width="48" height="48"/></a> <a href="https://github.com/noherczeg">noherczeg</a> maintains <a href="https://github.com/noherczeg/breadcrumb">Breadcrumb</a></p>
+
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a><br/>theme by <a href="http://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/noherczeg/breadcrumb/tarball/master" class="tar">tar</a><a href="https://github.com/noherczeg/breadcrumb/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
+
+  
+</body>
 </html>
