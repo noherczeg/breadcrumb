@@ -57,9 +57,11 @@ class Breadcrumb
 						$this->build_formats[] = strtolower(substr($entry, 0, -11));
 					}
 				}
+			} else {
+				throw new \Exception('Can\'t open builder directory, check the permissions!');
 			}
 		} else {
-			throw new \Exception('Can\'t open builder directory!');
+			throw new \Exception('Can\'t open builder directory, maybe it doesn\t exists?');
 		}
 	}
 
