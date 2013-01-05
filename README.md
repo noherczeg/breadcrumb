@@ -17,6 +17,9 @@ A package for breadcrumb management. [![Build Status](https://secure.travis-ci.o
 
 ##Changelog:
 
+###Breadcrumb 2.0.0
++ The list of builders is now obtained automatically, no further need for maintaining a list manually
+
 ###Breadcrumb 2.0.0-alpha1
 + The bundle has been rewritten from scratch, now available as a composer package
 + Corrected application logic flaws _(e.g. base segment)_
