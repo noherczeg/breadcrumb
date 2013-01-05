@@ -27,7 +27,7 @@ class Breadcrumb
     private $config = null;
     
     // you have to expand this if you create your own builders!
-    private $build_formats = array('bootstrap', 'foundation', 'html');
+    private $build_formats = null;
 
     public function __construct($base_url = null, $use_language = 'en')
     {
@@ -43,7 +43,25 @@ class Breadcrumb
 
         // Load configurations
         $this->config = new Config();
-    }
+		
+		// load builders
+		$builderDirectory = __DIR__ . DIRECTORY_SEPARATOR . 'Builders';
+		$excluded = array('Builder.php', '.', '..');
+		
+		if (is_dir($builderDirectory)) {
+			$handle = opendir($builderDirectory);
+			
+			if ($handle) {
+				while (($entry = readdir($handle)) !== false) {
+					if(!in_array($entry, $excluded)) {
+						$this->build_formats[] = strtolower(substr($entry, 0, -11));
+					}
+				}
+			}
+		} else {
+			throw new \Exception('Can\'t open builder directory!');
+		}
+	}
 
     /**
      * setParam: basic system method, don't bother.
