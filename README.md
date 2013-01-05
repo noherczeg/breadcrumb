@@ -1,6 +1,6 @@
 #Breadcrumb
 
-A package for breadcrumb management.
+A package for breadcrumb management. [![Build Status](https://secure.travis-ci.org/noherczeg/breadcrumb.png?branch=develop)](https://travis-ci.org/noherczeg/breadcrumb)
 
 ##Features:
 
@@ -46,6 +46,29 @@ A package for breadcrumb management.
 
 ###Breadcrumb 1.0
 + Bundle start.
+
+##Installation:
+
+### Installing composer:
+Download and install composer from `http://getcomposer.org/download/`
+
+### Installing this package:
+This package can be easily installed via composer by adding the following to your project root's `composer.json` file:
+```
+{
+    "require": {
+        "noherczeg/breadcrumb": "dev-master"
+    }
+}
+```
+If you're done, just run a `php composer install`, and the package is ready to be used!
+
+### Composer setup with Laravel 3:
+If you're using laravel 3 you might have to do the following to be able to use composer based packages
+
+- In your project dir's `paths.php` add the following line: `$paths['composer'] = 'vendor';`
+- In your project dir's public/index.php: after the `require '../paths.php';` line add the following: `require path('composer').'autoload.php';`
+
 
 ##Usage examples:
 ###1) Instantiation of the class:
@@ -161,8 +184,8 @@ $bc->build('bootstrap', null, false, '+');
 ####d) Creating complex HTML breadcrumbs:
 ```
 /**
- * This will be HTML styled breadcrumb which will have lower cased links, last 
- * element won't be a link, default separator ( / ), and will inject properties 
+ * This will be HTML styled breadcrumb which will have lower cased links, last
+ * element won't be a link, default separator ( / ), and will inject properties
  * which are in the array.
  */
 $bc->build('html', 'lower', true, null, array('style' => 'font-family: Arial; font-size: 11px;', 'class' => 'some_class'));
@@ -177,8 +200,3 @@ $bc->build('html', 'lower', true, null, array('style' => 'font-family: Arial; fo
 
 ##Dev's note:
 If you notice an error / logic failure, or know something that is missing, please let me know via pull requests or issues. I'm tracking this repo, and will do it forever, so you can reach me :)
-
-
-
-
-[![Build Status](https://secure.travis-ci.org/noherczeg/breadcrumb.png?branch=develop)](https://travis-ci.org/noherczeg/breadcrumb)
