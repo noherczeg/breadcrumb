@@ -90,7 +90,7 @@ $bc = new \Noherczeg\Breadcrumb\Breadcrumb('http://localhost/breadcrumb/', 'de')
 
 ###2) Registering segments via variable input types:
 __Warning__!
-As of build 2.0.0 this method no longer tries to set the first element as a root element! If you'd like to add one (which points to the base url of your site), scroll down a bit and you'll get an example how to do it.
+_As of build 2.0.0 this method no longer tries to set the first element as a root element! If you'd like to add one (which points to the base url of your site), scroll down a bit and you'll get an example how to do it._
 
 Using `from($input)`, where `$input` can be either: a `JSON array`, a `PHP array`, or an `URI String`.
 ```
