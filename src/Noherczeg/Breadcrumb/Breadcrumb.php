@@ -188,18 +188,10 @@ class Breadcrumb
             } elseif (is_string($input)) {
                 $guaranteed_array = preg_split('/\//', $input, -1, PREG_SPLIT_NO_EMPTY);
             }
-            
-            $counter = 0;
 
             // append all
             foreach ($guaranteed_array as $segment_raw_name) {
-                if ($counter === 0) {
-                    $this->append($segment_raw_name, 'left', true);
-                } else {
-                    $this->append($segment_raw_name);
-                }
-                
-                $counter++;
+                $this->append($segment_raw_name);
             }
 
             // chaining support :)
