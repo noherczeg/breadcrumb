@@ -19,6 +19,9 @@ A package for breadcrumb management. [![Build Status](https://secure.travis-ci.o
 
 ###Breadcrumb 2.0.0
 + The list of builders is now obtained automatically, no further need for maintaining a list manually
++ __ciritcal__: using `from()` now desn't automatically create the first element as root! If you want to always have a segment point to the root, you should append() one to the left side(second param: `'left'`) with the third parameter set to `true`!
+
+_Example has been provided in the corresponding section of this document._
 
 ###Breadcrumb 2.0.0-alpha1
 + The bundle has been rewritten from scratch, now available as a composer package
