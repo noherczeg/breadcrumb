@@ -89,6 +89,9 @@ $bc = new \Noherczeg\Breadcrumb\Breadcrumb('http://localhost/breadcrumb/', 'de')
 ```
 
 ###2) Registering segments via variable input types:
+__Warning__!
+As of build 2.0.0 this method no longer tries to set the first element as a root element! If you'd like to add one (which points to the base url of your site), scroll down a bit and you'll get an example how to do it.
+
 Using `from($input)`, where `$input` can be either: a `JSON array`, a `PHP array`, or an `URI String`.
 ```
 // PHP array
@@ -121,7 +124,15 @@ $bc->append('second', 'left')->append('first', 'left', true);
 
 ```
 
-###4) Removing Segments from the list:
+###4) Adding an element which points to the base url:
+Since the latest build (2.0.0) a major logic problem has been fixed. Now from whatever source you've used to seed the breadcrumbs doesn't automatically sets the first element as a root element. This fixed the issue with the links! From now on if you want to add an element which points to the base url, you have to append one whenever you'd like to like this:
+```
+// this way you'll have a first element 'welcome' which will point to your base url
+$bc->from('/action/parameter1/parameter2')->append('welcome', 'left', true);
+```
+
+
+###5) Removing Segments from the list:
 Using `remove($pos, $reindex)`, where:
 
 + `$pos` is the position of the element which we want to remove, `int`
@@ -144,7 +155,7 @@ $bc->remove(1, true);
  */
 ```
 
-###5) Building breadcrumbs:
+###6) Building breadcrumbs:
 via `build($format, $casing, $last_not_link, $separator, $customizations)` where:
 
 + `$format` is the desired format of the output, can be: `html`/`bootstrap`/`foundation` by default
@@ -198,7 +209,7 @@ $bc->build('html', 'lower', true, null, array('style' => 'font-family: Arial; fo
 
 ```
 
-###6) Utility functions:
+###7) Utility functions:
 
 + List of registered Segments: `var_dump($bc->registered());`
 + Picking one element from the list: `var_dump($bc->segment(1));`
