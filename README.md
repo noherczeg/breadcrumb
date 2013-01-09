@@ -39,7 +39,7 @@ If you're using laravel 3 you will have to do the following to be able to use co
 - In your project dir's public/index.php: after the `require '../paths.php';` line add the following: `require path('composer').'autoload.php';`
 
 ##Usage examples:
-####General usage
+####General usage:
 #####Preparing the Package
 + [Constructor explained](https://github.com/noherczeg/breadcrumb/blob/master/docs/usage_examples.md#1-preparing-the-package)
 
@@ -52,7 +52,7 @@ If you're using laravel 3 you will have to do the following to be able to use co
 #####Building breadcrumbs
 + [Building breadcrumbs](https://github.com/noherczeg/breadcrumb/blob/master/docs/usage_examples.md#3-building-breadcrumbs)
 
-####Laravel 3 specific, detailed
+####Laravel 3 specific, detailed:
 
 + [Using Breadcrumb a base controller](https://github.com/noherczeg/breadcrumb/blob/master/docs/laravel3_guide.md#using-breadcrumb-with-a-base-controller)
 
