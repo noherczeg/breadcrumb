@@ -1,7 +1,7 @@
 ##General usage examples:
 ###1) Preparing the Package:
 
-_Construct_
+_construct($base_url, $use_language)_
 + `$base_url` (String|required): The base url of your site
 + `$use_language (String|optional)`: The language code (file's name from the Languages folder) which will be used for translation
 
