@@ -10,7 +10,7 @@
 
 use Illuminate\Support\ServiceProvider;
 
-class BreadcrumbtServiceProvider extends ServiceProvider
+class BreadcrumbServiceProvider extends ServiceProvider
 {
 
 	/**
