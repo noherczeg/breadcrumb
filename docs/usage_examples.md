@@ -1,8 +1,8 @@
 ##General usage examples:
 ###1) Preparing the Package:
 
-_construct($base_url, $use_language)_
-+ `$base_url` (String|required): The base url of your site
+__construct($base_url, $use_language)__
++ `$base_url (String|required)`: The base url of your site
 + `$use_language (String|optional)`: The language code (file's name from the Languages folder) which will be used for translation
 
 ```
@@ -19,9 +19,9 @@ $bc = new \Noherczeg\Breadcrumb\Breadcrumb('http://localhost/breadcrumb/', 'de')
 
 ####a) Registering a batch of segments from variable input types:
 __Warning__!
-_As of build 2.0.0 this method no longer tries to set the first element as a root element! If you'd like to add one (which points to the base url of your site), scroll down a bit and you'll get an example how to do it._
+As of build 2.0.0 this method no longer tries to set the first element as a root element! If you'd like to add one (which points to the base url of your site), scroll down a bit and you'll get an example how to do it.
 
-_from($input)_
+__from($input)__
 + `$input` (mixed|required): The source (URI, or hand made) from where to use segments.
 
 Supported sources: `Array`, `JSON Array`, `String`
@@ -39,7 +39,7 @@ $bc->from('First-Segment/Second/3rdWhatever');
 ####b) Registering Segments piece by piece:
 You can add segments one by one, and you can also tell Breadcrumb which side to put them in. This is useful when you are processing the data piece by piece and you don't necessary know the order of the final result at the start.
 
-_append($raw_name, $side, $base)_
+__append($raw_name, $side, $base)__
 
 + `$name (String|required)`: The segment/slug/URI piece it self (this will remain unchanged)
 + `$side (String|optional)`: The side where to place the Segment (`left`/`right`, default is `right`)
@@ -67,7 +67,7 @@ $bc->from('/action/parameter1/parameter2')->append('welcome', 'left', true);
 ####d) Removing Segments from the list:
 You can remove segments one by one from the registered bunch.
 
-_`remove($pos, $reindex)`_
+__`remove($pos, $reindex)`__
 + `$pos (int|required)`: The index of the element which you want to remove
 + `$reindex (Boolean|optional)`: Is a boolean value which may trigger a re-index on the remaining elements after removal (default is: `false`)
 
@@ -91,7 +91,7 @@ $bc->remove(0, true);
 ###3) Building breadcrumbs:
 Creating breadcrumbs can be simple or complicated as well if you desire. The package also lets you define your own builders as well (examine the Builders folder if you want to).
 
-_`build($format, $casing, $last_not_link, $separator, $customizations)`_
+__`build($format, $casing, $last_not_link, $separator, $customizations)`__
 + `$format (String)`: The format of the created breadcrumbs (`bootstrap`, `foundation`, `html`)
 + `$casing (midex)`: Sets the casing of the text in the breadcrumbs (`null`, `upper`, `lower`, `title`, default is `null`, which means no transformation is done)
 + `$last_not_link (Boolean)`: If set to false, then the last element will be a link as well, by default it's `true`
