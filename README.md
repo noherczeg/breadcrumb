@@ -41,20 +41,20 @@ If you're using laravel 3 you will have to do the following to be able to use co
 ##Usage examples:
 ####General usage
 #####Preparing the Package
-+ [Constructor explained]()
++ [Constructor explained](https://github.com/noherczeg/breadcrumb/blob/master/docs/usage_examples.md#1-preparing-the-package)
 
 #####Preparing data to work with
-+ [Registering a batch of segments from variable input types]()
-+ [Registering Segments piece by piece]()
-+ [Adding a segment which points to the base url]()
-+ [Removing Segments from the list]()
++ [Registering a batch of segments from variable input types](https://github.com/noherczeg/breadcrumb/blob/master/docs/usage_examples.md#a-registering-a-batch-of-segments-from-variable-input-types)
++ [Registering Segments piece by piece](https://github.com/noherczeg/breadcrumb/blob/master/docs/usage_examples.md#b-registering-segments-piece-by-piece)
++ [Adding a segment which points to the base url](https://github.com/noherczeg/breadcrumb/blob/master/docs/usage_examples.md#c-adding-a-segment-which-points-to-the-base-url)
++ [Removing Segments from the list](https://github.com/noherczeg/breadcrumb/blob/master/docs/usage_examples.md#d-removing-segments-from-the-list)
 
 #####Building breadcrumbs
-+ [Building breadcrumbs]()
++ [Building breadcrumbs](https://github.com/noherczeg/breadcrumb/blob/master/docs/usage_examples.md#3-building-breadcrumbs)
 
 ####Laravel 3 specific, detailed
 
-+ [Using Breadcrumb a base controller]()
++ [Using Breadcrumb a base controller](https://github.com/noherczeg/breadcrumb/blob/master/docs/laravel3_guide.md#using-breadcrumb-with-a-base-controller)
 
 ##Changelog:
 
