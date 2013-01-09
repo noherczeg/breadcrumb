@@ -1,8 +1,5 @@
 <?php namespace Noherczeg\Breadcrumb;
 
-use InvalidArgumentException;
-use OutOfRangeException;
-
 /**
  * Breadcrumb
  *
@@ -16,6 +13,10 @@ use OutOfRangeException;
  * @license     BSD License (3-clause)
  * @copyright   (c) 2012, Norbert Csaba Herczeg
  */
+
+use InvalidArgumentException;
+use OutOfRangeException;
+
 class FileNotFoundException extends \Exception {}
 
 class Breadcrumb
