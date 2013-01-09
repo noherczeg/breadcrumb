@@ -54,7 +54,7 @@ If you're using laravel 3 you will have to do the following to be able to use co
 
 ####Laravel 3 specific, detailed:
 
-+ [Using Breadcrumb a base controller](https://github.com/noherczeg/breadcrumb/blob/master/docs/laravel3_guide.md#using-breadcrumb-with-a-base-controller)
++ [Using Breadcrumb with a base controller](https://github.com/noherczeg/breadcrumb/blob/master/docs/laravel3_guide.md#using-breadcrumb-with-a-base-controller)
 
 ##Changelog:
 
