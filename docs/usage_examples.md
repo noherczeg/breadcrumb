@@ -22,7 +22,7 @@ __Warning__!
 As of build 2.0.0 this method no longer tries to set the first element as a root element! If you'd like to add one (which points to the base url of your site), scroll down a bit and you'll get an example how to do it.
 
 __from($input)__
-+ `$input` (mixed|required): The source (URI, or hand made) from where to use segments.
++ `$input (mixed|required)`: The source (URI, or hand made) from where to use segments.
 
 Supported sources: `Array`, `JSON Array`, `String`
 ```
