@@ -3,7 +3,7 @@
 
 __construct($base_url, $use_language)__
 + `$base_url (String|required)`: The base url of your site
-+ `$use_language (String|optional)`: The language code (file's name from the Languages folder) which will be used for translation
++ `$use_language (String)`: The language code (file's name from the Languages folder) which will be used for translation
 
 ```
 // Add your base url as you wish, like: URL::base() or 'http://localhost/breadcrumb/' or whatever
@@ -42,8 +42,8 @@ You can add segments one by one, and you can also tell Breadcrumb which side to 
 __append($raw_name, $side, $base)__
 
 + `$name (String|required)`: The segment/slug/URI piece it self (this will remain unchanged)
-+ `$side (String|optional)`: The side where to place the Segment (`left`/`right`, default is `right`)
-+ `$base (Boolean|optional)`: Is this element an element which points to the base URL of the site? (`true`/`false`, default is `false`)
++ `$side (String)`: The side where to place the Segment (`left`/`right`, default is `right`)
++ `$base (Boolean)`: Is this element an element which points to the base URL of the site? (`true`/`false`, default is `false`)
 
 _We now use method chaining as well, but it's just an option :)_
 ```
@@ -69,7 +69,7 @@ You can remove segments one by one from the registered bunch.
 
 __`remove($pos, $reindex)`__
 + `$pos (int|required)`: The index of the element which you want to remove
-+ `$reindex (Boolean|optional)`: Is a boolean value which may trigger a re-index on the remaining elements after removal (default is: `false`)
++ `$reindex (Boolean)`: Is a boolean value which may trigger a re-index on the remaining elements after removal (default is: `false`)
 
 ```
 // we provide a base list of Segments before removal
@@ -93,7 +93,7 @@ Creating breadcrumbs can be simple or complicated as well if you desire. The pac
 
 __`build($format, $casing, $last_not_link, $separator, $customizations)`__
 + `$format (String)`: The format of the created breadcrumbs (`bootstrap`, `foundation`, `html`)
-+ `$casing (midex)`: Sets the casing of the text in the breadcrumbs (`null`, `upper`, `lower`, `title`, default is `null`, which means no transformation is done)
++ `$casing (mixed)`: Sets the casing of the text in the breadcrumbs (`null`, `upper`, `lower`, `title`, default is `null`, which means no transformation is done)
 + `$last_not_link (Boolean)`: If set to false, then the last element will be a link as well, by default it's `true`
 + `$separator (String)`: The separator in between breadcrumbs (applied only to html and bootstrap stlye breadcrumbs, since there is no separator in Zurb Foundation!)
 + `$customizations (Array)`: An array of customizations can be set to elements where the keys are the properties and the values are the values (only works with html type breadcrumbs!)
