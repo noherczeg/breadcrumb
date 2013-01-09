@@ -1,5 +1,11 @@
 <?php namespace Noherczeg\Breadcrumb;
 
+/**
+ * Config
+ * 
+ * Configuration handler class for the package
+ */
+
 class Config
 {
 

@@ -1,5 +1,12 @@
 <?php namespace Noherczeg\Breadcrumb;
 
+/**
+ * Segment
+ * 
+ * Class that represents a single URI segment, and add functionality to it.
+ * This is used and manipulated by Breadcrumb. A key building block
+ */
+
 class Segment
 {
 
@@ -8,6 +15,13 @@ class Segment
     private $base = false;
     private $link = null;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param String	$raw_insert		The value/name of the segment in the URI
+	 * @param boolean	$base			If this points to the base url of your site, then set to true, otherwise false
+	 * @throws \InvalidArgumentException
+	 */
     public function __construct($raw_insert, $base = false)
     {
         if ((!is_string($raw_insert) && !is_int($raw_insert)) || !is_bool($base)) {

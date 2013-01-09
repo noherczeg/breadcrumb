@@ -1,5 +1,12 @@
 <?php namespace Noherczeg\Breadcrumb;
 
+/**
+ * Translator
+ * 
+ * The sole job of this class is to properly translate (or not) the given value
+ * according to the configurations.
+ */
+
 class Translator
 {
 
@@ -7,6 +14,11 @@ class Translator
     private $language_folder = null;
     private $config = null;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param String	$use_language	The code(file name in the Languages folder) of the language to use for translations
+	 */
     public function __construct($use_language = null)
     {
         
