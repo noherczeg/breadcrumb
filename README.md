@@ -40,16 +40,16 @@ If you're using laravel 3 you will have to do the following to be able to use co
 
 ##Usage examples:
 ####General usage
-1. Preparing the Package
-
+#####Preparing the Package
 + [Constructor explained]()
 
-2. Preparing data to work with
-
+#####Preparing data to work with
 + [Registering a batch of segments from variable input types]()
 + [Registering Segments piece by piece]()
 + [Adding a segment which points to the base url]()
 + [Removing Segments from the list]()
+
+#####Building breadcrumbs
 + [Building breadcrumbs]()
 
 ####Laravel 3 specific, detailed

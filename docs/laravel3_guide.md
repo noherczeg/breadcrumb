@@ -1,7 +1,7 @@
 ##Laravel 3 specific guide
 This document will show you an example how you __could__ use this package with Laravel 3, and is not an installation/setup guide!
 
-### Using Breadcrumb a base controller
+### Using Breadcrumb with a base controller
 Breadcrumbs are usually rendered on multiple pages of a website so it might come handy to make it so that we would be able to create them in a blink of an eye / automatically. To do this one way is to use a base controller, which can be your own, or the default one which comes with Laravel. The only thing that you should keep in mind is that __you have to extend that controller__, otherwise you'll get errors, and won't get access to breadcrumbs either!
 
 #####We will for now use the default base controller `application/controllers/base.php`:
