@@ -10,11 +10,11 @@ class FoundationBuilder extends Builder
 
     /**
      * build: The builder method which creates Foundation style breadcrumbs
-     * 
+     *
      * WARNING! Foundation won't accept any separator, or properties submitted
      * to it, since it's not in the model by default! Parameter is only there as
      * placeholder!
-     * 
+     *
      * @param String|null $casing       Casing option
      * @param boolean $last_not_link    True if last shouldn't be a link
      * @return String
@@ -23,14 +23,14 @@ class FoundationBuilder extends Builder
     {
         // always create link on build stage!
         $this->link($last_not_link);
-        
+
         // handle default
         (is_null($casing))      ? $tc = $this->config->value('default_casing') : $tc = $casing;
 
-        $result = '<ul class="breadcrumb">';
-        
+        $result = '<ul class="breadcrumbs">';
+
         foreach ($this->segments as $key => $segment) {
-            
+
             if (is_null($segment->get('link'))) {
                 $result .= '<li class="current"><span>' . $this->casing($segment->get('translated'), $tc) . '</span></li>';
             } else {
