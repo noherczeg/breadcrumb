@@ -30,20 +30,28 @@ class Breadcrumb
     // you have to expand this if you create your own builders!
     private $build_formats = null;
 
-    public function __construct($base_url = null, $use_language = 'en')
+    public function __construct($base_url = null, $config = 'en')
     {
+        $userConf = array();
+    
         // Set defaults
         is_null($base_url) ? $base_url = './' : $base_url;
 
         // Set objet properties
         $this->base_url = $this->setParam($base_url);
-        $this->language = $this->setParam($use_language);
+        
+        // backwards compatibility
+        if(is_string($config)) {
+            $userConf = array('language', $config);
+        } else {
+            $userConf = $config;
+        }
+        
+        // Load configurations
+        $this->config = new Config($userConf);
 
         // Load Util Classes
-        $this->translator = new Translator($use_language);
-
-        // Load configurations
-        $this->config = new Config();
+        $this->translator = new Translator($this->config->value('language'));
 
 		// load builders
 		$builderDirectory = __DIR__ . DIRECTORY_SEPARATOR . 'Builders';
