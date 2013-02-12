@@ -64,6 +64,6 @@ class ConfigTest extends PHPUnit_Framework_TestCase
     
     public function testBasics ()
     {
-        $this->config->value('default_language');
+        $this->config->value('language');
     }
 }
