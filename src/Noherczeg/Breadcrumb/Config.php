@@ -11,15 +11,23 @@ class Config
 
     private $configs = null;
 
-    public function __construct()
+    public function __construct(array $fromArray = array())
     {
-        $config_file = __DIR__ . DIRECTORY_SEPARATOR . 'Config' . DIRECTORY_SEPARATOR . 'config.php';
+        $configFile = realpath(__DIR__.'/../../config/config.php');
 
         // Load configuration
-        if (!file_exists($config_file)) {
+        if (!file_exists($configFile)) {
             throw new \FileNotFoundException("Can not load the config file!");
         } else {
-            $this->configs = require $config_file;
+            $builtIn = require $configFile;
+            
+            // If we provide an array of configurations we merge
+            // them to our default values
+            if(!empty($fromArray)) {
+                $this->configs = array_merge($builtIn, $fromArray);
+            } else {
+                $this->configs = $builtIn;
+            }
         }
     }
 
