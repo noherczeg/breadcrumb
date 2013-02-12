@@ -8,23 +8,32 @@
  * 
  */
 
-use Illuminate\Support\ServiceProvider;
+use \Illuminate\Support\ServiceProvider;
 
 class BreadcrumbServiceProvider extends ServiceProvider
 {
+    /**
+     * Boot up the service.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        // load configs
+        $this->app['config']->package('noherczeg/breadcrumb', realpath(__DIR__.'/../config'), 'breadcrumb');
+    }
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$this->app['breadcrumb'] = $this->app->share(function($app)
-		{
-			$request = new \Illuminate\Http\Request();
-			return new Breadcrumb($request->root());
-		});
-	}
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app['breadcrumb'] = $this->app->share(function($app)
+        {
+            return new Breadcrumb($this->app['request']->root());
+        });
+    }
 
 }
