@@ -24,7 +24,7 @@ class HtmlBuilder extends Builder
         
         // handle defaults
         (is_null($separator))   ? $ts = $this->config->value('separator')      : $ts = $separator;
-        (is_null($casing))      ? $tc = $this->config->value('default_casing') : $tc = $casing;
+        (is_null($casing))      ? $tc = $this->config->value('casing') : $tc = $casing;
         
         $result = '';
         

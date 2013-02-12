@@ -25,7 +25,7 @@ class FoundationBuilder extends Builder
         $this->link($last_not_link);
 
         // handle default
-        (is_null($casing))      ? $tc = $this->config->value('default_casing') : $tc = $casing;
+        (is_null($casing))      ? $tc = $this->config->value('casing') : $tc = $casing;
 
         $result = '<ul class="breadcrumbs">';
 

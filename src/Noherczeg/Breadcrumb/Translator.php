@@ -14,11 +14,11 @@ class Translator
     private $language_folder = null;
     private $config = null;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param String	$use_language	The code(file name in the Languages folder) of the language to use for translations
-	 */
+    /**
+     * Constructor
+     * 
+     * @param String	$use_language	The code(file name in the Languages folder) of the language to use for translations
+     */
     public function __construct($use_language = null)
     {
         
@@ -53,7 +53,7 @@ class Translator
             
             // if nothing is set, get it from the config file
             if (is_null($lang)) {
-                $lang = $this->config->value('default_language');
+                $lang = $this->config->value('language');
             }
             
             $file_to_load = $this->language_folder . $lang . '.php';
