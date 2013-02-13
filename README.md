@@ -44,7 +44,6 @@ If you're using laravel 3 you will have to do the following to be able to use co
 Put the following in your `app/config/app.php` file under `providers` array:
 ```
 'Noherczeg\Breadcrumb\BreadcrumbServiceProvider'
-
 ```
 
 Adding the alias of the facade is done in the same file under `aliases`:
