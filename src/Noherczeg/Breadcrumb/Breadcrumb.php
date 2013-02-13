@@ -8,7 +8,7 @@
  * Check https://github.com/noherczeg/breadcrumb for usage examples!
  *
  * @package     Breadcrumb
- * @version     2.0.0
+ * @version     2.0.1
  * @author      Norbert Csaba Herczeg
  * @license     BSD License (3-clause)
  * @copyright   (c) 2012, Norbert Csaba Herczeg
