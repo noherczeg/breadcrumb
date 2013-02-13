@@ -32,11 +32,30 @@ Add this to your project root's `composer.json` file:
 ```
 If you're done, just run a `php composer install`, and the package is ready to be used!
 
+## Laravel specific settings
+
 ### Laravel 3 setup:
 If you're using laravel 3 you will have to do the following to be able to use composer based packages:
 
 - In your project dir's `paths.php` add the following line: `$paths['composer'] = 'vendor';`
 - In your project dir's public/index.php: after the `require '../paths.php';` line add the following: `require path('composer').'autoload.php';`
+
+### Registering package with Laravel 4 as a service:
+Put the following in your `app/config/app.php` file under `providers` array:
+```
+'Noherczeg\Breadcrumb\BreadcrumbServiceProvider'
+
+```
+
+Adding the alias of the facade is done in the same file under `aliases`:
+```
+'Breadcrumb' => 'Noherczeg\Breadcrumb\Facades\Breadcrumb'
+```
+
+Overriding the default configurations is done in a published config file. You can create it by typing:
+```
+$ php artisan config:publish noherczeg/breadcrumb
+```
 
 ##Usage examples:
 ####General usage:
