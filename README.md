@@ -11,9 +11,10 @@ A package for breadcrumb management. [![Build Status](https://secure.travis-ci.o
 + User made builders are supported
 + Custom separators
 + 4 different casing options: null _(keeps source intact)_, lower, upper, title
-+ supports attribute injection when building HTML breadcrumbs
-+ can skip linking to last element
-+ method chaining for almost everything
++ Supports attribute injection when building HTML breadcrumbs
++ Can skip linking to last element
++ Method chaining for almost everything
++ Has a Service Provider for Laravel 4
 
 ##Installation:
 
@@ -75,6 +76,10 @@ $ php artisan config:publish noherczeg/breadcrumb
 + [Using Breadcrumb with a base controller](https://github.com/noherczeg/breadcrumb/blob/master/docs/laravel3_guide.md#using-breadcrumb-with-a-base-controller)
 
 ##Changelog:
+
+###Breadcrumb 2.0.1
++ The package can now publish configurations to Laravel 4 via artisan
++ Added Laravel 4 Service Provider
 
 ###Breadcrumb 2.0.0
 + The list of builders is now obtained automatically, no further need for maintaining a list manually
