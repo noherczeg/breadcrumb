@@ -34,7 +34,7 @@ class BreadcrumbServiceProvider extends ServiceProvider
         {
             $options = $app['config']['noherczeg::breadcrumb'];
             
-            return new Breadcrumb($this->app['request']->root(), $options);
+            return new Breadcrumb($app['request']->root(), $options);
         });
     }
 
