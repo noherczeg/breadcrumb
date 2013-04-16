@@ -70,6 +70,9 @@ class TranslatorTest extends PHPUnit_Framework_TestCase
 
         $newInstance2 = new Noherczeg\Breadcrumb\Translator();
         $this->assertTrue(is_array($newInstance2->dump()));
+        
+        $newInstance3 = new Noherczeg\Breadcrumb\Translator(array('shold_translate' => 'to_this', 'this' => 'as_well'));
+        $this->assertTrue(is_array($newInstance2->dump()));
 
     }
     
