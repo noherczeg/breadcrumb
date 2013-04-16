@@ -4,10 +4,11 @@ A package for breadcrumb management. [![Build Status](https://secure.travis-ci.o
 
 ##Features:
 
-+ Uses primarily language files to translate breadcrumb segments
++ Can use language files, or arrays to translate breadcrumb segments
 + Segments can be made by using a URI string, JSON array, or PHP array
 + Can create HTML, Twitter Bootstrap , Zurb Foundation breadcrumbs
 + Segments can be ignored/removed/appended in any number from both sides
++ Translations can be overwritten
 + User made builders are supported
 + Custom separators
 + 4 different casing options: null _(keeps source intact)_, lower, upper, title
@@ -76,6 +77,10 @@ $ php artisan config:publish noherczeg/breadcrumb
 + [Using Breadcrumb with a base controller](https://github.com/noherczeg/breadcrumb/blob/master/docs/laravel3_guide.md#using-breadcrumb-with-a-base-controller)
 
 ##Changelog:
+
+###Breadcrumb 2.0.2
++ Added ability to provide translation arrays (dictionaries) as second parameter to the constructor
++ Users now can overwrite or ignore translations while building breadcrumbs via the `append()` method
 
 ###Breadcrumb 2.0.1
 + The package can now publish configurations to Laravel 4 via artisan
