@@ -97,7 +97,7 @@ $bc->remove(0, true);
  */
 ```
 
-####3) Overwriting translation:
+####e) Overwriting translation:
 Since: 2.0.2
 ```
 // this way you can tell the translator to translate the given value to "overwritten" no matter what
