@@ -8,9 +8,9 @@
  * Check https://github.com/noherczeg/breadcrumb for usage examples!
  *
  * @package     Breadcrumb
- * @version     2.0.1
+ * @version     2.0.2
  * @author      Norbert Csaba Herczeg
- * @license     BSD License (3-clause)
+ * @license     MIT
  * @copyright   (c) 2012, Norbert Csaba Herczeg
  */
 
@@ -42,16 +42,16 @@ class Breadcrumb
         
         // backwards compatibility
         if(is_string($config)) {
-            $userConf = array('language', $config);
+            $userConf = array('language' => $config);
         } else {
             $userConf = $config;
         }
         
         // Load configurations
         $this->config = new Config($userConf);
-
+        
         // Load Util Classes
-        $this->translator = new Translator($this->config->value('language'));
+        $this->translator = new Translator($config);
 
 		// load builders
 		$builderDirectory = __DIR__ . DIRECTORY_SEPARATOR . 'Builders';
@@ -103,10 +103,13 @@ class Breadcrumb
      * @param String $raw_name      Name of the appendable Segment
      * @param String $side          Which side to place the segment in the array
      * @param boolean $base         true if it is refering to the base url
+     * @param mixed $translate      Set to true if you want to use the provided dictionary, 
+     *                              set to false if you want to skip translation, or
+     *                              set to a specific string to assign that value
      * @return \Noherczeg\Breadcrumb\Breadcrumb
      * @throws InvalidArgumentException
      */
-    public function append($raw_name = null, $side = 'right', $base = false)
+    public function append($raw_name = null, $side = 'right', $base = false, $translate = true)
     {
         if (!is_string($raw_name) && !is_int($raw_name) && !in_array($side, array('left', 'right'))) {
             throw new InvalidArgumentException("Wrong type of arguments provided!");
@@ -115,8 +118,14 @@ class Breadcrumb
             // create segment
             $segment = new Segment($raw_name, $base);
 
-            // translate it
-            $segment->setTranslated($this->translator->translate($raw_name));
+            // translate it, or not, by the rules we provide
+            if ($translate) {
+                if (is_string($translate) && strlen($translate) > 0) {
+                    $segment->setTranslated($translate);
+                } elseif (is_bool($translate)) {
+                    $segment->setTranslated($this->translator->translate($raw_name));
+                }
+            }
 
             // place it in the list
             if ($side === 'left') {

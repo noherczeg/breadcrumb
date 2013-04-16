@@ -17,9 +17,11 @@ class Translator
     /**
      * Constructor
      * 
-     * @param String	$use_language	The code(file name in the Languages folder) of the language to use for translations
+     * @param String	$dictionary	The code(file name in the Languages folder),
+     *                                  or an array of key-value pairs of the
+     *                                  language to use for translations
      */
-    public function __construct($use_language = null)
+    public function __construct($dictionary = null)
     {
         
         // load the configs
@@ -28,9 +30,16 @@ class Translator
         // set up folder path
         $this->language_folder = __DIR__ . DIRECTORY_SEPARATOR . 'Languages' . DIRECTORY_SEPARATOR;
 
-        // try to load the dictionary
+        // try to load a dictionary
         try {
-            $this->dictionary = $this->loadDictionary($use_language);
+            if (is_array($dictionary)) {
+                $this->dictionary = $dictionary;
+            } elseif(is_string($dictionary)) {
+                $this->dictionary = $this->loadDictionary($dictionary);
+            } else {
+                // fallback
+                $this->dictionary = $this->loadDictionary($this->config->value('language'));
+            }
         } catch (InvalidArgumentException $a) {
             echo 'Translator Exception: ' . $a->getMessage();
         } catch (FileNotFoundException $f) {
