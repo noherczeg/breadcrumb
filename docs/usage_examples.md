@@ -148,7 +148,7 @@ echo $bc->build('foundation', 'upper', false);
 echo $bc->build('bootstrap', null, false, '+');
 ```
 
-####d) Creating complex HTML breadcrumbs:
+####d) Creating complex _HTML_ breadcrumbs:
 ```
 /**
  * This will create HTML breadcrumbs which will have lower cased links, last
