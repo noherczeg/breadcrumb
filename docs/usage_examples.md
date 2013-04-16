@@ -3,10 +3,10 @@
 
 __construct($base_url, $use_language)__
 + `$base_url (String|required)`: The base url of your site
-+ `$use_language (String)`: The language code (file's name from the Languages folder) which will be used for translation
++ `$use_language (mixed)`: The language code (file's name from the Languages folder), or dictionary array which will be used for translation
 
 ```
-// Add your base url as you wish, like: URL::base() or 'http://localhost/breadcrumb/' or whatever
+// Add your base url as you wish, like in Laravel's case: URL::base() or 'http://localhost/breadcrumb/' or whatever
 $bc = new \Noherczeg\Breadcrumb\Breadcrumb(URL::base());
 ```
 
@@ -15,11 +15,18 @@ Using non default language (`en`, or one which is set in your configuration):
 $bc = new \Noherczeg\Breadcrumb\Breadcrumb('http://localhost/breadcrumb/', 'de');
 ```
 
+Or using a custom translation array (since 2.0.2):
+```
+$dictionary = array('this' => 'to_this', 'what' => 'what not?');
+$bc = new \Noherczeg\Breadcrumb\Breadcrumb('http://localhost/breadcrumb/', $dictionary);
+```
+
 ###2) Preparing data to work with
 
 ####a) Registering a batch of segments from variable input types:
 __Warning__!
-As of build 2.0.0 this method no longer tries to set the first element as a root element! If you'd like to add one (which points to the base url of your site), scroll down a bit and you'll get an example how to do it.
++ As of build 2.0.0 this method no longer tries to set the first element as a root element! If you'd like to add one (which points to the base url of your site), scroll down a bit and you'll get an example how to do it.
++ All of the given segments will be translated if the translator has a match in the provided dictionary!
 
 __from($input)__
 + `$input (mixed|required)`: The source (URI, or hand made) from where to use segments.
@@ -37,13 +44,15 @@ $bc->from('First-Segment/Second/3rdWhatever');
 ```
 
 ####b) Registering Segments piece by piece:
-You can add segments one by one, and you can also tell Breadcrumb which side to put them in. This is useful when you are processing the data piece by piece and you don't necessary know the order of the final result at the start.
++ You can add segments one by one, and you can also tell Breadcrumb which side to put them in. This is useful when you are processing the data piece by piece and you don't necessary know the order of the final result at the start.
++ You can now even tell Breadcrumb if you con't want to translate a particular element, or if you want it to be a specific value
 
-__append($raw_name, $side, $base)__
+__append($raw_name, $side, $base, $translate)__
 
 + `$name (String|required)`: The segment/slug/URI piece it self (this will remain unchanged)
 + `$side (String)`: The side where to place the Segment (`left`/`right`, default is `right`)
 + `$base (Boolean)`: Is this element an element which points to the base URL of the site? (`true`/`false`, default is `false`)
++ `$translate (mixed)`: If true: It'll try to translate the element from the dictionary, if false: it'll ignore translation, if String, then it'll use the given value (true by default)
 
 _We now use method chaining as well, but it's just an option :)_
 ```
@@ -86,6 +95,13 @@ $bc->remove(0, true);
  * 0 => 'second'
  * 1 => 'Fourth-Thingy'
  */
+```
+
+####3) Overwriting translation:
+Since: 2.0.2
+```
+// this way you can tell the translator to translate the given value to "overwritten" no matter what
+$bc->append(URI::segment(3), 'left', true, 'overwritten');
 ```
 
 ###3) Building breadcrumbs:
