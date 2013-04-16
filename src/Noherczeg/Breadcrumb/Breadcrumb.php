@@ -123,8 +123,10 @@ class Breadcrumb
                 if (is_string($translate) && strlen($translate) > 0) {
                     $segment->setTranslated($translate);
                 } elseif (is_bool($translate)) {
-                    $segment->setTranslated($this->translator->translate($raw_name));
+                    $segment->setTranslated($this->translator->translate($translate));
                 }
+            } else {
+                $segment->setTranslated($raw_name);
             }
 
             // place it in the list
