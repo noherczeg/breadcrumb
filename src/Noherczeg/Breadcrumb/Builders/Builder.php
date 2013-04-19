@@ -61,7 +61,11 @@ abstract class Builder
                 
                 // appends the current uri segment
                 $current_url = $current_url . '/' . $segment->get('raw');
-                $this->segments[$key]->setLink($current_url);
+                
+                // only if we didn't set anything before (map does :) )
+                if (strlen($segment->get('link')) == 0)
+                    $this->segments[$key]->setLink($current_url);
+                
             }
 
             $position++;
