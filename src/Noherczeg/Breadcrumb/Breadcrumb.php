@@ -297,8 +297,6 @@ class Breadcrumb
             // instantiate it
             $builder_instance = new $builder_name($this->segments, $this->base_url);
 
-            var_dump($builder_instance);
-            
             // return with the results :)
             return $builder_instance->build($casing, $last_not_link, $separator, $customizations);
         } else {
