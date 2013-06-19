@@ -1,6 +1,9 @@
 #Breadcrumb
 
-A package for breadcrumb management. [![Build Status](https://secure.travis-ci.org/noherczeg/breadcrumb.png?branch=develop)](https://travis-ci.org/noherczeg/breadcrumb)
+A package for breadcrumb management.
+
+[![Total Downloads](https://poser.pugx.org/noherczeg/breadcrumb/downloads.png)](https://packagist.org/packages/noherczeg/breadcrumb)
+[![Build Status](https://secure.travis-ci.org/noherczeg/breadcrumb.png?branch=develop)](https://travis-ci.org/noherczeg/breadcrumb)
 
 ##Features:
 
