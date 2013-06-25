@@ -24,10 +24,11 @@ abstract class Builder
      * link: Inserts proper URLs to each Segment which is IN THE BUILDER's list.
      * 
      * @param boolean $skip_last    To create a link for the last element or not
+     * @param boolean $different_links  Each segment is appended to base_url instead of the previous segment
      * @return array
      * @throws InvalidArgumentException
      */
-    public function link($skip_last = true)
+    public function link($skip_last = true, $different_links = false)
     {
         if (!is_bool($skip_last)) {
             throw new \InvalidArgumentException('Link method expects a boolean variable!');
@@ -66,6 +67,9 @@ abstract class Builder
                 if (strlen($segment->get('link')) == 0)
                     $this->segments[$key]->setLink($current_url);
                 
+            }
+            if ($different_links == true) {
+                $current_url = $this->base_url;
             }
 
             $position++;
