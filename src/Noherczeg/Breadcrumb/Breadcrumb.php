@@ -282,10 +282,11 @@ class Breadcrumb
      * @param String|null $casing       Casing of Segments
      * @param String|null $separator    Separator String (not there in Foundation!)
      * @param array $customizations     Array of properties (only in HTML!)
+     * @param boolean Each segment is appended to base_url instead of the previous segment
      * @return String
      * @throws OutOfRangeException
      */
-    public function build ($format = null, $casing = null, $last_not_link = true, $separator = null, $customizations = array())
+    public function build ($format = null, $casing = null, $last_not_link = true, $separator = null, $customizations = array(), $different_links = false)
     {
         (is_null($format)) ? $format = $this->config->value('output_format') : $format = $format;
 
@@ -298,7 +299,7 @@ class Breadcrumb
             $builder_instance = new $builder_name($this->segments, $this->base_url);
 
             // return with the results :)
-            return $builder_instance->build($casing, $last_not_link, $separator, $customizations);
+            return $builder_instance->build($casing, $last_not_link, $separator, $customizations, $different_links);
         } else {
             throw new OutOfRangeException("Provided output format($format) is not supported!");
         }
