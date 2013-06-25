@@ -17,10 +17,10 @@ class HtmlBuilder extends Builder
      * @param array $customizations     Array of properties + values
      * @return String
      */
-    public function build ($casing = null, $last_not_link = true, $separator = null, $properties = array())
+    public function build ($casing = null, $last_not_link = true, $separator = null, $properties = array(), $different_links = flase)
     {
         // always create link on build stage!
-        $this->link($last_not_link);
+        $this->link($last_not_link, $different_links);
         
         // handle defaults
         (is_null($separator))   ? $ts = $this->config->value('separator')      : $ts = $separator;

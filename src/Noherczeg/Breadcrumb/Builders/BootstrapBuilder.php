@@ -17,12 +17,15 @@ class BootstrapBuilder extends Builder
      * @param String|null $casing       Casing option
      * @param boolean $last_not_link    True if last shouldn't be a link
      * @param String|null $separator    Separator String
+     * @param array $properties
+     * @param boolean $different_links Each segment is appended to base_url instead of the previous segment
      * @return String
      */
-    public function build ($casing = null, $last_not_link = true, $separator = null, $properties = array())
+    public function build ($casing = null, $last_not_link = true, $separator = null, $properties = array(), $different_links = false)
     {
         // always create link on build stage!
-        $this->link($last_not_link);
+    	
+		$this->link($last_not_link, $different_links);
 
         // handle defaults
         (is_null($separator))   ? $ts = $this->config->value('separator')      : $ts = $separator;

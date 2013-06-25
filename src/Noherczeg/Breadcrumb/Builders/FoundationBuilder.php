@@ -19,10 +19,10 @@ class FoundationBuilder extends Builder
      * @param boolean $last_not_link    True if last shouldn't be a link
      * @return String
      */
-    public function build ($casing = null, $last_not_link = true,  $separator = null, $properties = null)
+    public function build ($casing = null, $last_not_link = true,  $separator = null, $properties = null, $different_links = false)
     {
         // always create link on build stage!
-        $this->link($last_not_link);
+        $this->link($last_not_link, $different_links);
 
         // handle default
         (is_null($casing))      ? $tc = $this->config->value('casing') : $tc = $casing;
