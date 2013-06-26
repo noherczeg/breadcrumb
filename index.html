@@ -4,52 +4,72 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Breadcrumb by noherczeg</title>
-
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/noherczeg/breadcrumb">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/noherczeg/breadcrumb/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/noherczeg/breadcrumb/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
     <div class="wrapper">
-      <header>
-        <h1>Breadcrumb</h1>
-        <p>A Composer package for breadcrumb generation and management</p>
 
-        <p class="view"><a href="https://github.com/noherczeg/breadcrumb">View the Project on GitHub <small>noherczeg/breadcrumb</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/noherczeg/breadcrumb/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/noherczeg/breadcrumb/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/noherczeg/breadcrumb">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
       <section>
-        <h1>Breadcrumb</h1>
+        <div id="title">
+          <h1>Breadcrumb</h1>
+          <p>A Composer package for breadcrumb generation and management</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/noherczeg">noherczeg</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
-<p>A package for breadcrumb management. <a href="https://travis-ci.org/noherczeg/breadcrumb"><img src="https://secure.travis-ci.org/noherczeg/breadcrumb.png?branch=develop" alt="Build Status"></a></p>
+        <h1>
+<a name="breadcrumb" class="anchor" href="#breadcrumb"><span class="octicon octicon-link"></span></a>Breadcrumb</h1>
 
-<h2>Features:</h2>
+<p>A package for breadcrumb management.</p>
+
+<p><a href="https://packagist.org/packages/noherczeg/breadcrumb"><img src="https://poser.pugx.org/noherczeg/breadcrumb/downloads.png" alt="Total Downloads"></a>
+<a href="https://travis-ci.org/noherczeg/breadcrumb"><img src="https://secure.travis-ci.org/noherczeg/breadcrumb.png?branch=develop" alt="Build Status"></a></p>
+
+<h2>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features:</h2>
 
 <ul>
-<li>Uses primarily language files to translate breadcrumb segments</li>
+<li>Framework agnostic</li>
+<li>Can use language files, or arrays to translate breadcrumb segments</li>
 <li>Segments can be made by using a URI string, JSON array, or PHP array</li>
 <li>Can create HTML, Twitter Bootstrap , Zurb Foundation breadcrumbs</li>
 <li>Segments can be ignored/removed/appended in any number from both sides</li>
+<li>Translations can be overwritten</li>
 <li>User made builders are supported</li>
 <li>Custom separators</li>
 <li>4 different casing options: null <em>(keeps source intact)</em>, lower, upper, title</li>
-<li>supports attribute injection when building HTML breadcrumbs</li>
-<li>can skip linking to last element</li>
-<li>method chaining for almost everything</li>
-</ul><h2>Installation:</h2>
+<li>Supports attribute injection when building HTML breadcrumbs</li>
+<li>Can skip linking to last element</li>
+<li>Method chaining for almost everything</li>
+<li>Has a Service Provider for Laravel 4</li>
+</ul><h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation:</h2>
 
 <p>This package is based on composer, so if you have it installed you're pretty much halfway done already.</p>
 
-<h3>Composer:</h3>
+<h3>
+<a name="composer" class="anchor" href="#composer"><span class="octicon octicon-link"></span></a>Composer:</h3>
 
 <p>Download and install composer from <code>http://getcomposer.org/download/</code></p>
 
@@ -64,7 +84,13 @@
 
 <p>If you're done, just run a <code>php composer install</code>, and the package is ready to be used!</p>
 
-<h3>Laravel 3 setup:</h3>
+<h2>
+<a name="laravel-specific-settings" class="anchor" href="#laravel-specific-settings"><span class="octicon octicon-link"></span></a>Laravel specific settings</h2>
+
+<p>Please keep in mind that this package is framework agnostic! You can use it by itself as well with any framework out there!</p>
+
+<h3>
+<a name="laravel-3-setup" class="anchor" href="#laravel-3-setup"><span class="octicon octicon-link"></span></a>Laravel 3 setup:</h3>
 
 <p>If you're using laravel 3 you will have to do the following to be able to use composer based packages:</p>
 
@@ -73,32 +99,245 @@
 </li>
 <li>In your project dir's public/index.php: after the <code>require '../paths.php';</code> line add the following: <code>require path('composer').'autoload.php';</code>
 </li>
-</ul><h2>Usage examples:</h2>
+</ul><h3>
+<a name="registering-package-with-laravel-4-as-a-service" class="anchor" href="#registering-package-with-laravel-4-as-a-service"><span class="octicon octicon-link"></span></a>Registering package with Laravel 4 as a service:</h3>
 
-<h4>General usage:</h4>
+<p>Put the following in your <code>app/config/app.php</code> file under <code>providers</code> array:</p>
 
-<h5>Preparing the Package</h5>
+<pre><code>'Noherczeg\Breadcrumb\BreadcrumbServiceProvider'
+</code></pre>
+
+<p>Adding the alias of the facade is done in the same file under <code>aliases</code>:</p>
+
+<pre><code>'Breadcrumb' =&gt; 'Noherczeg\Breadcrumb\Facades\Breadcrumb'
+</code></pre>
+
+<p>Overriding the default configurations is done in a published config file. You can create it by typing:</p>
+
+<pre><code>$ php artisan config:publish noherczeg/breadcrumb
+</code></pre>
+
+<h2>
+<a name="usage-examples" class="anchor" href="#usage-examples"><span class="octicon octicon-link"></span></a>Usage examples:</h2>
+
+<h3>
+<a name="general-usage" class="anchor" href="#general-usage"><span class="octicon octicon-link"></span></a>General usage:</h3>
+
+<h4>
+<a name="1-preparing-the-package" class="anchor" href="#1-preparing-the-package"><span class="octicon octicon-link"></span></a>1) Preparing the Package:</h4>
 
 <ul>
-<li><a href="https://github.com/noherczeg/breadcrumb/blob/master/docs/usage_examples.md#1-preparing-the-package">Constructor explained</a></li>
-</ul><h5>Preparing data to work with</h5>
+<li>
+<code>$base_url (String|required)</code>: The base url of your site</li>
+<li>
+<code>$use_language (mixed)</code>: The language code (file's name from the Languages folder), or dictionary array which will be used for translation</li>
+</ul><pre><code>// Add your base url as you wish, like in Laravel's case: URL::base() or 'http://localhost/breadcrumb/' or whatever
+$bc = new \Noherczeg\Breadcrumb\Breadcrumb(URL::base());
+</code></pre>
+
+<p>Using non default language (<code>en</code>, or one which is set in your configuration):</p>
+
+<pre><code>$bc = new \Noherczeg\Breadcrumb\Breadcrumb('http://localhost/breadcrumb/', 'de');
+</code></pre>
+
+<p>Or using a custom translation array (since 2.0.2):</p>
+
+<pre><code>$dictionary = array('this' =&gt; 'to_this', 'what' =&gt; 'what not?');
+$bc = new \Noherczeg\Breadcrumb\Breadcrumb('http://localhost/breadcrumb/', $dictionary);
+</code></pre>
+
+<h4>
+<a name="2-registering-a-batch-of-segments-from-variable-input-types" class="anchor" href="#2-registering-a-batch-of-segments-from-variable-input-types"><span class="octicon octicon-link"></span></a>2) Registering a batch of segments from variable input types:</h4>
+
+<p><strong>Warning</strong>:</p>
 
 <ul>
-<li><a href="https://github.com/noherczeg/breadcrumb/blob/master/docs/usage_examples.md#a-registering-a-batch-of-segments-from-variable-input-types">Registering a batch of segments from variable input types</a></li>
-<li><a href="https://github.com/noherczeg/breadcrumb/blob/master/docs/usage_examples.md#b-registering-segments-piece-by-piece">Registering Segments piece by piece</a></li>
-<li><a href="https://github.com/noherczeg/breadcrumb/blob/master/docs/usage_examples.md#c-adding-a-segment-which-points-to-the-base-url">Adding a segment which points to the base url</a></li>
-<li><a href="https://github.com/noherczeg/breadcrumb/blob/master/docs/usage_examples.md#d-removing-segments-from-the-list">Removing Segments from the list</a></li>
-</ul><h5>Building breadcrumbs</h5>
+<li>As of build 2.0.0 this method no longer tries to set the first element as a root element! If you'd like to add one (which points to the base url of your site), scroll down a bit and you'll get an example how to do it.</li>
+<li>All of the given segments will be translated if the translator has a match in the provided dictionary!</li>
+</ul><p>Supported sources: <code>Array</code>, <code>JSON Array</code>, <code>String</code></p>
+
+<pre><code>// Using a PHP array to fill our list
+$bc-&gt;from(array('test-segment', 'second', '3rd', 'Fourth-Thingy'));
+
+// or JSON array
+$bc-&gt;from('["asds", "12323", "Qw-Er-Ty"]');
+
+// or URI String
+$bc-&gt;from('First-Segment/Second/3rdWhatever');
+</code></pre>
+
+<h4>
+<a name="3-registering-segments-piece-by-piece" class="anchor" href="#3-registering-segments-piece-by-piece"><span class="octicon octicon-link"></span></a>3) Registering Segments piece by piece:</h4>
+
+<p>You can add segments one by one, and you can also tell Breadcrumb which side to put them in. This is useful when you are processing the data piece by piece and you don't necessary know the order of the final result at the start.</p>
+
+<p>You can tell Breadcrumb if you don't want to translate a particular element, or if you want it to be a specific value</p>
 
 <ul>
-<li><a href="https://github.com/noherczeg/breadcrumb/blob/master/docs/usage_examples.md#3-building-breadcrumbs">Building breadcrumbs</a></li>
-</ul><h4>Laravel 3 specific, detailed:</h4>
+<li>
+<code>$name (String|required)</code>: The segment/slug/URI piece it self (this will remain unchanged)</li>
+<li>
+<code>$side (String)</code>: The side where to place the Segment (<code>left</code>/<code>right</code>, default is <code>right</code>)</li>
+<li>
+<code>$base (Boolean)</code>: Is this element an element which points to the base URL of the site? (<code>true</code>/<code>false</code>, default is <code>false</code>)</li>
+<li>
+<code>$translate (mixed)</code>: If true: It'll try to translate the element from the dictionary, if false: it'll ignore translation, if String, then it'll use the given value (true by default)</li>
+</ul><p><em>We now use method chaining as well, but it's just an option :)</em></p>
+
+<pre><code>/**
+ * The order in which the Segments will be stored in the list is: first, second, third, fourth.
+ */
+$bc-&gt;append('third');
+$bc-&gt;append('fourth', 'right');
+$bc-&gt;append('second', 'left')-&gt;append('first', 'left', true);
+
+</code></pre>
+
+<h4>
+<a name="4-adding-a-segment-which-points-to-the-base-url" class="anchor" href="#4-adding-a-segment-which-points-to-the-base-url"><span class="octicon octicon-link"></span></a>4) Adding a segment which points to the base url:</h4>
+
+<p>Since the latest build (2.0.0) a major logic problem has been fixed. Now from whatever source you've used to seed Breadcrumb doesn't automatically set the first element as a root element. This fixed the issue with the links! From now on if you want to add an element which points to the base url, you have to append one whenever you'd like to:</p>
+
+<pre><code>// this way you'll have a first element 'welcome' which will point to your base url
+$bc-&gt;from('/action/parameter1/parameter2')-&gt;append('welcome', 'left', true);
+</code></pre>
+
+<h4>
+<a name="5-removing-segments-from-the-list" class="anchor" href="#5-removing-segments-from-the-list"><span class="octicon octicon-link"></span></a>5) Removing Segments from the list:</h4>
+
+<p>You can remove segments one by one from the registered bunch.</p>
+
+<ul>
+<li>
+<code>$pos (int|required)</code>: The index of the element which you want to remove</li>
+<li>
+<code>$reindex (Boolean)</code>: Is a boolean value which may trigger a re-index on the remaining elements after removal (default is: <code>false</code>)</li>
+</ul><pre><code>// we provide a base list of Segments before removal
+$bc-&gt;from(array('test-segment', 'second', '3rd', 'Fourth-Thingy'));
+
+// remove the Segment on index: 2
+$bc-&gt;remove(2);
+
+// remove the Segment on index: 0, and re-index the list after
+$bc-&gt;remove(0, true);
+
+/**
+ * Result will be (not an actual var_dump!)
+ * 0 =&gt; 'second'
+ * 1 =&gt; 'Fourth-Thingy'
+ */
+</code></pre>
+
+<h4>
+<a name="6-overwriting-translation" class="anchor" href="#6-overwriting-translation"><span class="octicon octicon-link"></span></a>6) Overwriting translation:</h4>
+
+<p><em>Since: 2.0.2</em></p>
+
+<pre><code>// this way you can tell the translator to translate the given value to "overwritten" no matter what
+$bc-&gt;append(URI::segment(3), 'left', true, 'overwritten');
+</code></pre>
+
+<h4>
+<a name="7-building-breadcrumbs" class="anchor" href="#7-building-breadcrumbs"><span class="octicon octicon-link"></span></a>7) Building breadcrumbs:</h4>
+
+<p>Creating breadcrumbs can be simple or complicated as well if you desire. The package also lets you define your own builders as well (examine the Builders folder if you want to).</p>
+
+<ul>
+<li>
+<code>$format (String)</code>: The format of the created breadcrumbs (<code>bootstrap</code>, <code>foundation</code>, <code>html</code>)</li>
+<li>
+<code>$casing (mixed)</code>: Sets the casing of the text in the breadcrumbs (<code>null</code>, <code>upper</code>, <code>lower</code>, <code>title</code>, default is <code>null</code>, which means no transformation is done)</li>
+<li>
+<code>$last_not_link (Boolean)</code>: If set to false, then the last element will be a link as well, by default it's <code>true</code>
+</li>
+<li>
+<code>$separator (String)</code>: The separator in between breadcrumbs (applied only to html and bootstrap stlye breadcrumbs, since there is no separator in Zurb Foundation!)</li>
+<li>
+<code>$customizations (Array)</code>: An array of customizations can be set to elements where the keys are the properties and the values are the values (only works with html type breadcrumbs!)</li>
+</ul><h5>
+<a name="first-we-start-out-by-adding-some-elements-to-work-with" class="anchor" href="#first-we-start-out-by-adding-some-elements-to-work-with"><span class="octicon octicon-link"></span></a>First we start out by adding some elements to work with</h5>
+
+<pre><code>// Sample list initialization
+$bc-&gt;from(array('test-segment', 'second', '3rd', 'Fourth-Thingy'));
+</code></pre>
+
+<h5>
+<a name="a-creating-breadcrumbs-with-default-settings" class="anchor" href="#a-creating-breadcrumbs-with-default-settings"><span class="octicon octicon-link"></span></a>a) Creating breadcrumbs with <em>default</em> settings:</h5>
+
+<pre><code>/**
+ * This will build default format(html) breadcrumbs with the default separator( / )
+ * without any casing modification or property injection, and the last element
+ * won't be a link
+ */
+echo $bc-&gt;build();
+</code></pre>
+
+<h5>
+<a name="b-creating-zurb-foundation-style-breadcrumbs" class="anchor" href="#b-creating-zurb-foundation-style-breadcrumbs"><span class="octicon octicon-link"></span></a>b) Creating <em>Zurb Foundation</em> style breadcrumbs:</h5>
+
+<pre><code>/**
+ * This will build Zurb Foundation styled breadcrumbs with all links upper cased, and
+ * the last element will be a link too
+ */
+echo $bc-&gt;build('foundation', 'upper', false);
+</code></pre>
+
+<h5>
+<a name="c-creating-bootstrap-style-breadcrumbs" class="anchor" href="#c-creating-bootstrap-style-breadcrumbs"><span class="octicon octicon-link"></span></a>c) Creating <em>Bootstrap</em> style breadcrumbs:</h5>
+
+<pre><code>/**
+ * This way you'll get Bootstrap styled breadcrumbs with unmodified casing, the last
+ * element as link, and a "+" as separator
+ */
+echo $bc-&gt;build('bootstrap', null, false, '+');
+</code></pre>
+
+<h5>
+<a name="d-creating-complex-html-breadcrumbs" class="anchor" href="#d-creating-complex-html-breadcrumbs"><span class="octicon octicon-link"></span></a>d) Creating complex <em>HTML</em> breadcrumbs:</h5>
+
+<pre><code>/**
+ * This will create HTML breadcrumbs which will have lower cased links, last
+ * element won't be a link, default separator will be ` / `, and will inject properties
+ * which are in the array.
+ */
+echo $bc-&gt;build('html', 'lower', true, null, array('style' =&gt; 'font-family: Arial; font-size: 11px;', 'class' =&gt; 'some_class'));
+
+</code></pre>
+
+<h4>
+<a name="8-utility-functions" class="anchor" href="#8-utility-functions"><span class="octicon octicon-link"></span></a>8) Utility functions:</h4>
+
+<p>These functions exist to somewhat ease your work with this package.</p>
+
+<ul>
+<li>List of registered Segments: <code>var_dump($bc-&gt;registered());</code>
+</li>
+<li>Picking one element from the list: <code>var_dump($bc-&gt;segment(1));</code>
+</li>
+<li>Total number of Segments in the list: <code>var_dump($bc-&gt;num_of_segments());</code>
+</li>
+</ul><h3>
+<a name="laravel-3-specific-detailed" class="anchor" href="#laravel-3-specific-detailed"><span class="octicon octicon-link"></span></a>Laravel 3 specific, detailed:</h3>
 
 <ul>
 <li><a href="https://github.com/noherczeg/breadcrumb/blob/master/docs/laravel3_guide.md#using-breadcrumb-with-a-base-controller">Using Breadcrumb with a base controller</a></li>
-</ul><h2>Changelog:</h2>
+</ul><h2>
+<a name="changelog" class="anchor" href="#changelog"><span class="octicon octicon-link"></span></a>Changelog:</h2>
 
-<h3>Breadcrumb 2.0.0</h3>
+<h3>
+<a name="breadcrumb-202" class="anchor" href="#breadcrumb-202"><span class="octicon octicon-link"></span></a>Breadcrumb 2.0.2</h3>
+
+<ul>
+<li>Added ability to provide translation arrays (dictionaries) as second parameter to the constructor</li>
+<li>Users now can overwrite or ignore translations while building breadcrumbs via the <code>append()</code> method</li>
+</ul><h3>
+<a name="breadcrumb-201" class="anchor" href="#breadcrumb-201"><span class="octicon octicon-link"></span></a>Breadcrumb 2.0.1</h3>
+
+<ul>
+<li>The package can now publish configurations to Laravel 4 via artisan</li>
+<li>Added Laravel 4 Service Provider</li>
+</ul><h3>
+<a name="breadcrumb-200" class="anchor" href="#breadcrumb-200"><span class="octicon octicon-link"></span></a>Breadcrumb 2.0.0</h3>
 
 <ul>
 <li>The list of builders is now obtained automatically, no further need for maintaining a list manually</li>
@@ -106,7 +345,8 @@
 <strong>ciritcal</strong>: using <code>from()</code> now desn't automatically create the first element as root! If you want to always have a segment point to the root, you should append() one to the left side(second param: <code>'left'</code>) with the third parameter set to <code>true</code>!</li>
 </ul><p><em>Example has been provided in the corresponding section of this document.</em></p>
 
-<h3>Breadcrumb 2.0.0-alpha1</h3>
+<h3>
+<a name="breadcrumb-200-alpha1" class="anchor" href="#breadcrumb-200-alpha1"><span class="octicon octicon-link"></span></a>Breadcrumb 2.0.0-alpha1</h3>
 
 <ul>
 <li>The bundle has been rewritten from scratch, now available as a composer package</li>
@@ -116,7 +356,8 @@
 <li>Added support for user made builders</li>
 <li>Added support for URI string input</li>
 <li>Now written with tests along</li>
-</ul><h3>Breadcrumb 1.2</h3>
+</ul><h3>
+<a name="breadcrumb-12" class="anchor" href="#breadcrumb-12"><span class="octicon octicon-link"></span></a>Breadcrumb 1.2</h3>
 
 <ul>
 <li>Refactored the comments in the code.</li>
@@ -127,7 +368,8 @@
 <li>Added remove(), which can remove any number of segments from the working array, index handling provided.</li>
 <li>Added slug_separator and word_separator options to config file.</li>
 <li>Replaced inferior documentation with a new, better, more detailed one.</li>
-</ul><h3>Breadcrumb 1.1</h3>
+</ul><h3>
+<a name="breadcrumb-11" class="anchor" href="#breadcrumb-11"><span class="octicon octicon-link"></span></a>Breadcrumb 1.1</h3>
 
 <ul>
 <li>Renamed methods for better reading.</li>
@@ -135,20 +377,19 @@
 <li>Added external bundle translation file handling option.</li>
 <li>Provided usage examples in the docs.</li>
 <li>Added scan_bundles, output_format option to the config file.</li>
-</ul><h3>Breadcrumb 1.0</h3>
+</ul><h3>
+<a name="breadcrumb-10" class="anchor" href="#breadcrumb-10"><span class="octicon octicon-link"></span></a>Breadcrumb 1.0</h3>
 
 <ul>
 <li>Bundle start.</li>
-</ul><h2>Dev's note:</h2>
+</ul><h2>
+<a name="devs-note" class="anchor" href="#devs-note"><span class="octicon octicon-link"></span></a>Dev's note:</h2>
 
 <p>If you notice an error / logic failure, or know something that is missing, please let me know via pull requests or issues. I'm tracking this repo, and will do it forever, so you can reach me :)</p>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/noherczeg">noherczeg</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
+
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
   </body>
 </html>
