@@ -1,6 +1,6 @@
 <?php namespace Noherczeg\Breadcrumb\Builders;
 
-class RichSnippetBuilder extends Builder
+class RichsnippetBuilder extends Builder
 {
 
     public function __construct ($segments, $base_url)
