@@ -9,7 +9,8 @@ class RichSnippetBuilder extends Builder
     }
 
     /**
-     * build: The builder method which creates HTML style breadcrumbs
+     * build: The builder method which creates rich snippet style breadcrumbs
+     * https://support.google.com/webmasters/answer/185417?hl=en
      * 
      * @param String|null $casing       Casing option
      * @param boolean $last_not_link    True if last shouldn't be a link
