@@ -3,3 +3,6 @@ composer.bat
 phpunit.bat
 .htaccess
 vendor/
+.settings
+.buildpath
+.project
