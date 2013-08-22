@@ -202,7 +202,7 @@ class Breadcrumb
 
             // URI string
             if (is_string($input) && json_decode($input) != null) {
-                $guaranteed_array = array_values(json_decode($input));
+                $guaranteed_array = array_values((array) json_decode($input));
 
             // JSON array
             } elseif (is_string($input)) {
