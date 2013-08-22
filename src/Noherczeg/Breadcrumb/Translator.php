@@ -97,7 +97,7 @@ class Translator
     public function translate($key)
     {
         // inproper param given
-        if (!is_string($key)) {
+        if (!is_string($key) && !is_int($key)) {
             throw new \InvalidArgumentException("Invalid argument provided, string required!");
 
         // value provided not found in dictionary -> return it with slug
