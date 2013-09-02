@@ -43,7 +43,7 @@ class Config
     {
         if (!is_string($key)) {
             throw new \InvalidArgumentException("Invalid argument provided, string required!");
-        } elseif(\Config::get('breadcrumb::' . $key, false) !== false) {
+        } elseif(method_exists('Config', 'get') &&  \Config::get('breadcrumb::' . $key, false) !== false) {
             return \Config::get('breadcrumb::' . $key, false);
         } elseif (!array_key_exists($key, $this->configs)) {
             throw new \OutOfRangeException("There is no " . $key . " key in the Configurations!");
