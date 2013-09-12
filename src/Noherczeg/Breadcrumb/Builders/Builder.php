@@ -1,5 +1,7 @@
 <?php namespace Noherczeg\Breadcrumb\Builders;
 
+use Noherczeg\Breadcrumb\Config;
+
 abstract class Builder
 {
 
@@ -14,7 +16,7 @@ abstract class Builder
         } elseif (!is_string($base_url)) {
             throw new \InvalidArgumentException('Base URL should be a string!');
         } else {
-            $this->config = new \Noherczeg\Breadcrumb\Config();
+            $this->config = new Config();
             $this->segments = $segments;
             $this->base_url = $base_url;
         }
@@ -22,11 +24,11 @@ abstract class Builder
 
     /**
      * link: Inserts proper URLs to each Segment which is IN THE BUILDER's list.
-     * 
-     * @param boolean $skip_last    To create a link for the last element or not
-     * @param boolean $different_links  Each segment is appended to base_url instead of the previous segment
+     *
+     * @param boolean $skip_last            To create a link for the last element or not
+     * @param boolean $different_links      Each segment is appended to base_url instead of the previous segment
+     * @throws \InvalidArgumentException
      * @return array
-     * @throws InvalidArgumentException
      */
     public function link($skip_last = true, $different_links = false)
     {
@@ -77,21 +79,16 @@ abstract class Builder
 
         return $this->segments;
     }
-    
+
     /**
      * casing: Provides casing operation to the class.
-     * 
+     *
      * @param String $string    String to format
      * @param String $to        Name of casing
-     * @throws InvalidArgumentException
      * @return String
      */
     public function casing ($string, $to = '')
     {
-        if (!is_string($string)) {
-            throw new \InvalidArgumentException('For case function to work you need to provide a string as first parameter!');
-        }
-        
         $res = null;
         
         // Pick one! :)

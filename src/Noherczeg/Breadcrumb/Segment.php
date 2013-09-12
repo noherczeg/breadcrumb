@@ -36,30 +36,20 @@ class Segment
      * setTranslated: Basic setter method.
      * 
      * @param String $value
-     * @throws \InvalidArgumentException
      */
     public function setTranslated($value)
     {
-        if (!is_string($value)) {
-            throw new \InvalidArgumentException('We can only translate Strings!');
-        } else {
-            $this->translated = $value;
-        }
+        $this->translated = $value;
     }
 
     /**
      * setLink: Basic setter method.
      * 
      * @param String $link
-     * @throws \InvalidArgumentException
      */
     public function setLink($link)
     {
-        if (!is_string($link)) {
-            throw new \InvalidArgumentException('Links have to be strings!');
-        } else {
-            $this->link = $link;
-        }
+        $this->link = $link;
     }
 
     /**

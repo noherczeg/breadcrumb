@@ -32,7 +32,7 @@ class Breadcrumb
 
     public function __construct($base_url = null, $config = 'en')
     {
-        $userConf = array();
+        $userConf = null;
     
         // Set defaults
         is_null($base_url) ? $base_url = './' : $base_url;
@@ -70,7 +70,7 @@ class Breadcrumb
 				throw new \Exception('Can\'t open builder directory, check the permissions!');
 			}
 		} else {
-			throw new \Exception('Can\'t open builder directory, maybe it doesn\t exists?');
+			throw new \Exception('Can\'t open builder directory, maybe it doesn\'t exists?');
 		}
 	}
 
@@ -102,7 +102,7 @@ class Breadcrumb
      *
      * @param String $raw_name      Name of the appendable Segment
      * @param String $side          Which side to place the segment in the array
-     * @param boolean $base         true if it is refering to the base url
+     * @param boolean $base         true if it is referring to the base url
      * @param mixed $translate      Set to true if you want to use the provided dictionary, 
      *                              set to false if you want to skip translation, or
      *                              set to a specific string to assign that value
@@ -145,7 +145,7 @@ class Breadcrumb
     }
 
     /**
-     * remove: Removes an element from the list, optionaly can reindex the list
+     * remove: Removes an element from the list, optionally can reindex the list
      * after removal.
      *
      * Supports method chaining.
@@ -174,7 +174,7 @@ class Breadcrumb
      * from: Reads the first parameter which can be a String, PHP array, JSON
      * array and creates + appends Segments from it in one step.
      *
-     * Supports method caining.
+     * Supports method chaining.
      *
      * @param mixed $input      Either: PHP array, JSON array, URI string
      * @return \Noherczeg\Breadcrumb\Breadcrumb
@@ -222,7 +222,7 @@ class Breadcrumb
     /**
      * Registers a list of title => link pairs with the package.
      * 
-     * All of the given data will be used as-is no translation, no URL converion
+     * All of the given data will be used as-is no translation, no URL conversion
      * will be applied!
      * 
      * @param array $rawArray Array with title => link pairs
@@ -274,17 +274,19 @@ class Breadcrumb
     }
 
     /**
-     * build: Builder method which returns with a result type as required.
+     * Builder method which returns with a result type as required.
      * Supports separator switching, casing switching, and custom property
      * insertion from an array (only if output is set to html!).
      *
      * @param String $format            Format of the output
      * @param String|null $casing       Casing of Segments
+     * @param bool $last_not_link
      * @param String|null $separator    Separator String (not there in Foundation!)
      * @param array $customizations     Array of properties (only in HTML!)
-     * @param boolean Each segment is appended to base_url instead of the previous segment
+     * @param bool $different_links
+     * @throws \OutOfRangeException
+     * @internal param \Noherczeg\Breadcrumb\Each $boolean segment is appended to base_url instead of the previous segment
      * @return String
-     * @throws OutOfRangeException
      */
     public function build ($format = null, $casing = null, $last_not_link = true, $separator = null, $customizations = array(), $different_links = false)
     {

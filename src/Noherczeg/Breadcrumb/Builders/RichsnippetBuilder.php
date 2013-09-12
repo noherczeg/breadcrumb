@@ -11,12 +11,14 @@ class RichsnippetBuilder extends Builder
     /**
      * build: The builder method which creates rich snippet style breadcrumbs
      * https://support.google.com/webmasters/answer/185417?hl=en
-     * 
+     *
      * @param String|null $casing       Casing option
      * @param boolean $last_not_link    True if last shouldn't be a link
      * @param String|null $separator    Separator String
-     * @param array $customizations     Array of properties + values
+     * @param array $properties
      * @param String|null $ul_class     Class of <ul> element
+     * @param bool $different_links
+     * @internal param array $customizations Array of properties + values
      * @return String
      */
     public function build ($casing = null, $last_not_link = true, $separator = null, $properties = array(), $ul_class = null, $different_links = false )

@@ -33,9 +33,6 @@ class BuilderTest extends PHPUnit_Framework_TestCase
         $correct_builer->casing(null);
         $correct_builer->casing(array());
         
-        //$this->boostrap_builder->link(234234);
-        //$this->boostrap_builder->link('qwerty');
-        
     }
 
 }

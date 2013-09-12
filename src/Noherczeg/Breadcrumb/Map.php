@@ -1,5 +1,7 @@
 <?php namespace Noherczeg\Breadcrumb;
 
+use InvalidArgumentException;
+
 /**
  * Map
  * 
@@ -12,7 +14,7 @@ class Map {
     
     /** @var array List of Segments */
     private $segments = array();
-    
+
     /**
      * @param array $rawArray Array of raw data
      * @throws InvalidArgumentException
@@ -20,7 +22,7 @@ class Map {
     public function __construct($rawArray) {
         
         if (!is_array($rawArray)) {
-            throw new \InvalidArgumentException("An array is required!");
+            throw new InvalidArgumentException("An array is required!");
         }
         
         $this->rawInput = $rawArray;
@@ -39,8 +41,6 @@ class Map {
             $segment->setLink($link);
             
             $this->segments[] = $segment;
-            
-            $first = false;
         }
     }
     
