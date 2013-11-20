@@ -40,8 +40,10 @@ class BootstrapBuilder extends Builder
                 $result .= ' <span class="divider">' . $ts . '</span></li>';
             }
 
-            if (is_null($segment->get('link'))) {
-                $result .= '<li class="active">' . $this->casing($segment->get('translated'), $tc);
+			if ($segment->get('disabled')) {
+				$result .= $this->getInactiveElementByFieldName($segment->get('raw'), $tc);
+			} else if (is_null($segment->get('link'))) {
+                $result .= $this->getInactiveElementByFieldName($segment->get('translated'), $tc);
             } else {
                 $result .= '<li><a href="' . $segment->get('link') . '">' . $this->casing($segment->get('translated'), $tc) . '</a>';
             }
@@ -49,4 +51,9 @@ class BootstrapBuilder extends Builder
 
         return $result . '</ul>';
     }
+	
+	private function getInactiveElementByFieldName($segmentProperty, $tc)
+	{
+		return '<li class="active">' . $this->casing($segmentProperty, $tc);
+	}
 }

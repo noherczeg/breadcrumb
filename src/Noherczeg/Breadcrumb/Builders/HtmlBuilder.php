@@ -36,8 +36,10 @@ class HtmlBuilder extends Builder
                 $result .= $ts;
             }
             
-			if (is_null($segment->get('link'))) {
-				$result .= '<span' . $this->properties($properties) . '>' . $this->casing($segment->get('translated'), $tc) . '</span>';
+			if ($segment->get('disabled')) {
+				$result .= $this->getInactiveElementByFieldName($segment->get('raw'), $tc, $this->properties($properties));
+			} else if (is_null($segment->get('link'))) {
+				$result .= $this->getInactiveElementByFieldName($segment->get('translated'), $tc, $this->properties($properties));
 			} else {
 				$result .= '<a href="' . $segment->get('link') . '" ' . $this->properties($properties) . '>' . $this->casing($segment->get('translated'), $tc) . '</a>';
 			}
@@ -45,4 +47,9 @@ class HtmlBuilder extends Builder
 
 		return $result;
     }
+	
+	private function getInactiveElementByFieldName($segmentProperty, $tc, $htmlProperties)
+	{
+		return '<span' . $htmlProperties . '>' . $this->casing($segmentProperty, $tc) . '</span>';
+	}
 }

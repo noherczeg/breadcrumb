@@ -30,9 +30,11 @@ class FoundationBuilder extends Builder
         $result = '<ul class="breadcrumbs">';
 
         foreach ($this->segments as $key => $segment) {
-
-            if (is_null($segment->get('link'))) {
-                $result .= '<li class="current"><span>' . $this->casing($segment->get('translated'), $tc) . '</span></li>';
+			
+			if ($segment->get('disabled')) {
+				$result .= $this->getInactiveElementByFieldName($segment->get('raw'), $tc);
+            } else if (is_null($segment->get('link'))) {
+                $result .= $this->getInactiveElementByFieldName($segment->get('translated'), $tc, 'current');
             } else {
                 $result .= '<li><a href="' . $segment->get('link') . '">' . $this->casing($segment->get('translated'), $tc) . '</a></li>';
             }
@@ -41,4 +43,9 @@ class FoundationBuilder extends Builder
         return $result . '</ul>';
 
     }
+	
+	private function getInactiveElementByFieldName($segmentProperty, $tc, $class = 'unavailable')
+	{
+		return '<li class="' . $class . '"><span>' . $this->casing($segmentProperty, $tc) . '</span></li>';
+	}
 }

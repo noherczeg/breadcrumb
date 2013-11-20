@@ -17,11 +17,11 @@ class Translator
     /**
      * Constructor
      * 
-     * @param String	$dictionary	The code(file name in the Languages folder),
+     * @param String	$config	The code(file name in the Languages folder),
      *                                  or an array of key-value pairs of the
      *                                  language to use for translations
      */
-    public function __construct($dictionary = null)
+    public function __construct($config = null)
     {
         
         // load the configs
@@ -32,10 +32,10 @@ class Translator
 
         // try to load a dictionary
         try {
-            if (is_array($dictionary)) {
-                $this->dictionary = $dictionary;
-            } elseif(is_string($dictionary)) {
-                $this->dictionary = $this->loadDictionary($dictionary);
+            if (is_array($config) && array_key_exists('language', $config)) {
+                $this->dictionary = $this->loadDictionary($config['language']);
+            } elseif(is_string($config)) {
+                $this->dictionary = $this->loadDictionary($config);
             } else {
                 // fallback
                 $this->dictionary = $this->loadDictionary($this->config->value('language'));

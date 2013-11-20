@@ -25,14 +25,13 @@ class Breadcrumb
     private $base_url = null;
     private $segments = array();
     private $translator = null;
-    private $config = null;
+    private $config = array();
 
     // you have to expand this if you create your own builders!
     private $build_formats = null;
 
     public function __construct($base_url = null, $config = 'en')
     {
-        $userConf = null;
     
         // Set defaults
         is_null($base_url) ? $base_url = './' : $base_url;
@@ -40,18 +39,8 @@ class Breadcrumb
         // Set objet properties
         $this->base_url = $this->setParam($base_url);
         
-        // backwards compatibility
-        if(is_string($config)) {
-            $userConf = array('language' => $config);
-        } else {
-            $userConf = $config;
-        }
-        
         // Load configurations
-        $this->config = new Config($userConf);
-        
-        // Load Util Classes
-        $this->translator = new Translator($config);
+        $this->setConfiguration($config);
 
 		// load builders
 		$builderDirectory = __DIR__ . DIRECTORY_SEPARATOR . 'Builders';
@@ -72,6 +61,52 @@ class Breadcrumb
 		} else {
 			throw new \Exception('Can\'t open builder directory, maybe it doesn\'t exists?');
 		}
+	}
+	
+	/**
+     * Sets the base URL for the package.
+     *
+     * @param String $urlString    Base URL
+     * @return \Noherczeg\Breadcrumb\Breadcrumb
+     * @throws InvalidArgumentException
+     */
+	public function setBaseURL($urlString)
+	{
+		if (!is_string($to_this) && !is_null($to_this)) {
+            throw new InvalidArgumentException("Please provide a string as parameter!");
+        } else {
+			$this->base_url = $urlString;
+		}
+
+		return $this;
+	}
+	
+	/**
+     * Dynamic Package configuration
+     *
+     * @param mixed $config    Configurations (either lang code as String, or configuration array)
+     * @return \Noherczeg\Breadcrumb\Breadcrumb
+     * @throws InvalidArgumentException
+     */
+	public function setConfiguration($config)
+	{
+		$userConf = null;
+		
+		// backwards compatibility
+        if(is_string($config)) {
+            $userConf = array('language' => $config);
+        } else if (is_array($config)) {
+            $userConf = $config;
+        } else {
+			throw new InvalidArgumentException("Please provide a string or an array as parameter!");
+		}
+
+		$this->config = array_merge_recursive($this->config, $userConf);
+
+		// Load Util Classes
+        $this->translator = new Translator($this->config);
+
+		return $this;
 	}
 
     /**
@@ -109,14 +144,14 @@ class Breadcrumb
      * @return \Noherczeg\Breadcrumb\Breadcrumb
      * @throws InvalidArgumentException
      */
-    public function append($raw_name = null, $side = 'right', $base = false, $translate = true)
+    public function append($raw_name = null, $side = 'right', $base = false, $translate = true, $disabled = false)
     {
         if (!is_string($raw_name) && !is_int($raw_name) && !in_array($side, array('left', 'right'))) {
             throw new InvalidArgumentException("Wrong type of arguments provided!");
         } else {
 
             // create segment
-            $segment = new Segment($raw_name, $base);
+            $segment = new Segment($raw_name, $base, $disabled);
 
             // translate it, or not, by the rules we provide
             if ($translate) {
@@ -143,6 +178,30 @@ class Breadcrumb
             return $this;
         }
     }
+	
+	/**
+     * Disables a Segment at the given position.
+	 *
+	 * Segment will still remain, but won't be translated, and will be handled
+	 * specially in the building process.
+     *
+     * Supports method chaining.
+     *
+     * @param int $pos                          Position of the element
+     * @return \Noherczeg\Breadcrumb\Breadcrumb
+     * @throws OutOfRangeException
+     */
+	public function disable($pos = null)
+	{
+		if ($pos === null || !in_array($pos, array_keys($this->segments))) {
+			throw new OutOfRangeException('Refering to non existent Segment position!');
+		} else {
+			$selectedSegment = $this->segments[$pos];
+			$selectedSegment->disable();
+		}
+		
+		return $this;
+	}
 
     /**
      * remove: Removes an element from the list, optionally can reindex the list

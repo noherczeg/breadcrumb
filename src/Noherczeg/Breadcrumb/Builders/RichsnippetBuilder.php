@@ -41,8 +41,10 @@ class RichsnippetBuilder extends Builder
                 $result .= $ts;
             }
             
-			if (is_null($segment->get('link'))) {
-				$result .= '<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><span' . $this->properties($properties) . ' itemprop="title">' . $this->casing($segment->get('translated'), $tc) . '</span></li>';
+			if ($segment->get('disabled')) {
+				$result .= getInactiveElementByFieldName($this->properties($properties), $this->casing($segment->get('raw'), $tc));
+			} elseif (is_null($segment->get('link'))) {
+				$result .= getInactiveElementByFieldName($this->properties($properties), $this->casing($segment->get('translated'), $tc));
 			} else {
 				$result .= '<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="' . $segment->get('link') . '" ' . $this->properties($properties) . ' itemprop="url">' . '<span itemprop="title">' . $this->casing($segment->get('translated'), $tc) . '</span>' . '</a></li>';
 			}
@@ -50,4 +52,9 @@ class RichsnippetBuilder extends Builder
 
 		return $result . '</ul>';
     }
+	
+	private function getInactiveElementByFieldName($segmentProperty, $title)
+	{
+		return '<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><span' . $segmentProperty . ' itemprop="title">' . $title . '</span></li>';;
+	}
 }
