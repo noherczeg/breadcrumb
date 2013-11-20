@@ -1,50 +1,41 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Breadcrumb by noherczeg</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
     <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+    <title>Breadcrumb by noherczeg</title>
   </head>
+
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/noherczeg/breadcrumb">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/noherczeg/breadcrumb/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/noherczeg/breadcrumb/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
+    <header>
+      <div class="inner">
+        <h1>Breadcrumb</h1>
+        <h2>A Composer package for breadcrumb generation and management</h2>
+        <a href="https://github.com/noherczeg/breadcrumb" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
 
-    <div class="wrapper">
-
-      <section>
-        <div id="title">
-          <h1>Breadcrumb</h1>
-          <p>A Composer package for breadcrumb generation and management</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/noherczeg">noherczeg</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
-
-        <h1>
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
 <a name="breadcrumb" class="anchor" href="#breadcrumb"><span class="octicon octicon-link"></span></a>Breadcrumb</h1>
 
 <p>A package for breadcrumb management.</p>
 
 <p><a href="https://packagist.org/packages/noherczeg/breadcrumb"><img src="https://poser.pugx.org/noherczeg/breadcrumb/downloads.png" alt="Total Downloads"></a>
-<a href="https://travis-ci.org/noherczeg/breadcrumb"><img src="https://secure.travis-ci.org/noherczeg/breadcrumb.png?branch=develop" alt="Build Status"></a></p>
+<a href="https://travis-ci.org/noherczeg/breadcrumb"><img src="https://secure.travis-ci.org/noherczeg/breadcrumb.png?branch=develop" alt="Build Status"></a>
+<a href="https://scrutinizer-ci.com/g/noherczeg/breadcrumb/"><img src="https://scrutinizer-ci.com/g/noherczeg/breadcrumb/badges/quality-score.png?s=4ed03152b941bec95431aaccbd5e4bad741bbbf6" alt="Scrutinizer Quality Score"></a></p>
 
 <h2>
 <a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features:</h2>
@@ -146,6 +137,11 @@ $bc = new \Noherczeg\Breadcrumb\Breadcrumb(URL::base());
 $bc = new \Noherczeg\Breadcrumb\Breadcrumb('http://localhost/breadcrumb/', $dictionary);
 </code></pre>
 
+<p>Overriding configurations (can be chained, or chain can be continued):</p>
+
+<pre><code>Breadcrumb::setConfiguration(array('language' =&gt; 'de'));
+</code></pre>
+
 <h4>
 <a name="2-registering-a-batch-of-segments-from-variable-input-types" class="anchor" href="#2-registering-a-batch-of-segments-from-variable-input-types"><span class="octicon octicon-link"></span></a>2) Registering a batch of segments from variable input types:</h4>
 
@@ -229,7 +225,26 @@ $bc-&gt;remove(0, true);
 </code></pre>
 
 <h4>
-<a name="6-overwriting-translation" class="anchor" href="#6-overwriting-translation"><span class="octicon octicon-link"></span></a>6) Overwriting translation:</h4>
+<a name="6-addingsetting-separator-links-disabled-breadcrumbs" class="anchor" href="#6-addingsetting-separator-links-disabled-breadcrumbs"><span class="octicon octicon-link"></span></a>6) Adding/setting separator links (disabled Breadcrumbs):</h4>
+
+<p>You can now add or set segments as disabled which means that in any builder they will be handled separately: they wont be translated and appropriate formatting will be applied.</p>
+
+<p>This can be useful when one needs to handle variable elements.</p>
+
+<p>Adding a brand new disabled element:</p>
+
+<pre><code>// the last parameter flags the Segment as disabled
+$bc-&gt;append(URI::segment(2), 'left', false, true, true);
+</code></pre>
+
+<p>Disabling a pre populated element:</p>
+
+<pre><code>// If you decide to disable or enable a Segment on the fly you can do it like this (works with enable() as well)
+Breadcrumb::from(Request::path())-&gt;disable(1);
+</code></pre>
+
+<h4>
+<a name="7-overwriting-translation" class="anchor" href="#7-overwriting-translation"><span class="octicon octicon-link"></span></a>7) Overwriting translation:</h4>
 
 <p><em>Since: 2.0.2</em></p>
 
@@ -238,7 +253,7 @@ $bc-&gt;append(URI::segment(3), 'left', true, 'overwritten');
 </code></pre>
 
 <h4>
-<a name="7-building-breadcrumbs" class="anchor" href="#7-building-breadcrumbs"><span class="octicon octicon-link"></span></a>7) Building breadcrumbs:</h4>
+<a name="8-building-breadcrumbs" class="anchor" href="#8-building-breadcrumbs"><span class="octicon octicon-link"></span></a>8) Building breadcrumbs:</h4>
 
 <p>Creating breadcrumbs can be simple or complicated as well if you desire. The package also lets you define your own builders as well (examine the Builders folder if you want to).</p>
 
@@ -325,6 +340,13 @@ echo $bc-&gt;build('html', 'lower', true, null, array('style' =&gt; 'font-family
 <a name="changelog" class="anchor" href="#changelog"><span class="octicon octicon-link"></span></a>Changelog:</h2>
 
 <h3>
+<a name="breadcrumb-203" class="anchor" href="#breadcrumb-203"><span class="octicon octicon-link"></span></a>Breadcrumb 2.0.3</h3>
+
+<ul>
+<li>Added ability to override configuration anywhere</li>
+<li>Added support for separator links (enable/disable Breadcrumbs)</li>
+<li>Fixed configuration and translation handling</li>
+</ul><h3>
 <a name="breadcrumb-202" class="anchor" href="#breadcrumb-202"><span class="octicon octicon-link"></span></a>Breadcrumb 2.0.2</h3>
 
 <ul>
@@ -386,10 +408,25 @@ echo $bc-&gt;build('html', 'lower', true, null, array('style' =&gt; 'font-family
 <a name="devs-note" class="anchor" href="#devs-note"><span class="octicon octicon-link"></span></a>Dev's note:</h2>
 
 <p>If you notice an error / logic failure, or know something that is missing, please let me know via pull requests or issues. I'm tracking this repo, and will do it forever, so you can reach me :)</p>
-      </section>
+        </section>
 
+        <aside id="sidebar">
+          <a href="https://github.com/noherczeg/breadcrumb/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/noherczeg/breadcrumb/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/noherczeg/breadcrumb"></a> is maintained by <a href="https://github.com/noherczeg">noherczeg</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
+
+  
   </body>
 </html>
