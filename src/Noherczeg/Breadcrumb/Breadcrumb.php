@@ -101,7 +101,7 @@ class Breadcrumb
 			throw new InvalidArgumentException("Please provide a string or an array as parameter!");
 		}
 
-		$this->config = array_merge_recursive($this->config, $userConf);
+		$this->config = new Config($userConf);
 
 		// Load Util Classes
         $this->translator = new Translator($this->config);
