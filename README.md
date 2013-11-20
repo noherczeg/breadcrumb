@@ -88,6 +88,11 @@ $dictionary = array('this' => 'to_this', 'what' => 'what not?');
 $bc = new \Noherczeg\Breadcrumb\Breadcrumb('http://localhost/breadcrumb/', $dictionary);
 ```
 
+Overriding configurations (can be chained, or chain can be continued):
+```
+Breadcrumb::setConfiguration(array('language' => 'de'));
+```
+
 ####2) Registering a batch of segments from variable input types:
 
 __Warning__:
@@ -157,7 +162,24 @@ $bc->remove(0, true);
  */
 ```
 
-####6) Overwriting translation:
+####6) Adding/setting separator links (disabled Breadcrumbs):
+You can now add or set segments as disabled which means that in any builder they will be handled separately: they wont be translated and appropriate formatting will be applied.
+
+This can be useful when one needs to handle variable elements.
+
+Adding a brand new disabled element:
+```
+// the last parameter flags the Segment as disabled
+$bc->append(URI::segment(2), 'left', false, true, true);
+```
+
+Disabling a pre populated element:
+```
+// If you decide to disable or enable a Segment on the fly you can do it like this (works with `enable()` as well)
+Breadcrumb::from(Request::path())->disable(1);
+```
+
+####7) Overwriting translation:
 _Since: 2.0.2_
 
 ```
@@ -165,7 +187,7 @@ _Since: 2.0.2_
 $bc->append(URI::segment(3), 'left', true, 'overwritten');
 ```
 
-####7) Building breadcrumbs:
+####8) Building breadcrumbs:
 Creating breadcrumbs can be simple or complicated as well if you desire. The package also lets you define your own builders as well (examine the Builders folder if you want to).
 
 + `$format (String)`: The format of the created breadcrumbs (`bootstrap`, `foundation`, `html`)
@@ -231,6 +253,11 @@ These functions exist to somewhat ease your work with this package.
 + [Using Breadcrumb with a base controller](https://github.com/noherczeg/breadcrumb/blob/master/docs/laravel3_guide.md#using-breadcrumb-with-a-base-controller)
 
 ##Changelog:
+
+###Breadcrumb 2.0.3
++ Added ability to override configuration anywhere
++ Added support for separator links (enable/disable Breadcrumbs)
++ Fixed configuration and translation handling
 
 ###Breadcrumb 2.0.2
 + Added ability to provide translation arrays (dictionaries) as second parameter to the constructor

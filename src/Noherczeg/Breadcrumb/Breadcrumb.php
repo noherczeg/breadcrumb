@@ -8,10 +8,10 @@
  * Check https://github.com/noherczeg/breadcrumb for usage examples!
  *
  * @package     Breadcrumb
- * @version     2.0.2
+ * @version     2.0.3
  * @author      Norbert Csaba Herczeg
  * @license     MIT
- * @copyright   (c) 2012, Norbert Csaba Herczeg
+ * @copyright   (c) 2013, Norbert Csaba Herczeg
  */
 
 use InvalidArgumentException;
