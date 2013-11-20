@@ -175,7 +175,7 @@ $bc->append(URI::segment(2), 'left', false, true, true);
 
 Disabling a pre populated element:
 ```
-// If you decide to disable or enable a Segment on the fly you can do it like this (works with ```enable()``` as well)
+// If you decide to disable or enable a Segment on the fly you can do it like this (works with enable() as well)
 Breadcrumb::from(Request::path())->disable(1);
 ```
 
