@@ -72,7 +72,7 @@ class Breadcrumb
      */
 	public function setBaseURL($urlString)
 	{
-		if (!is_string($to_this) && !is_null($to_this)) {
+		if (!is_string($urlString) && !is_null($urlString)) {
             throw new InvalidArgumentException("Please provide a string as parameter!");
         } else {
 			$this->base_url = $urlString;
