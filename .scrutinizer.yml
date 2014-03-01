@@ -10,32 +10,28 @@ before_commands:
 tools:
     php_code_coverage:
         enabled: true
-        test_command: phpunit
-        config_path: null
-        only_changesets: false
-        filter:
-            excluded_paths:
-                - 'vendor/*'
-                - 'app/*'
-                - 'web/*'
-            paths: {  }
-    external_code_coverage:
-        enabled: true
-        timeout: 300
-        filter:
-            excluded_paths:
-                - 'vendor/*'
-                - 'app/*'
-                - 'web/*'
-            paths: {  }
+        test_command: phpunit -c tests/
+    external_code_coverage: true
     php_mess_detector: true
-    php_code_sniffer: true
+    php_cpd:
+        command:              ~
+        excluded_dirs:        []
+        names:
+            - *.php
+        min_lines:            5
+        min_tokens:           70
+        enabled:              false
+        filter:
+            paths:                []
+            excluded_paths:       []
+    php_pdepend: true
 changetracking:
     bug_patterns:
         - '\bfix(?:es|ed)?\b'
     feature_patterns:
         - '\badd(?:s|ed)?\b'
         - '\bimplement(?:s|ed)?\b'
-before_commands: {  }
+before_commands:
+    - "composer install --prefer-source"
 after_commands: {  }
 artifacts: {  }
