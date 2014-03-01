@@ -1,0 +1,7 @@
+filter:
+    excluded_paths: [vendor/*, app/*, web/*]
+
+tools:
+    php_cpd: true
+    php_pdepend:
+        excluded_dirs: [vendor]
