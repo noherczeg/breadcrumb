@@ -1,5 +1,7 @@
 <?php namespace Noherczeg\Breadcrumb\Builders;
 
+use Noherczeg\Breadcrumb\Segment;
+
 class BootstrapBuilder extends Builder
 {
     /**
@@ -22,25 +24,13 @@ class BootstrapBuilder extends Builder
 		$this->link($last_not_link, $different_links);
 
         // handle defaults
-        (is_null($separator))   ? $ts = $this->config->value('separator')      : $ts = $separator;
-        (is_null($casing))      ? $tc = $this->config->value('casing') : $tc = $casing;
+        $this->separator = (is_null($separator)) ? $this->config->value('separator') : $separator;
+        $this->casing = (is_null($casing)) ? $this->config->value('casing') : $casing;
 
         $result = '<ul class="breadcrumb">';
 
         foreach ($this->segments as $key => $segment) {
-
-            // ignore separator after the last element
-            if ($key > 0) {
-                $result .= ' <span class="divider">' . $ts . '</span></li>';
-            }
-
-			if ($segment->get('disabled')) {
-				$result .= $this->getInactiveElementByFieldName($segment->get('raw'), $tc);
-			} else if (is_null($segment->get('link'))) {
-                $result .= $this->getInactiveElementByFieldName($segment->get('translated'), $tc);
-            } else {
-                $result .= '<li><a href="' . $segment->get('link') . '">' . $this->casing($segment->get('translated'), $tc) . '</a>';
-            }
+            $result .= $this->appendElement($key, $segment, $properties);
         }
 
         return $result . '</ul>';
@@ -50,4 +40,22 @@ class BootstrapBuilder extends Builder
 	{
 		return '<li class="active">' . $this->casing($segmentProperty, $tc);
 	}
+
+    private function appendElement($key, Segment $segment)
+    {
+        $result = '';
+        // ignore separator after the last element
+        if ($key > 0) {
+            $result .= ' <span class="divider">' . $this->separator . '</span></li>';
+        }
+
+        if ($segment->get('disabled')) {
+            $result .= $this->getInactiveElementByFieldName($segment->get('raw'), $this->casing);
+        } else if (is_null($segment->get('link'))) {
+            $result .= $this->getInactiveElementByFieldName($segment->get('translated'), $this->casing);
+        } else {
+            $result .= '<li><a href="' . $segment->get('link') . '">' . $this->casing($segment->get('translated'), $this->casing) . '</a>';
+        }
+        return $result;
+    }
 }

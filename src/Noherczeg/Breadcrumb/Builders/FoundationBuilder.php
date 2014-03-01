@@ -1,7 +1,10 @@
 <?php namespace Noherczeg\Breadcrumb\Builders;
 
+use Noherczeg\Breadcrumb\Segment;
+
 class FoundationBuilder extends Builder
 {
+
     /**
      * build: The builder method which creates Foundation style breadcrumbs
      *
@@ -22,27 +25,32 @@ class FoundationBuilder extends Builder
         $this->link($last_not_link, $different_links);
 
         // handle default
-        (is_null($casing))      ? $tc = $this->config->value('casing') : $tc = $casing;
+        $this->casing = (is_null($casing)) ? $this->config->value('casing') : $casing;
 
         $result = '<ul class="breadcrumbs">';
 
         foreach ($this->segments as $segment) {
-			
-			if ($segment->get('disabled')) {
-				$result .= $this->getInactiveElementByFieldName($segment->get('raw'), $tc);
-            } else if (is_null($segment->get('link'))) {
-                $result .= $this->getInactiveElementByFieldName($segment->get('translated'), $tc, 'current');
-            } else {
-                $result .= '<li><a href="' . $segment->get('link') . '">' . $this->casing($segment->get('translated'), $tc) . '</a></li>';
-            }
+			$result .= $this->appendElement($segment);
         }
 
         return $result . '</ul>';
-
     }
 	
 	private function getInactiveElementByFieldName($segmentProperty, $tc, $class = 'unavailable')
 	{
 		return '<li class="' . $class . '"><span>' . $this->casing($segmentProperty, $tc) . '</span></li>';
 	}
+
+    private function appendElement(Segment $segment)
+    {
+        $result = '';
+        if ($segment->get('disabled')) {
+            $result .= $this->getInactiveElementByFieldName($segment->get('raw'), $this->casing);
+        } else if (is_null($segment->get('link'))) {
+            $result .= $this->getInactiveElementByFieldName($segment->get('translated'), $this->casing, 'current');
+        } else {
+            $result .= '<li><a href="' . $segment->get('link') . '">' . $this->casing($segment->get('translated'), $this->casing) . '</a></li>';
+        }
+        return $result;
+    }
 }

@@ -1,7 +1,13 @@
 <?php namespace Noherczeg\Breadcrumb\Builders;
 
+use Noherczeg\Breadcrumb\Segment;
+
 class RichsnippetBuilder extends Builder
 {
+
+    /** @var string */
+    private $ulClass;
+
     /**
      * build: The builder method which creates rich snippet style breadcrumbs
      * https://support.google.com/webmasters/answer/185417?hl=en
@@ -21,27 +27,15 @@ class RichsnippetBuilder extends Builder
         $this->link($last_not_link, $different_links);
         
         // handle defaults
-        (is_null($separator))   ? $ts = $this->config->value('separator')      : $ts = $separator;
-        (is_null($casing))      ? $tc = $this->config->value('casing') : $tc = $casing;
-        (is_null($ul_class))    ? $tu = '' : $tu = ' class="' . $ul_class . '"';
+        $this->separator = (is_null($separator)) ? $this->config->value('separator') : $separator;
+        $this->casing = (is_null($casing)) ? $this->config->value('casing') : $casing;
+        $this->ulClass = (is_null($ul_class)) ? '' : ' class="' . $ul_class . '"';
 
-        $result = "<ul{$tu}>";
+        $result = "<ul{$this->ulClass}>";
         
         foreach ($this->segments AS $key => $segment)
 		{
-            
-            // ignore separator after the last element
-            if ($key > 0) {
-                $result .= $ts;
-            }
-            
-			if ($segment->get('disabled')) {
-				$result .= getInactiveElementByFieldName($this->properties($properties), $this->casing($segment->get('raw'), $tc));
-			} elseif (is_null($segment->get('link'))) {
-				$result .= getInactiveElementByFieldName($this->properties($properties), $this->casing($segment->get('translated'), $tc));
-			} else {
-				$result .= '<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="' . $segment->get('link') . '" ' . $this->properties($properties) . ' itemprop="url">' . '<span itemprop="title">' . $this->casing($segment->get('translated'), $tc) . '</span>' . '</a></li>';
-			}
+            $result .= $this->appendElement($key, $segment, $properties);
 		}
 
 		return $result . '</ul>';
@@ -49,6 +43,25 @@ class RichsnippetBuilder extends Builder
 	
 	private function getInactiveElementByFieldName($segmentProperty, $title)
 	{
-		return '<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><span' . $segmentProperty . ' itemprop="title">' . $title . '</span></li>';;
+		return '<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><span' . $segmentProperty . ' itemprop="title">' . $title . '</span></li>';
 	}
+
+    private function appendElement($key, Segment $segment, $properties)
+    {
+        $result = '';
+        // ignore separator after the last element
+        if ($key > 0) {
+            $result .= $this->separator;
+        }
+
+        if ($segment->get('disabled')) {
+            $result .= $this->getInactiveElementByFieldName($this->properties($properties), $this->casing($segment->get('raw'), $this->casing));
+        } elseif (is_null($segment->get('link'))) {
+            $result .= $this->getInactiveElementByFieldName($this->properties($properties), $this->casing($segment->get('translated'), $this->casing));
+        } else {
+            $result .= '<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="' . $segment->get('link') . '" ' . $this->properties($properties) . ' itemprop="url">' . '<span itemprop="title">' . $this->casing($segment->get('translated'), $this->casing) . '</span>' . '</a></li>';
+        }
+
+        return $result;
+    }
 }

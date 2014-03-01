@@ -15,6 +15,12 @@ abstract class Builder
     /** @var Config */
     protected $config = null;
 
+    /** @var string */
+    protected $casing;
+
+    /** @var string */
+    protected $separator;
+
     public function __construct($segments, $base_url, $config = array())
     {
         if (!is_array($segments) || empty($segments)) {
