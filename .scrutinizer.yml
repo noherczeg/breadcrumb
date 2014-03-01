@@ -4,6 +4,8 @@ filter:
         - 'app/*'
         - 'web/*'
     paths: {  }
+before_commands:
+    - 'composer install --dev --prefer-source'
 tools:
     php_code_coverage:
         enabled: true
@@ -25,6 +27,8 @@ tools:
                 - 'app/*'
                 - 'web/*'
             paths: {  }
+    php_mess_detector: true
+    php_code_sniffer: true
 changetracking:
     bug_patterns:
         - '\bfix(?:es|ed)?\b'
