@@ -2,6 +2,8 @@
 
 class BreadcrumbTest extends PHPUnit_Framework_TestCase
 {
+
+    /** @var \Noherczeg\Breadcrumb\Breadcrumb */
 	private $bread = null;
 
 	/**
