@@ -9,8 +9,11 @@ class FoundationBuilder extends Builder
      * to it, since it's not in the model by default! Parameter is only there as
      * placeholder!
      *
-     * @param String|null $casing       Casing option
-     * @param boolean $last_not_link    True if last shouldn't be a link
+     * @param String|null $casing Casing option
+     * @param boolean $last_not_link True if last shouldn't be a link
+     * @param null $separator
+     * @param null $properties
+     * @param bool $different_links
      * @return String
      */
     public function build ($casing = null, $last_not_link = true,  $separator = null, $properties = null, $different_links = false)
@@ -23,7 +26,7 @@ class FoundationBuilder extends Builder
 
         $result = '<ul class="breadcrumbs">';
 
-        foreach ($this->segments as $key => $segment) {
+        foreach ($this->segments as $segment) {
 			
 			if ($segment->get('disabled')) {
 				$result .= $this->getInactiveElementByFieldName($segment->get('raw'), $tc);
