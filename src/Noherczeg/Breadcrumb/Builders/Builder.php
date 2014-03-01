@@ -1,12 +1,18 @@
 <?php namespace Noherczeg\Breadcrumb\Builders;
 
 use Noherczeg\Breadcrumb\Config;
+use Noherczeg\Breadcrumb\Segment;
 
 abstract class Builder
 {
 
+    /** @var Segment[] */
     protected $segments = null;
+
+    /** @var string */
     protected $base_url = null;
+
+    /** @var Config */
     protected $config = null;
 
     public function __construct($segments, $base_url, $config = array())
@@ -134,5 +140,5 @@ abstract class Builder
         return $res;
     }
 
-    abstract protected function build();
+    abstract function build();
 }
