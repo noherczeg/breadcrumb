@@ -261,41 +261,52 @@ class Breadcrumb
      */
     public function from($input = null)
     {
-        // If we can't process the input, throw an exception
-        if (!is_string($input) && !is_array($input)) {
-            throw new InvalidArgumentException("Invalid argument provided, string/array required!");
-        } else {
+        $this->checkFromArgs($input);
 
-            // Container of raw strings
-            $guaranteed_array = array();
+        // PHP array
+        $guaranteed_array = $this->safeArrayAssignment($input);
 
-            // PHP array
-            if (is_array($input)) {
-                if (!empty($input)) {
-                    $guaranteed_array = $input;
-                } else {
-                    throw new InvalidArgumentException("Not empty array required!");
-                }
+        // URI string
+        if (is_string($input) && json_decode($input) != null) {
+            $guaranteed_array = array_values((array) json_decode($input));
 
-            }
-
-            // URI string
-            if (is_string($input) && json_decode($input) != null) {
-                $guaranteed_array = array_values((array) json_decode($input));
-
-            // JSON array
-            } elseif (is_string($input)) {
-                $guaranteed_array = preg_split('/\//', $input, -1, PREG_SPLIT_NO_EMPTY);
-            }
-
-            // append all
-            foreach ($guaranteed_array as $segment_raw_name) {
-                $this->append($segment_raw_name);
-            }
-
-            // chaining support :)
-            return $this;
+        // JSON array
+        } elseif (is_string($input)) {
+            $guaranteed_array = preg_split('/\//', $input, -1, PREG_SPLIT_NO_EMPTY);
         }
+
+        // append all
+        foreach ($guaranteed_array as $segment_raw_name) {
+            $this->append($segment_raw_name);
+        }
+
+        // chaining support :)
+        return $this;
+    }
+
+    /**
+     * @param $input
+     * @throws \InvalidArgumentException
+     */
+    private function checkFromArgs($input)
+    {
+        if (!is_string($input) && !is_array($input))
+            throw new InvalidArgumentException("Invalid argument provided, string/array required!");
+    }
+
+    /**
+     * @param $input mixed
+     * @return array
+     * @throws \InvalidArgumentException
+     */
+    private function safeArrayAssignment($input)
+    {
+        if (is_array($input)) {
+            if (empty($input))
+                throw new InvalidArgumentException("Not empty array required!");
+        }
+
+        return $input;
     }
     
     /**
