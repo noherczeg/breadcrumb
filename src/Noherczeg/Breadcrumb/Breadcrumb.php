@@ -357,7 +357,7 @@ class Breadcrumb
             $builder_name = '\\Noherczeg\\Breadcrumb\\Builders\\' . ucfirst($format) . 'Builder';
 
             // instantiate it
-            $builder_instance = new $builder_name($this->segments, $this->base_url);
+            $builder_instance = new $builder_name($this->segments, $this->base_url, $this->config);
 
             // return with the results :)
             return $builder_instance->build($casing, $last_not_link, $separator, $customizations, $different_links);

@@ -9,14 +9,14 @@ abstract class Builder
     protected $base_url = null;
     protected $config = null;
 
-    public function __construct($segments, $base_url)
+    public function __construct($segments, $base_url, $config = array())
     {
         if (!is_array($segments) || empty($segments)) {
             throw new \InvalidArgumentException('A not empty array of Segments is required!');
         } elseif (!is_string($base_url)) {
             throw new \InvalidArgumentException('Base URL should be a string!');
         } else {
-            $this->config = new Config();
+            $this->config = (($config instanceof Config) ? $config : new Config($config));
             $this->segments = $segments;
             $this->base_url = $base_url;
         }
