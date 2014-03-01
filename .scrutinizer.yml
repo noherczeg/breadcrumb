@@ -3,6 +3,7 @@ filter:
         - 'vendor/*'
         - 'app/*'
         - 'web/*'
+        - 'tests/*'
     paths: {  }
 before_commands:
     - 'composer install --dev --prefer-source'
