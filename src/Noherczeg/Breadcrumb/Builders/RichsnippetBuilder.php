@@ -2,12 +2,6 @@
 
 class RichsnippetBuilder extends Builder
 {
-
-    public function __construct ($segments, $base_url)
-    {
-        parent::__construct($segments, $base_url);
-    }
-
     /**
      * build: The builder method which creates rich snippet style breadcrumbs
      * https://support.google.com/webmasters/answer/185417?hl=en

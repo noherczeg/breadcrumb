@@ -2,12 +2,6 @@
 
 class HtmlBuilder extends Builder
 {
-
-    public function __construct ($segments, $base_url)
-    {
-        parent::__construct($segments, $base_url);
-    }
-
     /**
      * build: The builder method which creates HTML style breadcrumbs
      * 
