@@ -22,19 +22,29 @@ class FileNotFoundException extends \Exception {}
 class Breadcrumb
 {
 
+    /** @var String */
     private $base_url = null;
+
+    /** @var Segment[] */
     private $segments = array();
+
+    /** @var Translator */
     private $translator = null;
+
+    /** @var Config */
     private $config = array();
 
     // you have to expand this if you create your own builders!
     private $build_formats = null;
 
+    /** @var \Noherczeg\Breadcrumb\Builders\Builder */
+    private $builder_instance = null;
+
     public function __construct($base_url = null, $config = 'en')
     {
     
         // Set defaults
-        is_null($base_url) ? $base_url = './' : $base_url;
+        $base_url = is_null($base_url) ? './' : $base_url;
 
         // Set objet properties
         $this->base_url = $this->setParam($base_url);
@@ -90,23 +100,17 @@ class Breadcrumb
      */
 	public function setConfiguration($config)
 	{
-		$userConf = null;
-		
-		// backwards compatibility
+        // Load Util Classes / backwards compatibility
         if(is_string($config)) {
-            $userConf = array('language' => $config);
+            $this->config = new Config (array( 'language' => $config ) );
+            $this->translator = new Translator($this->config);
         } else if (is_array($config)) {
-            $userConf = $config;
+            $this->translator = new Translator($config);
         } else {
-			throw new InvalidArgumentException("Please provide a string or an array as parameter!");
-		}
+            throw new InvalidArgumentException("Please provide a string or an array as parameter!");
+        }
 
-		$this->config = new Config($userConf);
-
-		// Load Util Classes
-        $this->translator = new Translator($this->config);
-
-		return $this;
+        return $this;
 	}
 
     /**
@@ -135,14 +139,15 @@ class Breadcrumb
      * Warning! It doesn't fix multiple "base element" issues, so it's up to the
      * programmer to append base elements wisely!
      *
-     * @param String $raw_name      Name of the appendable Segment
-     * @param String $side          Which side to place the segment in the array
-     * @param boolean $base         true if it is referring to the base url
-     * @param mixed $translate      Set to true if you want to use the provided dictionary, 
+     * @param String $raw_name Name of the appendable Segment
+     * @param String $side Which side to place the segment in the array
+     * @param boolean $base true if it is referring to the base url
+     * @param mixed $translate Set to true if you want to use the provided dictionary,
      *                              set to false if you want to skip translation, or
      *                              set to a specific string to assign that value
+     * @param bool $disabled
+     * @throws \InvalidArgumentException
      * @return \Noherczeg\Breadcrumb\Breadcrumb
-     * @throws InvalidArgumentException
      */
     public function append($raw_name = null, $side = 'right', $base = false, $translate = true, $disabled = false)
     {
@@ -344,12 +349,11 @@ class Breadcrumb
      * @param array $customizations     Array of properties (only in HTML!)
      * @param bool $different_links
      * @throws \OutOfRangeException
-     * @internal param \Noherczeg\Breadcrumb\Each $boolean segment is appended to base_url instead of the previous segment
      * @return String
      */
     public function build ($format = null, $casing = null, $last_not_link = true, $separator = null, $customizations = array(), $different_links = false)
     {
-        (is_null($format)) ? $format = $this->config->value('output_format') : $format = $format;
+        $format = (is_null($format)) ? $this->config->value('output_format') : $format;
 
         if (in_array($format, $this->build_formats)) {
 
@@ -357,10 +361,10 @@ class Breadcrumb
             $builder_name = '\\Noherczeg\\Breadcrumb\\Builders\\' . ucfirst($format) . 'Builder';
 
             // instantiate it
-            $builder_instance = new $builder_name($this->segments, $this->base_url, $this->config);
+            $this->builder_instance = new $builder_name($this->segments, $this->base_url, $this->config);
 
             // return with the results :)
-            return $builder_instance->build($casing, $last_not_link, $separator, $customizations, $different_links);
+            return $this->builder_instance->build($casing, $last_not_link, $separator, $customizations, $different_links);
         } else {
             throw new OutOfRangeException("Provided output format($format) is not supported!");
         }

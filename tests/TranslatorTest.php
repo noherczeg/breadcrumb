@@ -2,6 +2,8 @@
 
 class TranslatorTest extends PHPUnit_Framework_TestCase
 {
+
+    /** @var \Noherczeg\Breadcrumb\Translator */
     private $tran = null;
 
     /**
@@ -50,12 +52,11 @@ class TranslatorTest extends PHPUnit_Framework_TestCase
     public function testInvalidArg ()
     {
         $this->tran->loadDictionary(1.23);
-        $this->tran->loadDictionary(array('yo' => 'for shure'));
+        $this->tran->loadDictionary(array('yo' => 'for sure'));
         $this->tran->loadDictionary(true);
 
         $this->tran->translate(34);
-        $this->tran->translate();
-        $this->tran->translate(array('yo' => 'for shure'));
+        $this->tran->translate(array('yo' => 'for sure'));
     }
 
     /**
@@ -70,10 +71,24 @@ class TranslatorTest extends PHPUnit_Framework_TestCase
 
         $newInstance2 = new Noherczeg\Breadcrumb\Translator();
         $this->assertTrue(is_array($newInstance2->dump()));
-        
-        $newInstance3 = new Noherczeg\Breadcrumb\Translator(array('shold_translate' => 'to_this', 'this' => 'as_well'));
-        $this->assertTrue(is_array($newInstance2->dump()));
 
+        $newInstance3 = new Noherczeg\Breadcrumb\Translator(array('shold_translate' => 'to_this', 'this' => 'as_well'));
+        $this->assertTrue(is_array($newInstance3->dump()));
+
+    }
+
+    /**
+     * @test
+     */
+    public function testCustomDictionary ()
+    {
+        $newInstance = new Noherczeg\Breadcrumb\Translator(array('key' => 'trans', 'another' => 'as well'));
+        $pairs = $newInstance->dump();
+        $this->assertArrayHasKey('key', $pairs);
+        $this->assertArrayHasKey('another', $pairs);
+        $this->assertCount(2, $pairs);
+        $this->assertEquals('trans', $pairs['key']);
+        $this->assertEquals('as well', $pairs['another']);
     }
     
     public function testGeneric ()
