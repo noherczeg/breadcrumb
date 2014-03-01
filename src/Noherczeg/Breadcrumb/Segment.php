@@ -16,13 +16,14 @@ class Segment
     private $link = null;
 	private $disabled = false;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param String	$raw_insert		The value/name of the segment in the URI
-	 * @param boolean	$base			If this points to the base url of your site, then set to true, otherwise false
-	 * @throws \InvalidArgumentException
-	 */
+    /**
+     * Constructor
+     *
+     * @param String $raw_insert The value/name of the segment in the URI
+     * @param boolean $base If this points to the base url of your site, then set to true, otherwise false
+     * @param bool $disabled
+     * @throws \InvalidArgumentException
+     */
     public function __construct($raw_insert, $base = false, $disabled = false)
     {
         if ((!is_string($raw_insert) && !is_int($raw_insert)) || !is_bool($base)) {
