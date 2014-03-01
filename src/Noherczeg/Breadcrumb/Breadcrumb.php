@@ -151,36 +151,51 @@ class Breadcrumb
      */
     public function append($raw_name = null, $side = 'right', $base = false, $translate = true, $disabled = false)
     {
+        $this->checkAppendArgs($raw_name, $side);
+        $segment = new Segment($raw_name, $base, $disabled);
+
+        // if translation is set
+        if ($translate) {
+            if (is_string($translate) && strlen($translate) > 0) {
+                // we can set(override) the value manually
+                $segment->setTranslated($translate);
+            } elseif (is_bool($translate)) {
+                // or use the translator service to do it from a selected Dictionary
+                $segment->setTranslated($this->translator->translate($raw_name));
+            }
+        } else {
+            $segment->setTranslated($raw_name);
+        }
+
+        $this->appendToSide($segment, $side);
+
+        return $this;
+    }
+
+    /**
+     * @param $raw_name
+     * @param $side
+     * @throws \InvalidArgumentException
+     */
+    private function checkAppendArgs($raw_name, $side)
+    {
         if (!is_string($raw_name) && !is_int($raw_name) && !in_array($side, array('left', 'right'))) {
             throw new InvalidArgumentException("Wrong type of arguments provided!");
+        }
+    }
+
+    /**
+     * @param $segment Segment
+     * @param $side string
+     */
+    private function appendToSide($segment, $side)
+    {
+        if ($side === 'left') {
+            // Append to the left side
+            array_unshift($this->segments, $segment);
         } else {
-
-            // create segment
-            $segment = new Segment($raw_name, $base, $disabled);
-
-            // translate it, or not, by the rules we provide
-            if ($translate) {
-                if (is_string($translate) && strlen($translate) > 0) {
-                    $segment->setTranslated($translate);
-                } elseif (is_bool($translate)) {
-                    $segment->setTranslated($this->translator->translate($raw_name));
-                }
-            } else {
-                $segment->setTranslated($raw_name);
-            }
-
-            // place it in the list
-            if ($side === 'left') {
-
-                // Append to the left side
-                array_unshift($this->segments, $segment);
-            } else {
-
-                // Append to the right side
-                $this->segments[] = $segment;
-            }
-
-            return $this;
+            // Append to the right side
+            $this->segments[] = $segment;
         }
     }
 	
