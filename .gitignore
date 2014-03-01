@@ -7,3 +7,4 @@ vendor/
 .buildpath
 .project
 .idea
+scrutinizer.phar

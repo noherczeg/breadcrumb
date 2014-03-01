@@ -1,9 +1,36 @@
 filter:
-    excluded_paths: [vendor/*, app/*, web/*]
-
+    excluded_paths:
+        - 'vendor/*'
+        - 'app/*'
+        - 'web/*'
+    paths: {  }
 tools:
-    php_cpd: true
-    php_pdepend:
-        excluded_dirs: [vendor]
-    php_code_coverage: true
-    external_code_coverage: true
+    php_code_coverage:
+        enabled: true
+        test_command: phpunit
+        config_path: null
+        only_changesets: false
+        filter:
+            excluded_paths:
+                - 'vendor/*'
+                - 'app/*'
+                - 'web/*'
+            paths: {  }
+    external_code_coverage:
+        enabled: true
+        timeout: 300
+        filter:
+            excluded_paths:
+                - 'vendor/*'
+                - 'app/*'
+                - 'web/*'
+            paths: {  }
+changetracking:
+    bug_patterns:
+        - '\bfix(?:es|ed)?\b'
+    feature_patterns:
+        - '\badd(?:s|ed)?\b'
+        - '\bimplement(?:s|ed)?\b'
+before_commands: {  }
+after_commands: {  }
+artifacts: {  }
