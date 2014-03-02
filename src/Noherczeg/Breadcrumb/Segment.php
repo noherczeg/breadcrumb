@@ -2,7 +2,7 @@
 
 /**
  * Segment
- * 
+ *
  * Class that represents a single URI segment, and add functionality to it.
  * This is used and manipulated by Breadcrumb. A key building block
  */
@@ -14,7 +14,7 @@ class Segment
     private $translated = null;
     private $base = false;
     private $link = null;
-	private $disabled = false;
+    private $disabled = false;
 
     /**
      * Constructor
@@ -26,19 +26,18 @@ class Segment
      */
     public function __construct($raw_insert, $base = false, $disabled = false)
     {
-        if ((!is_string($raw_insert) && !is_int($raw_insert)) || !is_bool($base)) {
+        if (!is_string($raw_insert) && !is_int($raw_insert) || !is_bool($base) || !is_bool($disabled))
             throw new \InvalidArgumentException("Invalid arguments given, name has to be: String, optional second parameter: bool");
-        } else {
-            $this->raw = $raw_insert;
-            $this->base = $base;
-			$this->disabled = $disabled;
-        }
+
+        $this->raw = $raw_insert;
+        $this->base = $base;
+        $this->disabled = $disabled;
     }
 
     /**
      * setTranslated: Basic setter method.
-     * 
-     * @param String $value
+     *
+     * @param string $value
      */
     public function setTranslated($value)
     {
@@ -47,40 +46,40 @@ class Segment
 
     /**
      * setLink: Basic setter method.
-     * 
-     * @param String $link
+     *
+     * @param string $link
      */
     public function setLink($link)
     {
         $this->link = $link;
     }
-	
-	/**
+
+    /**
      * Disables this Segment.
-	 *
-	 * Basically makes the builder process ignore the link generation
-	 * if it is disabled.
+     *
+     * Basically makes the builder process ignore the link generation
+     * if it is disabled.
      */
     public function disable()
     {
         $this->disabled = true;
     }
-	
-	/**
+
+    /**
      * Enables this Segment.
-	 *
-	 * The exact opposite of the above
+     *
+     * The exact opposite of the above
      */
-	public function enable()
+    public function enable()
     {
         $this->disabled = false;
     }
 
     /**
      * get: Mediocre getter which returns a single requested property.
-     * 
-     * @param String $property_name
-     * @return String
+     *
+     * @param string $property_name
+     * @return string
      * @throws \InvalidArgumentException
      * @throws \OutOfRangeException
      */
@@ -97,7 +96,7 @@ class Segment
 
     /**
      * vars: alias method.
-     * 
+     *
      * @return array
      */
     public function vars()
@@ -107,7 +106,7 @@ class Segment
 
     /**
      * is_base: Tells if the Segment is a base Segment or not.
-     * 
+     *
      * @return boolean
      */
     public function is_base()

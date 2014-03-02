@@ -8,7 +8,7 @@
  * Check https://github.com/noherczeg/breadcrumb for usage examples!
  *
  * @package     Breadcrumb
- * @version     2.0.3
+ * @version     2.0.4
  * @author      Norbert Csaba Herczeg
  * @license     MIT
  * @copyright   (c) 2013, Norbert Csaba Herczeg
@@ -17,7 +17,9 @@
 use InvalidArgumentException;
 use OutOfRangeException;
 
-class FileNotFoundException extends \Exception {}
+class FileNotFoundException extends \Exception
+{
+}
 
 class Breadcrumb
 {
@@ -42,67 +44,76 @@ class Breadcrumb
 
     public function __construct($base_url = null, $config = 'en')
     {
-    
+
         // Set defaults
         $base_url = is_null($base_url) ? './' : $base_url;
 
         // Set objet properties
         $this->base_url = $this->setParam($base_url);
-        
+
         // Load configurations
         $this->setConfiguration($config);
 
-		// load builders
-		$builderDirectory = __DIR__ . DIRECTORY_SEPARATOR . 'Builders';
-		$excluded = array('Builder.php', '.', '..');
+        // load builders
+        $this->build_formats[] = $this->loadBuilders();
+    }
 
-		if (is_dir($builderDirectory)) {
-			$handle = opendir($builderDirectory);
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    private function loadBuilders()
+    {
+        $list = array();
+        $builderDirectory = __DIR__ . DIRECTORY_SEPARATOR . 'Builders';
+        $excluded = array('Builder.php', '.', '..');
 
-			if ($handle) {
-				while (($entry = readdir($handle)) !== false) {
-					if(!in_array($entry, $excluded)) {
-						$this->build_formats[] = strtolower(substr($entry, 0, -11));
-					}
-				}
-			} else {
-				throw new \Exception('Can\'t open builder directory, check the permissions!');
-			}
-		} else {
-			throw new \Exception('Can\'t open builder directory, maybe it doesn\'t exists?');
-		}
-	}
-	
-	/**
+        if (!is_dir($builderDirectory))
+            throw new \Exception('Can\'t open builder directory, maybe it doesn\'t exists?');
+
+        $handle = opendir($builderDirectory);
+
+        if (!$handle)
+            throw new \Exception('Can\'t open builder directory, check the permissions!');
+
+        while (($entry = readdir($handle)) !== false) {
+            if (!in_array($entry, $excluded))
+                $list[] = strtolower(substr($entry, 0, -11));
+        }
+
+        return $list;
+    }
+
+    /**
      * Sets the base URL for the package.
      *
-     * @param String $urlString    Base URL
+     * @param String $urlString Base URL
      * @return \Noherczeg\Breadcrumb\Breadcrumb
      * @throws InvalidArgumentException
      */
-	public function setBaseURL($urlString)
-	{
-		if (!is_string($urlString) && !is_null($urlString)) {
+    public function setBaseURL($urlString)
+    {
+        if (!is_string($urlString) && !is_null($urlString)) {
             throw new InvalidArgumentException("Please provide a string as parameter!");
         } else {
-			$this->base_url = $urlString;
-		}
+            $this->base_url = $urlString;
+        }
 
-		return $this;
-	}
-	
-	/**
+        return $this;
+    }
+
+    /**
      * Dynamic Package configuration
      *
-     * @param mixed $config    Configurations (either lang code as String, or configuration array)
+     * @param mixed $config Configurations (either lang code as String, or configuration array)
      * @return \Noherczeg\Breadcrumb\Breadcrumb
      * @throws InvalidArgumentException
      */
-	public function setConfiguration($config)
-	{
+    public function setConfiguration($config)
+    {
         // Load Util Classes / backwards compatibility
-        if(is_string($config)) {
-            $this->config = new Config (array( 'language' => $config ) );
+        if (is_string($config)) {
+            $this->config = new Config (array('language' => $config));
             $this->translator = new Translator($this->config);
         } else if (is_array($config)) {
             $this->translator = new Translator($config);
@@ -111,12 +122,12 @@ class Breadcrumb
         }
 
         return $this;
-	}
+    }
 
     /**
      * setParam: basic system method, don't bother.
      *
-     * @param mixed $to_this    String or null
+     * @param mixed $to_this String or null
      * @return String
      * @throws InvalidArgumentException
      */
@@ -198,30 +209,30 @@ class Breadcrumb
             $this->segments[] = $segment;
         }
     }
-	
-	/**
+
+    /**
      * Disables a Segment at the given position.
-	 *
-	 * Segment will still remain, but won't be translated, and will be handled
-	 * specially in the building process.
+     *
+     * Segment will still remain, but won't be translated, and will be handled
+     * specially in the building process.
      *
      * Supports method chaining.
      *
-     * @param int $pos                          Position of the element
+     * @param int $pos Position of the element
      * @return \Noherczeg\Breadcrumb\Breadcrumb
      * @throws OutOfRangeException
      */
-	public function disable($pos = null)
-	{
-		if ($pos === null || !in_array($pos, array_keys($this->segments))) {
-			throw new OutOfRangeException('Refering to non existent Segment position!');
-		} else {
-			$selectedSegment = $this->segments[$pos];
-			$selectedSegment->disable();
-		}
-		
-		return $this;
-	}
+    public function disable($pos = null)
+    {
+        if ($pos === null || !in_array($pos, array_keys($this->segments))) {
+            throw new OutOfRangeException('Refering to non existent Segment position!');
+        } else {
+            $selectedSegment = $this->segments[$pos];
+            $selectedSegment->disable();
+        }
+
+        return $this;
+    }
 
     /**
      * remove: Removes an element from the list, optionally can reindex the list
@@ -229,8 +240,8 @@ class Breadcrumb
      *
      * Supports method chaining.
      *
-     * @param int $pos                          Position of the element
-     * @param boolean $reindex_after_remove     To do the reindex or not
+     * @param int $pos Position of the element
+     * @param boolean $reindex_after_remove To do the reindex or not
      * @return \Noherczeg\Breadcrumb\Breadcrumb
      * @throws OutOfRangeException
      */
@@ -255,25 +266,13 @@ class Breadcrumb
      *
      * Supports method chaining.
      *
-     * @param mixed $input      Either: PHP array, JSON array, URI string
+     * @param mixed $input Either: PHP array, JSON array, URI string
      * @return \Noherczeg\Breadcrumb\Breadcrumb
      * @throws InvalidArgumentException
      */
     public function from($input = null)
     {
-        $this->checkFromArgs($input);
-
-        // PHP array
-        $guaranteed_array = $this->safeArrayAssignment($input);
-
-        // URI string
-        if (is_string($input) && json_decode($input) != null) {
-            $guaranteed_array = array_values((array) json_decode($input));
-
-        // JSON array
-        } elseif (is_string($input)) {
-            $guaranteed_array = preg_split('/\//', $input, -1, PREG_SPLIT_NO_EMPTY);
-        }
+        $guaranteed_array = $this->inputToArray($input);
 
         // append all
         foreach ($guaranteed_array as $segment_raw_name) {
@@ -282,6 +281,25 @@ class Breadcrumb
 
         // chaining support :)
         return $this;
+    }
+
+    private function inputToArray ($input = null)
+    {
+        $this->checkFromArgs($input);
+
+        // PHP array
+        $guaranteed_array = $this->safeArrayAssignment($input);
+
+        // JSON array
+        if (is_string($input) && json_decode($input) != null) {
+            $guaranteed_array = array_values((array) json_decode($input));
+
+        // URI string
+        } elseif (is_string($input)) {
+            $guaranteed_array = preg_split('/\//', $input, -1, PREG_SPLIT_NO_EMPTY);
+        }
+
+        return $guaranteed_array;
     }
 
     /**
@@ -301,27 +319,27 @@ class Breadcrumb
      */
     private function safeArrayAssignment($input)
     {
-        if (is_array($input)) {
-            if (empty($input))
-                throw new InvalidArgumentException("Not empty array required!");
+        if (is_array($input) && empty($input)) {
+            throw new InvalidArgumentException("Not empty array required!");
         }
 
         return $input;
     }
-    
+
     /**
      * Registers a list of title => link pairs with the package.
-     * 
+     *
      * All of the given data will be used as-is no translation, no URL conversion
      * will be applied!
-     * 
+     *
      * @param array $rawArray Array with title => link pairs
      * @return \Noherczeg\Breadcrumb\Breadcrumb
      */
-    public function map(array $rawArray) {
+    public function map(array $rawArray)
+    {
         $map = new Map($rawArray);
         $this->segments = $map->getSegments();
-        
+
         return $this;
     }
 
@@ -350,7 +368,7 @@ class Breadcrumb
      * segment: A getter which returns the Segment which is at the given
      * position.
      *
-     * @param String $id        The ID of the required Segment.
+     * @param String $id The ID of the required Segment.
      * @return Segment
      * @throws OutOfRangeException
      */
@@ -368,16 +386,16 @@ class Breadcrumb
      * Supports separator switching, casing switching, and custom property
      * insertion from an array (only if output is set to html!).
      *
-     * @param String $format            Format of the output
-     * @param String|null $casing       Casing of Segments
+     * @param String $format Format of the output
+     * @param String|null $casing Casing of Segments
      * @param bool $last_not_link
-     * @param String|null $separator    Separator String (not there in Foundation!)
-     * @param array $customizations     Array of properties (only in HTML!)
+     * @param String|null $separator Separator String (not there in Foundation!)
+     * @param array $customizations Array of properties (only in HTML!)
      * @param bool $different_links
      * @throws \OutOfRangeException
      * @return String
      */
-    public function build ($format = null, $casing = null, $last_not_link = true, $separator = null, $customizations = array(), $different_links = false)
+    public function build($format = null, $casing = null, $last_not_link = true, $separator = null, $customizations = array(), $different_links = false)
     {
         $format = (is_null($format)) ? $this->config->value('output_format') : $format;
 

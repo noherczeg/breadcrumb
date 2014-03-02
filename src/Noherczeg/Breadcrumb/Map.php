@@ -19,12 +19,7 @@ class Map {
      * @param array $rawArray Array of raw data
      * @throws InvalidArgumentException
      */
-    public function __construct($rawArray) {
-        
-        if (!is_array($rawArray)) {
-            throw new InvalidArgumentException("An array is required!");
-        }
-        
+    public function __construct(array $rawArray) {
         $this->rawInput = $rawArray;
         $this->createSegmentList();
     }

@@ -21,17 +21,20 @@ abstract class Builder
     /** @var string */
     protected $separator;
 
-    public function __construct($segments, $base_url, $config = array())
+    /** @var String */
+    private $currentUrl;
+
+    /** @var boolean */
+    private $skipLast;
+
+    public function __construct(array $segments = array(), $base_url = '', array $config = array())
     {
-        if (!is_array($segments) || empty($segments)) {
-            throw new \InvalidArgumentException('A not empty array of Segments is required!');
-        } elseif (!is_string($base_url)) {
+        if (!is_string($base_url))
             throw new \InvalidArgumentException('Base URL should be a string!');
-        } else {
-            $this->config = (($config instanceof Config) ? $config : new Config($config));
-            $this->segments = $segments;
-            $this->base_url = $base_url;
-        }
+
+        $this->config = (($config instanceof Config) ? $config : new Config($config));
+        $this->segments = $segments;
+        $this->base_url = $base_url;
     }
 
     /**
@@ -44,52 +47,64 @@ abstract class Builder
      */
     public function link($skip_last = true, $different_links = false)
     {
-        if (!is_bool($skip_last)) {
+        if (!is_bool($skip_last) || !is_bool($different_links))
             throw new \InvalidArgumentException('Link method expects a boolean variable!');
-        }
 
-        // this will change eah time we step from one segment to the next
-        $current_url = $this->base_url;
-
-        // cut off a possible trailing slash just in case...
-        if (substr($current_url, -1) === '/') {
-            $current_url = substr($current_url, 0, -1);
-        }
-
-        // get last id
-        $keys = array_keys($this->segments);
-        $last_key = end($keys);
-
+        $this->initCurrentUrl();
+        $this->skipLast = $skip_last;
         $position = 1;
 
         foreach ($this->segments as $key => $segment) {
-            
-            // built in fail safe for multiple base elements issue
-            if ($segment->is_base() && $position === 1) {
-                $this->segments[$key]->setLink($current_url);
-                $position++;
-                continue;
-            }
-
-            // if we allow it then
-            if ($key !== $last_key || !$skip_last) {
-                
-                // appends the current uri segment
-                $current_url = $current_url . '/' . $segment->get('raw');
-                
-                // only if we didn't set anything before (map does :) )
-                if (strlen($segment->get('link')) == 0)
-                    $this->segments[$key]->setLink($current_url);
-                
-            }
-            if ($different_links == true) {
-                $current_url = $this->base_url;
-            }
-
+            $this->setLink($key, $segment, $position);
+            $this->setNextCurrentURL($segment, $different_links);
             $position++;
         }
 
         return $this->segments;
+    }
+
+    private function isBaseElement (Segment $segment, $position)
+    {
+        if ($segment->is_base() && $position === 1)
+            return true;
+        return false;
+    }
+
+    private function setNextCurrentURL(Segment $segment, $different_links)
+    {
+        if ($different_links == true)
+            $this->currentUrl = $this->base_url;
+        else
+            $this->currentUrl = $this->currentUrl . '/' . $segment->get('raw');
+    }
+
+    private function setLink ($key, Segment $segment, $position)
+    {
+        if ($this->isBaseElement($segment, $position) || $this->allowedToSetLink($key, $segment))
+            $this->segments[$key]->setLink($this->currentUrl);
+    }
+
+    private function allowedToSetLink ($key, Segment $segment)
+    {
+        if (($key !== $this->getLastKey() || !$this->skipLast) && strlen($segment->get('link')) == 0)
+            return true;
+        return false;
+    }
+
+    private function initCurrentUrl ()
+    {
+        // this will change eah time we step from one segment to the next
+        $this->currentUrl = $this->base_url;
+
+        // cut off a possible trailing slash just in case...
+        if (substr($this->currentUrl, -1) === '/')
+            $this->currentUrl = substr($this->currentUrl, 0, -1);
+    }
+
+    private function getLastKey ()
+    {
+        $keys = array_keys($this->segments);
+        return end($keys);
     }
 
     /**
@@ -112,7 +127,7 @@ abstract class Builder
                 $res = mb_strtoupper($string);
                 break;
             case 'title':
-                $res = ucwords($string);
+                $res = ucfirst(strtolower($string));
                 break;
             default:
                 $res = $string;
@@ -129,20 +144,16 @@ abstract class Builder
      * @return string               Chained properties
      * @throws \InvalidArgumentException
      */
-    public function properties ($properties = array())
+    public function properties (array $properties = array())
     {
         $res = '';
         
-        if (!is_array($properties)) {
-            throw new \InvalidArgumentException('Expected array as input');
-        } elseif (empty($properties)) {
-            return $res;
-        } else {
+        if (!empty($properties)) {
             foreach ($properties as $key => $property) {
                 $res .= ' ' . $key . '="' . $property . '"';
             }
         }
-        
+
         return $res;
     }
 
