@@ -2,8 +2,8 @@
 
 class SegmentTest extends PHPUnit_Framework_TestCase
 {
+    /** @var \Noherczeg\Breadcrumb\Segment  */
 	private $segment = null;
-	private $tran = null;
 
 	/**
 	 * Setup the test enviroment
@@ -64,5 +64,35 @@ class SegmentTest extends PHPUnit_Framework_TestCase
     {
     	$this->segment->get('id');
         $this->segment->get(true);
+    }
+
+    /**
+     * @Test
+     */
+    public function testTranslated()
+    {
+        $this->segment->setTranslated("overridden");
+        $this->assertEquals("overridden", $this->segment->get('translated'));
+    }
+
+    /**
+     * @Test
+     */
+    public function testSetLink()
+    {
+        $this->segment->setLink("http://some.url.to");
+        $this->assertEquals("http://some.url.to", $this->segment->get('link'));
+    }
+
+    /**
+     * @Test
+     */
+    public function testTogglers()
+    {
+        $this->segment->disable();
+        $this->assertEquals(true, $this->segment->get('disabled'));
+
+        $this->segment->enable();
+        $this->assertEquals(false, $this->segment->get('disabled'));
     }
 }

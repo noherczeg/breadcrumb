@@ -28,24 +28,6 @@ class MapTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertInstanceOf('Noherczeg\Breadcrumb\Map', $this->map);
 	}
-
-	/**
-     * Test provide invalid argument thrown as exception
-     *
-     * @expectedException InvalidArgumentException
-     */
-    public function testInvalidArg ()
-    {
-        
-        $const_test1 = new Noherczeg\Breadcrumb\Map(true);
-        $this->assertInstanceOf('Noherczeg\Breadcrumb\Map', $const_test1);
-        
-        $const_test2 = new Noherczeg\Breadcrumb\Map('Whatever', 324);
-        $this->assertInstanceOf('Noherczeg\Breadcrumb\Map', $const_test2);
-        
-        $const_test3 = new Noherczeg\Breadcrumb\Map(546546);
-        $this->assertInstanceOf('Noherczeg\Breadcrumb\Map', $const_test3);
-    }
     
     /**
      * Test workflow

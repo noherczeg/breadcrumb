@@ -102,4 +102,95 @@ class BreadcrumbTest extends PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('Noherczeg\Breadcrumb\Segment', $this->bread->segment(0));
 	}
 
+    /**
+     * @Test
+     */
+    public function testInputToArray()
+    {
+        $class = new \ReflectionClass('Noherczeg\Breadcrumb\Breadcrumb');
+        $method = $class->getMethod('inputToArray');
+        $method->setAccessible(true);
+        $obj = new \Noherczeg\Breadcrumb\Breadcrumb();
+
+        $input1 = array('one', 'two');
+        $expected1 = array('one', 'two');
+        $this->assertEquals($expected1, $method->invoke($obj, $input1));
+
+        $input2 = 'one/two/three';
+        $expected2 = array('one', 'two', 'three');
+        $this->assertEquals($expected2, $method->invoke($obj, $input2));
+
+        $input3 = '["two", "four"]';
+        $expected3 = array('two', 'four');
+        $this->assertEquals($expected3, $method->invoke($obj, $input3));
+    }
+
+    /**
+     * @Test
+     */
+    public function testNotDisableSegment()
+    {
+        $this->bread->append('testelement', 'left', false, false);
+        $seg = $this->bread->segment(0);
+        $this->assertEquals(false, $seg->get('disabled'));
+    }
+
+    /**
+     * @Test
+     */
+    public function testIsDisableSegment()
+    {
+        $this->bread->append('testelement', 'left', false, false);
+        $this->bread->disable(0);
+        $seg = $this->bread->segment(0);
+        $this->assertEquals(true, $seg->get('disabled'));
+    }
+
+    /**
+     * @Test
+     */
+    public function testMap()
+    {
+        $this->bread->map(array('first' => 'http://local.dev', 'second' => 'blaaa', 'third' => 'http://local.dev/2/4'));
+        $segments = $this->bread->registered();
+
+        $seg1 = $this->bread->segment(0);
+        $seg2 = $this->bread->segment(1);
+        $seg3 = $this->bread->segment(2);
+
+        $this->assertEquals('first', $seg1->get('translated'));
+        $this->assertEquals('http://local.dev', $seg1->get('link'));
+
+        $this->assertEquals('second', $seg2->get('translated'));
+        $this->assertEquals('blaaa', $seg2->get('link'));
+
+        $this->assertEquals('third', $seg3->get('translated'));
+        $this->assertEquals('http://local.dev/2/4', $seg3->get('link'));
+    }
+
+    /**
+     * @expectedException OutOfRangeException
+     */
+    public function testRemove ()
+    {
+        $this->bread->append('one');
+        $this->bread->append('two');
+        $this->bread->append('three');
+
+        $this->bread->remove(1);
+        $this->bread->segment(1);
+    }
+
+    /**
+     * @Test
+     */
+    public function testRemoveWithReorder ()
+    {
+        $this->bread->append('one');
+        $this->bread->append('two');
+
+        $this->bread->remove(0, true);
+        $this->assertEquals('two', $this->bread->segment(0)->get('raw'));
+    }
+
 }
