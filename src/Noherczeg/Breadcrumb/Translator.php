@@ -33,23 +33,28 @@ class Translator
 
         // try to load a dictionary
         try {
-            if (is_array($config) && array_key_exists('language', $config)) {
-                // loads a dictionary if it gets a full-blown config array as param and it contains the "language" key in it
-                $this->dictionary = $this->loadDictionary($config['language']);
-            } elseif(is_array($config)) {
-                // if it's a simple array, then it sets it as key-value pair
-                $this->dictionary = $config;
-            } elseif(is_string($config)) {
-                // if it's a simple string it tries to load a dictionary as if it would be the dictionary's name
-                $this->dictionary = $this->loadDictionary($config);
-            } else {
-                // fallback
-                $this->dictionary = $this->loadDictionary($this->config->value('language'));
-            }
+            $this->initDictionary ($config);
         } catch (InvalidArgumentException $a) {
             echo 'Translator Exception: ' . $a->getMessage();
         } catch (FileNotFoundException $f) {
             echo 'Translator Exception: ' . $f->getMessage();
+        }
+    }
+
+    private function initDictionary ($config)
+    {
+        if (is_array($config) && array_key_exists('language', $config)) {
+            // loads a dictionary if it gets a full-blown config array as param and it contains the "language" key in it
+            $this->dictionary = $this->loadDictionary($config['language']);
+        } elseif(is_array($config)) {
+            // if it's a simple array, then it sets it as key-value pair
+            $this->dictionary = $config;
+        } elseif(is_string($config)) {
+            // if it's a simple string it tries to load a dictionary as if it would be the dictionary's name
+            $this->dictionary = $this->loadDictionary($config);
+        } else {
+            // fallback
+            $this->dictionary = $this->loadDictionary($this->config->value('language'));
         }
     }
 
