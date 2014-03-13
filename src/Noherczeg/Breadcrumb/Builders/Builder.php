@@ -27,7 +27,7 @@ abstract class Builder
     /** @var boolean */
     private $skipLast;
 
-    public function __construct(array $segments = array(), $base_url = '', array $config = array())
+    public function __construct(array $segments = array(), $base_url = '', $config = array())
     {
         if (!is_string($base_url))
             throw new \InvalidArgumentException('Base URL should be a string!');

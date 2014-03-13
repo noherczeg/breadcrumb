@@ -55,7 +55,7 @@ class Breadcrumb
         $this->setConfiguration($config);
 
         // load builders
-        $this->build_formats[] = $this->loadBuilders();
+        $this->build_formats = $this->loadBuilders();
     }
 
     /**
