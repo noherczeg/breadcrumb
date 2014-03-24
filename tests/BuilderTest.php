@@ -90,12 +90,10 @@ class BuilderTest extends PHPUnit_Framework_TestCase
         $stub = $this->getMockForAbstractClass('Noherczeg\Breadcrumb\Builders\Builder', array($this->getCorrectSeeds(), 'http://local.dev'));
 
         $expectedLink = 'http://local.dev/asdas';
-        $seg1 = new Noherczeg\Breadcrumb\Segment('asdas', true);
-        $seg1->setLink($expectedLink);
 
         $res = $stub->link();
-        $resSeg1 = $res[1];
-        $this->assertEquals($expectedLink, $resSeg1->get('link'));
+        $resSeg1 = $res[2];
+        $this->assertEquals(null, $resSeg1->get('link'));
     }
 
     /**
@@ -121,7 +119,7 @@ class BuilderTest extends PHPUnit_Framework_TestCase
 
         $res = $stub->link(false);
         $resSeg2 = $res[2];
-        $this->assertEquals('http://local.dev/asdas/2343', $resSeg2->get('link'));
+        $this->assertEquals('http://local.dev/asdas/2343/DS_ewrwr', $resSeg2->get('link'));
     }
 
 }
