@@ -55,8 +55,8 @@ abstract class Builder
         $position = 1;
 
         foreach ($this->segments as $key => $segment) {
-            $this->setLink($key, $segment, $position);
-            $this->setNextCurrentURL($segment, $different_links);
+        	$this->setNextCurrentURL($segment, $different_links);
+        	$this->setLink($key, $segment, $position);
             $position++;
         }
 
