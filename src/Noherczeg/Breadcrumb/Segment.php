@@ -51,7 +51,7 @@ class Segment
      */
     public function setLink($link)
     {
-        $this->link = $link;
+        $this->link = preg_replace('#/+#', '/', $link);
     }
 
     /**
