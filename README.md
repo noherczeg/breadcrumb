@@ -2,6 +2,8 @@
 
 A package for breadcrumb management.
 
+__This package is no longer maintained!__
+
 [![Total Downloads](https://poser.pugx.org/noherczeg/breadcrumb/downloads.png)](https://packagist.org/packages/noherczeg/breadcrumb)
 [![Build Status](https://secure.travis-ci.org/noherczeg/breadcrumb.png?branch=develop)](https://travis-ci.org/noherczeg/breadcrumb)
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/noherczeg/breadcrumb/badges/quality-score.png?s=4ed03152b941bec95431aaccbd5e4bad741bbbf6)](https://scrutinizer-ci.com/g/noherczeg/breadcrumb/)
