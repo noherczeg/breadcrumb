@@ -32,7 +32,7 @@ This package is based on composer, so if you have it installed you're pretty muc
 Download and install composer from `http://getcomposer.org/download/`
 
 Add this to your project root's `composer.json` file:
-```
+``` json
 {
     "require": {
         "noherczeg/breadcrumb": "dev-master"
@@ -52,17 +52,17 @@ If you're using laravel 3 you will have to do the following to be able to use co
 
 ### Registering package with Laravel 4 as a service:
 Put the following in your `app/config/app.php` file under `providers` array:
-```
+``` php
 'Noherczeg\Breadcrumb\BreadcrumbServiceProvider'
 ```
 
 Adding the alias of the facade is done in the same file under `aliases`:
-```
+``` php
 'Breadcrumb' => 'Noherczeg\Breadcrumb\Facades\Breadcrumb'
 ```
 
 Overriding the default configurations is done in a published config file. You can create it by typing:
-```
+``` bash
 $ php artisan config:publish noherczeg/breadcrumb
 ```
 
@@ -74,24 +74,24 @@ $ php artisan config:publish noherczeg/breadcrumb
 + `$base_url (String|required)`: The base url of your site
 + `$use_language (mixed)`: The language code (file's name from the Languages folder), or dictionary array which will be used for translation
 
-```
+``` php
 // Add your base url as you wish, like in Laravel's case: URL::base() or 'http://localhost/breadcrumb/' or whatever
 $bc = new \Noherczeg\Breadcrumb\Breadcrumb(URL::base());
 ```
 
 Using non default language (`en`, or one which is set in your configuration):
-```
+``` php
 $bc = new \Noherczeg\Breadcrumb\Breadcrumb('http://localhost/breadcrumb/', 'de');
 ```
 
 Or using a custom translation array (since 2.0.2):
-```
+``` php
 $dictionary = array('this' => 'to_this', 'what' => 'what not?');
 $bc = new \Noherczeg\Breadcrumb\Breadcrumb('http://localhost/breadcrumb/', $dictionary);
 ```
 
 Overriding configurations (can be chained, or chain can be continued):
-```
+``` php
 Breadcrumb::setConfiguration(array('language' => 'de'));
 ```
 
@@ -102,7 +102,7 @@ __Warning__:
 + All of the given segments will be translated if the translator has a match in the provided dictionary!
 
 Supported sources: `Array`, `JSON Array`, `String`
-```
+``` php
 // Using a PHP array to fill our list
 $bc->from(array('test-segment', 'second', '3rd', 'Fourth-Thingy'));
 
@@ -124,7 +124,7 @@ You can tell Breadcrumb if you don't want to translate a particular element, or 
 + `$translate (mixed)`: If true: It'll try to translate the element from the dictionary, if false: it'll ignore translation, if String, then it'll use the given value (true by default)
 
 _We now use method chaining as well, but it's just an option :)_
-```
+``` php
 /**
  * The order in which the Segments will be stored in the list is: first, second, third, fourth.
  */
@@ -136,7 +136,7 @@ $bc->append('second', 'left')->append('first', 'left', true);
 
 ####4) Adding a segment which points to the base url:
 Since the latest build (2.0.0) a major logic problem has been fixed. Now from whatever source you've used to seed Breadcrumb doesn't automatically set the first element as a root element. This fixed the issue with the links! From now on if you want to add an element which points to the base url, you have to append one whenever you'd like to:
-```
+``` php
 // this way you'll have a first element 'welcome' which will point to your base url
 $bc->from('/action/parameter1/parameter2')->append('welcome', 'left', true);
 ```
@@ -147,7 +147,7 @@ You can remove segments one by one from the registered bunch.
 + `$pos (int|required)`: The index of the element which you want to remove
 + `$reindex (Boolean)`: Is a boolean value which may trigger a re-index on the remaining elements after removal (default is: `false`)
 
-```
+``` php
 // we provide a base list of Segments before removal
 $bc->from(array('test-segment', 'second', '3rd', 'Fourth-Thingy'));
 
@@ -170,13 +170,13 @@ You can now add or set segments as disabled which means that in any builder they
 This can be useful when one needs to handle variable elements.
 
 Adding a brand new disabled element:
-```
+``` php
 // the last parameter flags the Segment as disabled
 $bc->append(URI::segment(2), 'left', false, true, true);
 ```
 
 Disabling a pre populated element:
-```
+``` php
 // If you decide to disable or enable a Segment on the fly you can do it like this (works with enable() as well)
 Breadcrumb::from(Request::path())->disable(1);
 ```
@@ -184,7 +184,7 @@ Breadcrumb::from(Request::path())->disable(1);
 ####7) Overwriting translation:
 _Since: 2.0.2_
 
-```
+``` php
 // this way you can tell the translator to translate the given value to "overwritten" no matter what
 $bc->append(URI::segment(3), 'left', true, 'overwritten');
 ```
@@ -199,13 +199,13 @@ Creating breadcrumbs can be simple or complicated as well if you desire. The pac
 + `$customizations (Array)`: An array of customizations can be set to elements where the keys are the properties and the values are the values (only works with html type breadcrumbs!)
 
 #####First we start out by adding some elements to work with
-```
+``` php
 // Sample list initialization
 $bc->from(array('test-segment', 'second', '3rd', 'Fourth-Thingy'));
 ```
 
 #####a) Creating breadcrumbs with _default_ settings:
-```
+``` php
 /**
  * This will build default format(html) breadcrumbs with the default separator( / )
  * without any casing modification or property injection, and the last element
@@ -215,7 +215,7 @@ echo $bc->build();
 ```
 
 #####b) Creating _Zurb Foundation_ style breadcrumbs:
-```
+``` php
 /**
  * This will build Zurb Foundation styled breadcrumbs with all links upper cased, and
  * the last element will be a link too
@@ -224,7 +224,7 @@ echo $bc->build('foundation', 'upper', false);
 ```
 
 #####c) Creating _Bootstrap_ style breadcrumbs:
-```
+``` php
 /**
  * This way you'll get Bootstrap styled breadcrumbs with unmodified casing, the last
  * element as link, and a "+" as separator
@@ -233,7 +233,7 @@ echo $bc->build('bootstrap', null, false, '+');
 ```
 
 #####d) Creating complex _HTML_ breadcrumbs:
-```
+``` php
 /**
  * This will create HTML breadcrumbs which will have lower cased links, last
  * element won't be a link, default separator will be ` / `, and will inject properties
